@@ -7,6 +7,7 @@ var sub={
   34:["banovan","183","424"],//کاخ خانواده
   27:[]//سرخ فمیلی
 };
+const RedCastle=["1549","1548","1547","1546","1545"];
    var app_flag= Cookies.get("app_flag") == 1 ? true : false;
    var buttonClicked= false;
   var logo="./public/img/brands/logo.png";
@@ -18,14 +19,22 @@ var sub={
     {
       Cookies.remove("chosenCatData");
       Cookies.remove("chosenCatName");
+      Cookies.remove("tabs");
       console.log(Cookies.get("id"), "userId");
-      if (app_flag && localStorage.getItem("app_list")) {
+      if (app_flag && localStorage.getItem("app_list"))
+       {
         apps = JSON.parse(localStorage.getItem("app_list"));
-        /*Master_App = JSON.parse(localStorage.getItem("Master_App_List"));
-        app_All = JSON.parse(localStorage.getItem("AllApp_List"));
-        MyApps = JSON.parse(localStorage.getItem("MyApps_List"));*/
-        MyMaster=JSON.parse(localStorage.getItem("MyMaster"))??[];
-        showApps();
+        if(in_array(apps,'Id',RedCastle[0])['Result'])
+        {
+          localStorage.removeItem("app_list");
+          apps=[];
+          refereshData();
+        }
+        else
+        {
+          MyMaster=JSON.parse(localStorage.getItem("MyMaster"))??[];
+          showApps();
+        }
       } else {
         Swal.fire({
           title:"  کمی صبر کن",//(Cookies.get('name')??'')+"  کمی صبر کن"
@@ -202,7 +211,7 @@ var sub={
       
     }
    function  getApps(id) {
-    const RedCastle=["1549","1548","1547","1546","1545"];
+    
         Cookies.set('req_data',JSON.stringify({
           'applist':true,
           'Phone': Cookies.get("phone") 
@@ -269,21 +278,26 @@ var sub={
               });
               
               apps=[];
+              redAdd=0;
               MyMaster.forEach(function(master)
               {
                 app_All.filter(function(obj,index) {
                   obj['Allow']=1;
                   if(sub[master].includes(obj['Id']) && !in_array(apps,'Id',obj['Id'])['Result'])
                   {
-                    if(obj['Id']==1)
+                    if(obj['Id']==1 || RedCastle.includes(obj['Id']))
                     {
                       RedCastle.forEach(function(reditem)
                       {
                         find=in_array(app_All,'Id',reditem);
-                        if(find['Result'] && !in_array(apps,'Id',reditem)['Result'])
+                        /*if(find['Result'] && !in_array(apps,'Id',reditem)['Result'])
                         {
                           find['Item']['Allow']=1;
                           apps.push(find['Item']);
+                        }*/
+                        if(find['Result'] && !redAdd)
+                        {
+                          redAdd=1;
                         }
                       });
                     }
@@ -302,18 +316,22 @@ var sub={
                  if(find['Item']['Allow']>0)
                   if(!in_array(apps,'Id',obj['Id'])['Result'])
                   {
-                    if(obj['Id']==1)
+                    if(obj['Id']==1 || RedCastle.includes(obj['Id']))
                     {
                       RedCastle.forEach(function(reditem)
                       {
                         find=in_array(app_All,'Id',reditem);
-                        if(find['Result'] && !in_array(apps,'Id',reditem)['Result'])
+                       /* if(find['Result'] && !in_array(apps,'Id',reditem)['Result'])
                         {
                           if(!["779","1543"].includes(obj['Id']))
                           {
                             find['Item']['Allow']=1;
                           apps.push(find['Item']);
                           }
+                        }*/
+                        if(find['Result'] && !redAdd)
+                        {
+                          redAdd=1;
                         }
                       });
                     }
@@ -332,6 +350,11 @@ var sub={
                 apps.splice(index, 1);*/
                 
               });
+              if(redAdd)
+              {
+              apps.push({'Id':1,Name:"مجموعه کاخ ها",Allow:1,Logo:'./public/img/64.png',Description:'مالی،تربیتی،اجتماعی،عاطفی و رسانه'});
+
+              }
               var rs={Active : "1", Allow: "1",Logo:"https://dl.erfankhoshnazar.com/downloads/icon/1550.png",
               Description : "رئالیتی شو", Id:"1550",
               Name:  " رفیق شفیق", Parent: "0",Perm : "-1",
@@ -380,17 +403,39 @@ var sub={
    
     function showApps()
     {
-      castles.innerHTML='';
+      castles.innerHTML='';red=0;
       if(apps.length)
       {
         apps.forEach(function(item){
-        if(item["Id"]!=1){
-         elem='<div class="col-md-5" style="/*width: 47%*/;margin: 0 auto;padding-right: 0px;padding-left: 0px;margin-top: 10px;"  onclick="goToCastle(\''+item.Id+'\','+item.Allow+')" ><div style="background: #ffffff; border-radius: 16px;box-shadow: 2px 4px 10px rgba(0,0,0,0.09);display: flex;height: 67px;padding-right: 4px;padding-left: 4px;"><img style="height: 45px;width: 45px;margin: auto 10px;border-radius: 11px;" src="'+(item.Logo??logo)+'"><div style="text-align: center;margin: auto auto;"><h6 style="font-family: \'Peyda Med\';padding-top: 0;margin-bottom: 0px;">'+item.Name+'</h6><small class="justify-content-start" style="font-family: \'Peyda ExtLt\';">'+item.Description+'</small></div><button class="btn btn-primary btn-sm me-1 rounded-circle"';
-        elem+=' onclick="goToCastle(\''+item.Id+'\','+item.Allow+')"';
+        if(item["Id"]!=1)
+        {
+          /*if(!RedCastle.includes(item['Id'])){*/
+          elem='<div class="col-md-5" style="/*width: 47%*/;margin: 0 auto;padding-right: 0px;padding-left: 0px;margin-top: 10px;"  onclick="goToCastle(\''+item.Id+'\','+item.Allow+')" ><div style="background: #ffffff; border-radius: 16px;box-shadow: 2px 4px 10px rgba(0,0,0,0.09);display: flex;height: 67px;padding-right: 4px;padding-left: 4px;"><img style="height: 45px;width: 45px;margin: auto 10px;border-radius: 11px;" src="'+(item.Logo??logo)+'"><div class="itemsTitle" style="text-align: center;margin: auto auto;"><h6 style="font-family: \'Peyda Med\';margin-bottom: 0px;padding-top: 8px;text-align: end;">'+item.Name+'</h6><small class="justify-content-start itemsDes" style="font-family: \'Peyda ExtLt\';">'+item.Description+'</small></div><button class="btn btn-primary btn-sm me-1 rounded-circle"';
+          elem+=' onclick="goToCastle(\''+item.Id+'\','+item.Allow+')"';
+          
+          elem+=' type="button" style="background: var(--bs-gray-500);border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto 0px;width: 20px;height: 20px;padding: 0 0 0 0;box-shadow: 0px 0px;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 20 20" fill="none" class="d-grid mb-1" style="color: rgb(255,255,255);width: 11px;height: 11px;margin: auto auto;margin-top: 4px;"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.2929 3.29289C10.6834 2.90237 11.3166 2.90237 11.7071 3.29289L17.7071 9.29289C18.0976 9.68342 18.0976 10.3166 17.7071 10.7071L11.7071 16.7071C11.3166 17.0976 10.6834 17.0976 10.2929 16.7071C9.90237 16.3166 9.90237 15.6834 10.2929 15.2929L14.5858 11L3 11C2.44772 11 2 10.5523 2 10C2 9.44772 2.44772 9 3 9H14.5858L10.2929 4.70711C9.90237 4.31658 9.90237 3.68342 10.2929 3.29289Z" fill="currentColor"></path></svg> </button> </div></div>';
+              castles.innerHTML+=elem;
          
-         elem+=' type="button" style="background: var(--bs-gray-500);border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto 0px;width: 20px;height: 20px;padding: 0 0 0 0;box-shadow: 0px 0px;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 20 20" fill="none" class="d-grid mb-1" style="color: rgb(255,255,255);width: 11px;height: 11px;margin: auto auto;margin-top: 4px;"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.2929 3.29289C10.6834 2.90237 11.3166 2.90237 11.7071 3.29289L17.7071 9.29289C18.0976 9.68342 18.0976 10.3166 17.7071 10.7071L11.7071 16.7071C11.3166 17.0976 10.6834 17.0976 10.2929 16.7071C9.90237 16.3166 9.90237 15.6834 10.2929 15.2929L14.5858 11L3 11C2.44772 11 2 10.5523 2 10C2 9.44772 2.44772 9 3 9H14.5858L10.2929 4.70711C9.90237 4.31658 9.90237 3.68342 10.2929 3.29289Z" fill="currentColor"></path></svg> </button> </div></div>';
-            castles.innerHTML+=elem;
         }
+          else
+          {
+            if(!red)
+            {
+            elem='<div class="col-md-11" style="margin: 0 auto;padding-right: 0px;padding-left: 0px;margin-top: 10px;" onclick="goToCastle(1,1)"><div style="background: #fff;border-radius: 16px;box-shadow: 2px 4px 10px rgba(0,0,0,0.09);display: flex;height: 67px;padding-right: 4px;padding-left: 4px;"><img style="height: 45px;width: 45px;margin: auto 10px;border-radius: 11px;" src="./public/img/64.png"><div style="text-align: center;margin: auto auto;"><h6 style="font-family: \'Peyda Med\';margin-bottom: 0px;padding-top: 8px;text-align: end;padding-right: 12px;">مجموعه کاخ ها</h6><div class="collection justify-content-start" style="">';
+            elem+='<span>مالی<i class="fa fa-circle-o" style="font-size: 7pt; margin-left: 2px;"></i> </span>';
+            elem+='<span>تربیتی<i class="fa fa-circle-o" style="font-size: 7pt; margin-left: 2px;"></i> </span>';
+            elem+='<span>اجتماعی<i class="fa fa-circle-o" style="font-size: 7pt; margin-left: 2px;"></i> </span>';
+            elem+='<span>عاطفی<i class="fa fa-circle-o" style="font-size: 7pt; margin-left: 2px;"></i> </span>';
+            elem+='<span>رسانه<i class="fa fa-circle-o" style="font-size: 7pt; margin-left: 2px;"></i> </span>';
+              
+            elem+='</div></div><button class="btn btn-primary btn-sm me-1 rounded-circle" onclick="goToCastle(1,1)" type="button" style="background: var(--bs-gray-500);border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto 0px;width: 20px;height: 20px;padding: 0 0 0 0;box-shadow: 0px 0px;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 20 20" fill="none" class="d-grid mb-1" style="color: rgb(255,255,255);width: 11px;height: 11px;margin: auto auto;margin-top: 4px;"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.2929 3.29289C10.6834 2.90237 11.3166 2.90237 11.7071 3.29289L17.7071 9.29289C18.0976 9.68342 18.0976 10.3166 17.7071 10.7071L11.7071 16.7071C11.3166 17.0976 10.6834 17.0976 10.2929 16.7071C9.90237 16.3166 9.90237 15.6834 10.2929 15.2929L14.5858 11L3 11C2.44772 11 2 10.5523 2 10C2 9.44772 2.44772 9 3 9H14.5858L10.2929 4.70711C9.90237 4.31658 9.90237 3.68342 10.2929 3.29289Z" fill="currentColor"></path></svg> </button> </div></div>';
+            castles.innerHTML=elem+castles.innerHTML;
+            red++;
+
+            }
+
+          }
+        
       });
       showHistoris();
       if(MyMaster.includes("31") || MyMaster.includes("32"))

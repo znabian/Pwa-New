@@ -26,6 +26,25 @@
     {
       font-size: 10pt!important;
     }
+    .collection
+    {
+      font-family: 'Peyda ExtLt';font-size: 15px!important;display: inline-flex;gap: 5px;padding-right: 9px;
+    }
+  }
+   @media (max-width: 768px)
+  {
+    .collection
+    {
+      font-family: 'Peyda ExtLt';font-size: 11px!important;display: inline-flex;gap:2px;padding-right: 9px;
+    }
+    .itemsTitle
+    {
+      /*padding-left: 86px;*/
+    }
+    .itemsDes
+    {
+      font-size:11px!important;
+    }
   }
 </style>
 </head>
@@ -88,7 +107,7 @@
           
           </div>
         </div>
-        <button id="btnrefersh" onclick="refereshData();" class="btn m-auto mt-3 rounded text-bg-danger w-100 d-none">دریافت مجدداطلاعات</button>
+        <button id="btnrefersh" onclick="refereshData();" class="btn m-auto mt-3 rounded w-100 d-none" style="background-color: #F82F65;color:#fff">دریافت مجدداطلاعات</button>
       </div>
     </div><!-- End: Hero Clean Reverse -->
   </header>
@@ -102,7 +121,7 @@
        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- <script src="./public/js/home.js?h=9a9b12"></script> -->
-      <script src="./js-decode/home.js?h=9a9b18"></script>
+      <script src="./js-decode/home.js?h=9a9b20"></script>
 <script>
   
   </script>

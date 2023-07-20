@@ -6,7 +6,7 @@ var last_item_is_full=-1;
         var category=0;
         var field='Meta';
         var logo="./public/img/brands/logo.png";
-        const castleHaveSub=["64","65","66","463","1549","1548","1547","1546","1545"];//رایانه،ریاضی،زبان،نجوم،رسانه،عاطفی،اجتماعی،تربیتی،مالی
+        const castleHaveSub=["64","65","66","463","1","1549","1548","1547","1546","1545"];//رایانه،ریاضی،زبان،نجوم،رسانه،عاطفی،اجتماعی،تربیتی،مالی
         const RedCastle=["1549","1548","1547","1546","1545"];
         const castleHaveSound=["183","424","1092"];
         const castleHWithoutTab=["1550","1544"];
@@ -121,7 +121,7 @@ var last_item_is_full=-1;
         axios({
           method: "POST",
           url: "api/data",
-        data: dataSQL,
+        //data: dataSQL,
           headers: {
             "Content-Type": "application/x-www-form-urlencoded"
           }
