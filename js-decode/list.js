@@ -29,7 +29,12 @@ var last_item_is_full=-1;
                       if(item["Id"]== Cookies.get("Castle_show"))
                       app=item;
                     });
-                if(app['Allow']!="1" && Cookies.get("perm")!=4)
+                if(!app)
+                {
+                  localStorage.setItem('flash_message', 'این کاخ که میخواستی رو نداریم');
+                  window.location.assign("Home");
+                }
+                else if(app['Allow']!="1" && Cookies.get("perm")!=4)
                 {
                   localStorage.setItem('flash_message', 'نمی تونی  این کاخ رو ببینی');
                   window.location.assign("Home");
@@ -295,7 +300,7 @@ var last_item_is_full=-1;
               //elem+=response.data.data[i]["Description"]??'';
               elem+='اجرا</h4></div><div class="row" style="margin: auto 0px;"><div class=" d-flex"><div style="/*text-align: center;*//*float: right;*/margin-right: 10px;"><h6 style="font-family: \'Peyda Med\';padding-top: 0;margin-bottom: 0px;text-align: right;">'+response.data.data[i]["Name"]+'</h6><small class="text-end d-block justify-content-start" style="font-family: \'Peyda ExtLt\';text-align: right;">';
               elem+=((response.data.data[i]["Description"]??'')!=response.data.data[i]["Name"])?response.data.data[i]["Description"]??'':'';
-              if(response.data.data[i]["FullCount"])
+              if(response.data.data[i]["FullCount"]>=1)
               elem+="<i class='fa fa-check text-success'></i>";
               //elem+=app['Name'];              
               elem+='</small></div><button class="btn btn-sm me-1 rounded-circle" type="button" style=";border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto 0px;width: 30px;height: 30px;padding: 0 0 0 0;box-shadow: 0px 0px;"><img style="width: 20px;height: 20px;" width="20" height="20" src="'+logo+'"></button></div> </div></div>';
@@ -479,7 +484,7 @@ var last_item_is_full=-1;
               //elem+=response.data.data[i]["Description"]??'';
               elem+='اجرا</h4></div><div class="row" style="margin: auto 0px;"><div class=" d-flex"><div style="/*text-align: center;*//*float: right;*/margin-right: 10px;"><h6 style="font-family: \'Peyda Med\';padding-top: 0;margin-bottom: 0px;text-align: right;">'+response.data.data[i]["Name"]+'</h6><small class="text-end d-block justify-content-start" style="font-family: \'Peyda ExtLt\';text-align: right;">';
               elem+=((response.data.data[i]["Description"]??'')!=response.data.data[i]["Name"])?response.data.data[i]["Description"]??'':'';
-              if(response.data.data[i]["FullCount"])
+              if(response.data.data[i]["FullCount"]>=1)
               elem+="<i class='fa fa-check text-success'></i>";
               //elem+=app['Name'];              
               elem+='</small></div><button class="btn btn-sm me-1 rounded-circle" type="button" style=";border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto 0px;width: 30px;height: 30px;padding: 0 0 0 0;box-shadow: 0px 0px;"><img style="width: 20px;height: 20px;" width="20" height="20" src="'+logo+'"></button></div> </div></div>';

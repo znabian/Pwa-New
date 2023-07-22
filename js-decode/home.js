@@ -4,8 +4,9 @@ var sub={
   31:["65","66","64","1545","1546","1547","1548","1549","1550","463","1451","1563"],//کاخ سرخ
   32:["1","64","65","66","183","215","376","424","463","714","779","1510","1441","1451","1543","1544","1545","1546","1547","1548","1549","1550","1563","jibsorkh","sharsorkh","banovan"],//کاخ سرخ پلاس
   33:["1451","64","215","714","376","1441","1510","463","1451","1544","1573","1092"],//کاخ نوجوان
-  34:["banovan","183","424"],//کاخ خانواده
-  27:[]//سرخ فمیلی
+  34:["banovan","183","424"],//کاخ خانواده  
+  35:["64","215", "714", "544","1441","1510"],//سرخ مدرن
+  27:[],//سرخ فمیلی
 };
 const RedCastle=["1549","1548","1547","1546","1545"];
    var app_flag= Cookies.get("app_flag") == 1 ? true : false;
@@ -410,7 +411,7 @@ const RedCastle=["1549","1548","1547","1546","1545"];
         if(item["Id"]!=1)
         {
           /*if(!RedCastle.includes(item['Id'])){*/
-          elem='<div class="col-md-5" style="/*width: 47%*/;margin: 0 auto;padding-right: 0px;padding-left: 0px;margin-top: 10px;"  onclick="goToCastle(\''+item.Id+'\','+item.Allow+')" ><div style="background: #ffffff; border-radius: 16px;box-shadow: 2px 4px 10px rgba(0,0,0,0.09);display: flex;height: 67px;padding-right: 4px;padding-left: 4px;"><img style="height: 45px;width: 45px;margin: auto 10px;border-radius: 11px;" src="'+(item.Logo??logo)+'"><div class="itemsTitle" style="text-align: center;margin: auto auto;"><h6 style="font-family: \'Peyda Med\';margin-bottom: 0px;padding-top: 8px;text-align: end;">'+item.Name+'</h6><small class="justify-content-start itemsDes" style="font-family: \'Peyda ExtLt\';">'+item.Description+'</small></div><button class="btn btn-primary btn-sm me-1 rounded-circle"';
+          elem='<div class="col-md-5" style="/*width: 47%*/;margin: 0 auto;padding-right: 0px;padding-left: 0px;margin-top: 10px;"  onclick="goToCastle(\''+item.Id+'\','+item.Allow+')" ><div style="background: #ffffff; border-radius: 16px;box-shadow: 2px 4px 10px rgba(0,0,0,0.09);display: flex;height: 67px;padding-right: 4px;padding-left: 4px;"><img style="height: 45px;width: 45px;margin: auto 10px;border-radius: 11px;" src="'+(item.Logo??logo)+'"><div class="itemsTitle" style="text-align: center;margin: auto auto;"><h6 style="font-family: \'Peyda Med\';margin-bottom: 0px;padding-top: 8px;text-align: center;">'+item.Name+'</h6><small class="justify-content-start itemsDes" style="font-family: \'Peyda ExtLt\';">'+item.Description+'</small></div><button class="btn btn-primary btn-sm me-1 rounded-circle"';
           elem+=' onclick="goToCastle(\''+item.Id+'\','+item.Allow+')"';
           
           elem+=' type="button" style="background: var(--bs-gray-500);border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto 0px;width: 20px;height: 20px;padding: 0 0 0 0;box-shadow: 0px 0px;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 20 20" fill="none" class="d-grid mb-1" style="color: rgb(255,255,255);width: 11px;height: 11px;margin: auto auto;margin-top: 4px;"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.2929 3.29289C10.6834 2.90237 11.3166 2.90237 11.7071 3.29289L17.7071 9.29289C18.0976 9.68342 18.0976 10.3166 17.7071 10.7071L11.7071 16.7071C11.3166 17.0976 10.6834 17.0976 10.2929 16.7071C9.90237 16.3166 9.90237 15.6834 10.2929 15.2929L14.5858 11L3 11C2.44772 11 2 10.5523 2 10C2 9.44772 2.44772 9 3 9H14.5858L10.2929 4.70711C9.90237 4.31658 9.90237 3.68342 10.2929 3.29289Z" fill="currentColor"></path></svg> </button> </div></div>';
