@@ -1,12 +1,18 @@
-var ENUM="NewPWA:1.4";
+var ENUM="NewPWA:1.5";
+var myTimeout;
 document.addEventListener("keypress", function(event) {
   if (event.key === "Enter") 
      login();
 });
+  const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
  $(document).ready(function ()
        {
        if ((Cookies.get('flag')??0) == 1) {
-       location.href='Home';
+          if(urlParams.get('app'))
+            location.href='Report-Card?app='+urlParams.get('app');
+          else
+            location.href='Home';
        }
        });
 
@@ -355,7 +361,7 @@ document.addEventListener("keypress", function(event) {
           showConfirmButton:false,
           });
 
-          window.setTimeout(location.href='Home',100000);
+          myTimeout=window.setTimeout(locationchange,2000);
        })
        ['catch'](function (error) {
         Cookies.remove("api_result");
@@ -368,5 +374,13 @@ document.addEventListener("keypress", function(event) {
           icon: "error"
           });
        })
+       function locationchange()
+       {
+        clearTimeout(myTimeout);
+        if(urlParams.get('app'))
+        location.href='Report-Card?app='+urlParams.get('app');
+        else
+        location.href='Home';
+      }
    }
   

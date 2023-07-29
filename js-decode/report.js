@@ -3,6 +3,8 @@ const castleHaveSound=["183","424","1092"];
     var RedCastle=["1549","1548","1547","1546","1545"];
     var items=items2=[];flag=0;
     var logo="./public/img/brands/logo.png";
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
      $(document).ready(function () 
     { 
        if((Cookies.get("flag")??0)==0)
@@ -128,10 +130,14 @@ const castleHaveSound=["183","424","1092"];
        }
        function myrank() 
        {
+        if(urlParams.get('app'))
+            data={uid:Cookies.get('id'),aid:urlParams.get('app')};
+            else
+            data={data:Cookies.get('id')}
           axios({
             method: 'POST',
             url:'api/MyRank',
-            data:{data:Cookies.get('id')},
+            data:data,
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded'
             }
@@ -178,14 +184,23 @@ const castleHaveSound=["183","424","1092"];
                     elem+='<h6>'+itm['AName']+' <small>('+itm['cid'].length+' آموزش)</small></h6> </div><div class="col-md-12"><p>'+formatTime2(itm['Times'])+' </p>';
                     
                     elem+='</div> </div>  </div><div class="col-2 m-auto"><button onclick="detailesShow('+id+')" class="btn btn-danger btn-sm fa fa-arrow-left rounded-5"></button></div></div> ';
-                    viewContent.innerHTML+=elem
+                    
+                    if(urlParams.get('app')!=null)
+                      if(urlParams.get('app')==itm['AId'])
+                         viewContent.innerHTML+=elem
+                      else
+                      elm='';
+                    else
+                         viewContent.innerHTML+=elem
                   });
+                  if(document.querySelector("#viewContent").childNodes.length==0)
+                  viewContent.innerHTML='<p class="mt-5 alert alert-dark text-center">اطلاعاتی یافت نشد</p>';
           }
           else if(flag)
           {
             //backbtn.addEventListener("click", MainDivShow);
             viewContent.classList.add('mt-3');
-            viewContent.innerHTML='<p class="alert alert-dark text-center">اطلاعاتی یافت نشد</p>';
+            viewContent.innerHTML='<p class="mt-5 alert alert-dark text-center">اطلاعاتی یافت نشد</p>';
           }
       }
        function detailesShow(id)
@@ -427,7 +442,7 @@ const castleHaveSound=["183","424","1092"];
             {
               //backbtn.addEventListener("click", MainDivShow);
               viewContent.classList.add('mt-3');
-              viewContent.innerHTML='<p class="alert alert-dark text-center">اطلاعاتی یافت نشد</p>';
+              viewContent.innerHTML='<p class="mt-5 alert alert-dark text-center">اطلاعاتی یافت نشد</p>';
             }
         }
         function incompleteApp()
@@ -481,7 +496,7 @@ const castleHaveSound=["183","424","1092"];
             {
               //backbtn.addEventListener("click", MainDivShow);
               viewContent.classList.add('mt-3');
-              viewContent.innerHTML='<p class="alert alert-dark text-center">اطلاعاتی یافت نشد</p>';
+              viewContent.innerHTML='<p class="mt-5 alert alert-dark text-center">اطلاعاتی یافت نشد</p>';
             }
         }
         function goToCastle(id) {

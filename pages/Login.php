@@ -151,7 +151,7 @@
        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <!-- <script src="./public/js/login.js?h=9a9b15"></script> -->
-      <script src="./js-decode/login.js?h=9a9b15"></script>
+      <script src="./js-decode/login.js?h=9a9b17"></script>
       <!-- <script src="https://cdn.jsdelivr.net/npm/moment-jalaali@0.10.0/build/moment-jalaali.min.js"></script> -->
   
 </body>

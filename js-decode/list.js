@@ -395,7 +395,7 @@ var last_item_is_full=-1;
         }).then(function (response) {
 
           if (response.data.status == "200") {          
-            tabs=arrayColumn(myarray_unique(response.data.data), 'Meta');
+            tabs=myarray_unique(arrayColumn(response.data.data, 'Meta'));
             Cookies.set('tabs',JSON.stringify(tabs));
             showTabs();
 
