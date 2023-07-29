@@ -1,4 +1,5 @@
-var items=allowSeen=[];
+var items=[];
+var allowSeen=[];
 var last_item_is_full=-1;
         var tabs;
         const apps = JSON.parse(localStorage.getItem("app_list"));
@@ -9,7 +10,8 @@ var last_item_is_full=-1;
         const castleHaveSub=["64","65","66","463","1","1549","1548","1547","1546","1545"];//رایانه،ریاضی،زبان،نجوم،رسانه،عاطفی،اجتماعی،تربیتی،مالی
         const RedCastle=["1549","1548","1547","1546","1545"];
         const castleHaveSound=["183","424","1092"];
-        const castleHWithoutTab=["1550","1544"];
+        const castleWithoutTab=["1550","1544"];
+        const castleOneSub=["376"];
         spop.defaults = {
           style     : 'info',
           position  : 'bottom-center',
@@ -52,7 +54,7 @@ var last_item_is_full=-1;
                 {
                   showWithoutTab(2279);
                 }
-                else if(castleHWithoutTab.includes(Cookies.get("Castle_show")))
+                else if(castleWithoutTab.includes(Cookies.get("Castle_show")))
                 {
                   showWithoutTab(0);
                 }
@@ -67,11 +69,7 @@ var last_item_is_full=-1;
                   {
                     if(Cookies.get('tabs')??null)
                     {
-                      tabs=JSON.parse(Cookies.get('tabs'));
-                      if(allowSeen.length==0)
-                      {
-                        getAllowNextTabShow();
-                      }
+                      tabs=JSON.parse(Cookies.get('tabs'));                     
                       showTabs();
                     }
                     else
@@ -96,6 +94,7 @@ var last_item_is_full=-1;
       Cookies.remove("field");
       Cookies.remove("tabs");
       Cookies.remove("chosenCatData");
+      Cookies.remove("Castle_show");
       location.href="Home";
     }
     function gotoReal() 
@@ -106,16 +105,26 @@ var last_item_is_full=-1;
       location.href="RealityShow";
     }
     
-    function getAllowNextTabShow()
+    function getAllowNextTabShow(oneSub=0)
      {
+      oneSub=0;
+      if(castleOneSub.includes(Cookies.get("Castle_show")))
+      oneSub=1;
       if(!['1563','424'].includes(Cookies.get("Castle_show")))
       {
         sid=(RedCastle.includes(Cookies.get("Castle_show")))?1:Cookies.get("Castle_show");
-        if(castleHaveSub.includes(Cookies.get("Castle_show")))            
+        if(oneSub)
+        {
+          dataSQL="select *,isnull((select top 1 FullCount from ViewTbl where CId=a.AppId and AId="+sid+" and Type='PWA' and UserId="+Cookies.get("id")+"),0) as FullCount from(select max(Id) as AppId,Sort,Parent as Tab from AppTbl as b where b.Parent in ("+arrayColumn(tabs,'Id').join(',') +") group by Sort,Parent  )  as a order by Sort";
+
+        }
+        else if(castleHaveSub.includes(Cookies.get("Castle_show")))            
         //dataSQL="select *,(select top 1 FullCount from ViewTbl where CId=ChallTbl.Id and AId=" + sid+ " and Type='PWA' and UserId="+Cookies.get('id')+") as FullCount  from ChallTbl where AppId in ((select Id from AppTbl where Parent in(" +arrayColumn(tabs,'Id').join(',') + ") and Active=1 order by Sort,Id))  and CourseId="+sid+" and Type in (6,8) and Active=1 order by Id Desc";
-        dataSQL="select *,isnull((select top 1 FullCount from ViewTbl where CId=a.MaxId and AId="+sid+" and Type='PWA' and UserId="+Cookies.get('id')+"),0) as FullCount from(select max(Id) as MaxId,AppId from ChallTbl where AppId in((SELECT max(Id) as MaxId from AppTbl where Parent in ("+arrayColumn(tabs,'Id').join(',') +")and Active=1 GROUP BY Parent))and CourseId=" + sid+ " and Type in (6,8) and Active=1   GROUP BY AppId ) as a";
+        //dataSQL="select *,isnull((select top 1 FullCount from ViewTbl where CId=a.MaxId and AId="+sid+" and Type='PWA' and UserId="+Cookies.get('id')+"),0) as FullCount from(select max(Id) as MaxId,AppId from ChallTbl where AppId in((SELECT max(Id) as MaxId from AppTbl where Parent in ("+arrayColumn(tabs,'Id').join(',') +")and Active=1 GROUP BY Parent))and CourseId=" + sid+ " and Type in (6,8) and Active=1   GROUP BY AppId ) as a";
+        dataSQL="select *,isnull((select top 1 FullCount from ViewTbl where CId=a.MaxId and AId="+sid+" and Type='PWA' and UserId="+Cookies.get('id')+"),0) as FullCount from(select max(Id) as MaxId,AppId,((SELECT Parent as Id from AppTbl as aa where aa.Id=ChallTbl.AppId and aa.Active=1 )) as Tab from ChallTbl where AppId in((SELECT Id from AppTbl where Parent in ("+arrayColumn(tabs,'Id').join(',') +")and Active=1 ))and CourseId=" + sid+ " and Type in (6,8) and Active=1   GROUP BY AppId ) as a";
         else
-        dataSQL="select *,isnull((select top 1 FullCount from ViewTbl where CId=a.MaxId and AId="+sid+" and Type='PWA' and UserId="+Cookies.get('id')+"),0) as FullCount from(SELECT max(Id) as MaxId,Sort from AppTbl where Meta in (N'"+tabs.join("',N'") +"') and Parent="+sid+" and  Sort>=0  group by Sort,Meta )  as a order by Sort";
+        dataSQL="select *,isnull((select top 1 FullCount from ViewTbl where CId=a.AppId and AId="+sid+" and Type='PWA' and UserId="+Cookies.get('id')+"),0) as FullCount from(select max(Id) as AppId,Sort,Meta as Tab from AppTbl where Meta in (N'"+tabs.join("',N'") +"') and Parent="+sid+" and  Sort>=0  group by Sort,Meta )  as a order by Sort";
+       // dataSQL="select *,isnull((select top 1 FullCount from ViewTbl where CId=a.MaxId and AId="+sid+" and Type='PWA' and UserId="+Cookies.get('id')+"),0) as FullCount from(SELECT max(Id) as MaxId,Sort from AppTbl where Meta in (N'"+tabs.join("',N'") +"') and Parent="+sid+" and  Sort>=0  group by Sort,Meta )  as a order by Sort";
   
         Cookies.set('req_data',JSON.stringify({
             'url':"http://85.208.255.101/API/selectApi_jwt.php",
@@ -126,7 +135,7 @@ var last_item_is_full=-1;
         axios({
           method: "POST",
           url: "api/data",
-        //data: dataSQL,
+        data: dataSQL,
           headers: {
             "Content-Type": "application/x-www-form-urlencoded"
           }
@@ -134,7 +143,15 @@ var last_item_is_full=-1;
           if (res.data.status == "200") 
           {
             for (var i = 0; i < res.data.data.length; i++)
-              allowSeen[i]=res.data.data[i]["FullCount"];
+            {
+              aid=res.data.data[i]['AppId'];
+             // allowSeen[res.data.data[i]['AppId']]=res.data.data[i]["FullCount"];
+              if(!allowSeen[res.data.data[i]['Tab']])
+                allowSeen[res.data.data[i]['Tab']]=[]
+              allowSeen[res.data.data[i]['Tab']][aid]=parseInt(res.data.data[i]["FullCount"]??0);
+            }
+              
+              //allowSeen[i]=res.data.data[i]["FullCount"];
               //localStorage.setItem("allowSeen", JSON.stringify(allowSeen));
   
           } 
@@ -290,17 +307,31 @@ var last_item_is_full=-1;
                 else
                 last_item_is_full=-1
               }*/
+             
+              if(i>0)
+              allow=parseInt(response.data.data[i-1]["FullCount"]??0);
+              else
+              {
                 if(category)//not first tab
-                last_item_is_full=allowSeen[category-1];
+                {
+                  if(field=="Meta")
+                  last_item_is_full=allowSeen[tabs[category-1]][allowSeen[tabs[category-1]].length-1]??last_item_is_full;
+                  else
+                  last_item_is_full=allowSeen[tabs[category-1]['Id']][allowSeen[tabs[category-1]['Id']].length-1]??last_item_is_full;
+                 
+                }
                 else
-                last_item_is_full=-1
+                last_item_is_full=1
+              
               last_item_is_full=(last_item_is_full>=0)?last_item_is_full:1;
-                allow=((i>0)?response.data.data[i-1]["FullCount"]:last_item_is_full);
+                allow=last_item_is_full;
+              }
+                
               elem='<div id="div_'+response.data.data[i]["Id"]+'" onclick="showVideo('+response.data.data[i]["Id"]+',0,0,'+allow+')" class="border bg-white mb-2  d-flex justify-content-between" style="border-radius: 16px;padding-right: 4px;padding-left: 4px;padding-top: 10px;padding-bottom: 10px;width: 90%;margin: auto;"><div class="text-center d-flex float-end" style="background: #ffffff;border-radius: 9px;padding-right: 6px;padding-left: 6px;margin: auto 10px;height: 30px;"><button class="btn btn-primary btn-sm d-block me-1 rounded-circle" type="button" style="background: #fd3838;border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto auto;width: 25px;height: 25px;box-shadow: 0px 0px;padding: 0 0 0 0;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-play-fill d-block" style="color: var(--bs-btn-color);margin: auto auto;font-size: 9.96px;"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"></path></svg></button><h4 style="font-family: \'Peyda Med\';font-size: 10px;margin: auto;padding-right: 10px;padding-left: 10px;">';
               //elem+=response.data.data[i]["Description"]??'';
               elem+='اجرا</h4></div><div class="row" style="margin: auto 0px;"><div class=" d-flex"><div style="/*text-align: center;*//*float: right;*/margin-right: 10px;"><h6 style="font-family: \'Peyda Med\';padding-top: 0;margin-bottom: 0px;text-align: right;">'+response.data.data[i]["Name"]+'</h6><small class="text-end d-block justify-content-start" style="font-family: \'Peyda ExtLt\';text-align: right;">';
               elem+=((response.data.data[i]["Description"]??'')!=response.data.data[i]["Name"])?response.data.data[i]["Description"]??'':'';
-              if(response.data.data[i]["FullCount"]>=1)
+              if(parseInt(response.data.data[i]["FullCount"]??0)>=1)
               elem+="<i class='fa fa-check text-success'></i>";
               //elem+=app['Name'];              
               elem+='</small></div><button class="btn btn-sm me-1 rounded-circle" type="button" style=";border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto 0px;width: 30px;height: 30px;padding: 0 0 0 0;box-shadow: 0px 0px;"><img style="width: 20px;height: 20px;" width="20" height="20" src="'+logo+'"></button></div> </div></div>';
@@ -366,10 +397,6 @@ var last_item_is_full=-1;
           if (response.data.status == "200") {          
             tabs=arrayColumn(myarray_unique(response.data.data), 'Meta');
             Cookies.set('tabs',JSON.stringify(tabs));
-            if(allowSeen.length==0)
-            {
-              getAllowNextTabShow();
-            } 
             showTabs();
 
           Swal.close();
@@ -411,6 +438,12 @@ var last_item_is_full=-1;
           tablist.innerHTML+=elem;
       }
       );
+      
+      /*if(allowSeen.length==0)
+      {
+        getAllowNextTabShow();
+      } */
+      getAllowNextTabShow();
       if((Cookies.get('chosenCatData')??0)==0)
       getBooks(tabs[0],0);
       }
@@ -455,20 +488,7 @@ var last_item_is_full=-1;
           count_lesson.innerHTML="تعداد "+response.data.data.length+" قسمت";
         session_lesson.innerHTML="<span onclick='showItems()'><i  class='pull-left fa fa-arrow-left'></i>"+items[itemid]['name']+"</span>";
        
-        items["subitem"]=[];
-
-        const keys = Object.keys(items);
-        if(itemid!= keys[0])
-        last_item_is_full=last_item_is_full;
-        else
-        {
-          if(category)//not first tab
-          last_item_is_full=allowSeen[category-1];
-          else
-          last_item_is_full=-1
-        }
-
-        last_item_is_full=(last_item_is_full>=0)?last_item_is_full:1;
+        items["subitem"]=[];        
           for (var i = 0; i < response.data.data.length; i++)
           {
             items["subitem"][response.data.data[i]["Id"]]={
@@ -480,17 +500,45 @@ var last_item_is_full=-1;
                         link:response.data.data[i]["Link"]??0,
                         full:response.data.data[i]["FullCount"]??0,
                     };
-              elem='<div id="div_'+response.data.data[i]["Id"]+'" onclick="showVideo_VR('+response.data.data[i]["Id"]+',1,'+response.data.data[i]["Type"]+',1,'+((i>0)?response.data.data[i-1]["FullCount"]:last_item_is_full)+')" class="border bg-white mb-2 d-flex justify-content-between" style="border-radius: 16px;padding-right: 4px;padding-left: 4px;padding-top: 10px;padding-bottom: 10px;width: 90%;margin: auto;"><div class="text-center d-flex float-end" style="background: #ffffff;border-radius: 9px;padding-right: 6px;padding-left: 6px;margin: auto 10px;height: 30px;"><button class="btn btn-primary btn-sm d-block me-1 rounded-circle" type="button" style="background: #fd3838;border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto auto;width: 25px;height: 25px;box-shadow: 0px 0px;padding: 0 0 0 0;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-play-fill d-block" style="color: var(--bs-btn-color);margin: auto auto;font-size: 9.96px;"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"></path></svg></button><h4 style="font-family: \'Peyda Med\';font-size: 10px;margin: auto;padding-right: 10px;padding-left: 10px;">';
+              if(i>0)
+              allow=parseInt(response.data.data[i-1]["FullCount"]??0);
+              else
+              {
+                const keys = Object.keys(items);
+                if(itemid!= keys[0])
+                {
+                  if(keys.indexOf(itemid.toString())>0)
+                  last_item_is_full=allowSeen[tabs[category]['Id']][keys[keys.indexOf(itemid.toString())-1]]??last_item_is_full;
+                  else
+                  last_item_is_full=last_item_is_full;
+                }
+                else
+                {
+                  if(category)//not first tab
+                  {
+                    last_item_is_full=allowSeen[tabs[category-1]['Id']][allowSeen[tabs[category-1]['Id']].length-1]??last_item_is_full;
+                  
+                  }
+                  else
+                  last_item_is_full=1
+                }
+
+                last_item_is_full=(last_item_is_full>=0)?last_item_is_full:1;
+                allow=last_item_is_full;
+              }
+              elem='<div id="div_'+response.data.data[i]["Id"]+'" onclick="showVideo_VR('+response.data.data[i]["Id"]+',1,'+response.data.data[i]["Type"]+',1,'+allow+')" class="border bg-white mb-2 d-flex justify-content-between" style="border-radius: 16px;padding-right: 4px;padding-left: 4px;padding-top: 10px;padding-bottom: 10px;width: 90%;margin: auto;"><div class="text-center d-flex float-end" style="background: #ffffff;border-radius: 9px;padding-right: 6px;padding-left: 6px;margin: auto 10px;height: 30px;"><button class="btn btn-primary btn-sm d-block me-1 rounded-circle" type="button" style="background: #fd3838;border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto auto;width: 25px;height: 25px;box-shadow: 0px 0px;padding: 0 0 0 0;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-play-fill d-block" style="color: var(--bs-btn-color);margin: auto auto;font-size: 9.96px;"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"></path></svg></button><h4 style="font-family: \'Peyda Med\';font-size: 10px;margin: auto;padding-right: 10px;padding-left: 10px;">';
               //elem+=response.data.data[i]["Description"]??'';
               elem+='اجرا</h4></div><div class="row" style="margin: auto 0px;"><div class=" d-flex"><div style="/*text-align: center;*//*float: right;*/margin-right: 10px;"><h6 style="font-family: \'Peyda Med\';padding-top: 0;margin-bottom: 0px;text-align: right;">'+response.data.data[i]["Name"]+'</h6><small class="text-end d-block justify-content-start" style="font-family: \'Peyda ExtLt\';text-align: right;">';
               elem+=((response.data.data[i]["Description"]??'')!=response.data.data[i]["Name"])?response.data.data[i]["Description"]??'':'';
-              if(response.data.data[i]["FullCount"]>=1)
+              if(parseInt(response.data.data[i]["FullCount"]??0)>=1)
               elem+="<i class='fa fa-check text-success'></i>";
               //elem+=app['Name'];              
               elem+='</small></div><button class="btn btn-sm me-1 rounded-circle" type="button" style=";border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto 0px;width: 30px;height: 30px;padding: 0 0 0 0;box-shadow: 0px 0px;"><img style="width: 20px;height: 20px;" width="20" height="20" src="'+logo+'"></button></div> </div></div>';
             tabcontent.innerHTML+=elem;
             if(i==(response.data.data.length-1))
-            last_item_is_full=response.data.data[i]["FullCount"]??0;
+            {
+              last_item_is_full=parseInt(response.data.data[i]["FullCount"]??0);
+            }
           }
          Swal.close();
         } 
@@ -567,10 +615,11 @@ var last_item_is_full=-1;
           if((Cookies.get('chosenCatData')??0)==0)
           getBooks(tabs[0]["Id"],0);
 
-          if(allowSeen.length==0)
+          /*if(allowSeen.length==0)
           {
-            getAllowNextTabShow();
-          }
+            getAllowNextTabShow(1);
+          }*/
+          getAllowNextTabShow(1);
 
         } else {
           Swal.close();
@@ -604,10 +653,11 @@ var last_item_is_full=-1;
             elem+='</h4></div>';
             tablist.innerHTML+=elem;
         });
-        if(allowSeen.length==0)
+       /* if(allowSeen.length==0)
         {
           getAllowNextTabShow();
-        }
+        }*/
+        getAllowNextTabShow();
       }
         
     }
@@ -799,20 +849,27 @@ var last_item_is_full=-1;
             }
             else
             {
-           
+              
               elem='<div id="div_'+myitem["id"]+'" onclick="showVideo('+myitem["id"]+'0,0,'+((i>0)?itemshow[index-1]["full"]:1)+')" class=border bg-white mb-2 d-flex justify-content-between" style="border-radius: 16px;padding-right: 4px;padding-left: 4px;padding-top: 10px;padding-bottom: 10px;width: 90%;margin: auto;"><div class="text-center d-flex float-end" style="background: #ffffff;border-radius: 9px;padding-right: 6px;padding-left: 6px;margin: auto 10px;height: 30px;"><button class="btn btn-primary btn-sm d-block me-1 rounded-circle" type="button" style="background: #fd3838;border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto auto;width: 25px;height: 25px;box-shadow: 0px 0px;padding: 0 0 0 0;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-play-fill d-block" style="color: var(--bs-btn-color);margin: auto auto;font-size: 9.96px;"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"></path></svg></button><h4 style="font-family: \'Peyda Med\';font-size: 10px;margin: auto;padding-right: 10px;padding-left: 10px;">';
               //elem+=myitem["author"]??'';
               elem+='اجرا</h4></div><div class="row" style="margin: auto 0px;"><div class=" d-flex"><div style="/*text-align: center;*//*float: right;*/margin-right: 10px;"><h6 style="font-family: \'Peyda Med\';padding-top: 0;margin-bottom: 0px;text-align: right;">'+myitem["name"]+'</h6><small class="text-end d-block justify-content-start" style="font-family: \'Peyda ExtLt\';text-align: right;">';
               elem+=((myitem["author"]??'')!=myitem["name"])?myitem["author"]??'':'';
               //elem+=app['Name'];              
+              if(parseInt(myitem[i]["FullCount"]??0)>=1)
+              elem+="<i class='fa fa-check text-success'></i>";
               elem+='</small></div><button class="btn btn-sm me-1 rounded-circle" type="button" style=";border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto 0px;width: 30px;height: 30px;padding: 0 0 0 0;box-shadow: 0px 0px;"><img style="width: 20px;height: 20px;" width="20" height="20" src="'+logo+'"></button></div> </div></div>';
-            
+              if(i==(response.data.data.length-1))
+              {
+                last_item_is_full=parseInt(response.data.data[i]["FullCount"]??0);
+              }
             }
             tabcontent.innerHTML+=elem;
           });
     }
     function showVideo(id,sub=0,Rokh=0,before_Full=0)
     {
+      if((Cookies.get('AllowBefore')??0)==0)
+      before_Full=1
       document.getElementById('tabcontent').querySelectorAll('.border-secondary').forEach(element => 
         {
           element.classList.remove('border-secondary');
@@ -877,6 +934,8 @@ var last_item_is_full=-1;
     } 
     function showVideo_VR(id,sub=0,type,ask=1,before_Full=0)
     {
+      if((Cookies.get('AllowBefore')??0)==0)
+      before_Full=1
       document.getElementById('tabcontent').querySelectorAll('.border-secondary').forEach(element => 
         {
           element.classList.remove('border-secondary');
@@ -1013,11 +1072,13 @@ var last_item_is_full=-1;
             if(Rokh)
             fu=1;
             else
-            fu=((i>0)?response.data.data[i-1]["FullCount"]:1);
+            fu=((i>0)?parseInt(response.data.data[i-1]["FullCount"]??0):1);
               elem='<div id="div_'+response.data.data[i]["Id"]+'" onclick="showVideo('+response.data.data[i]["Id"]+',0,'+Rokh+','+fu+')" class="border bg-white mb-2  d-flex justify-content-between" style="border-radius: 16px;padding-right: 4px;padding-left: 4px;padding-top: 10px;padding-bottom: 10px;width: 90%;margin: auto;"><div class="text-center d-flex float-end" style="background: #ffffff;border-radius: 9px;padding-right: 6px;padding-left: 6px;margin: auto 10px;height: 30px;"><button class="btn btn-primary btn-sm d-block me-1 rounded-circle" type="button" style="background: #fd3838;border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto auto;width: 25px;height: 25px;box-shadow: 0px 0px;padding: 0 0 0 0;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-play-fill d-block" style="color: var(--bs-btn-color);margin: auto auto;font-size: 9.96px;"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"></path></svg></button><h4 style="font-family: \'Peyda Med\';font-size: 10px;margin: auto;padding-right: 10px;padding-left: 10px;">';
               //elem+=response.data.data[i]["Description"]??'';
               elem+='</h4></div><div class="row" style="margin: auto 0px;"><div class=" d-flex"><div style="/*text-align: center;*//*float: right;*/margin-right: 10px;"><h6 style="font-family: \'Peyda Med\';padding-top: 0;margin-bottom: 0px;text-align: right;">'+response.data.data[i]["Name"]+'</h6><small class="text-end d-block justify-content-start" style="font-family: \'Peyda ExtLt\';text-align: right;">';
               elem+=((response.data.data[i]["Description"]??'')!=response.data.data[i]["Name"])?response.data.data[i]["Description"]??'':'';
+              if(parseInt(response.data.data[i]["FullCount"]??0)>=1)
+              elem+="<i class='fa fa-check text-success'></i>";
               //elem+=response.data.data[i]["Description"]??'';
               //elem+=app['Name'];              
               elem+='</small></div><button class="btn btn-sm me-1 rounded-circle" type="button" style=";border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto 0px;width: 30px;height: 30px;padding: 0 0 0 0;box-shadow: 0px 0px;"><img style="width: 20px;height: 20px;" width="20" height="20" src="'+logo+'"></button></div> </div></div>';

@@ -435,7 +435,7 @@
 <script src="https://unpkg.com/jalali-moment/dist/jalali-moment.browser.js"></script>
 <script src="./public/js/spop.min.js"></script>
 <!-- <script src="./public/js/report.js?h=9a9b5"></script> -->
- <script src="./js-decode/report.js?h=9a9b5"></script> 
+ <script src="./js-decode/report.js?h=9a9b60"></script> 
  
   <script>
   const emoji=['&#128566','&#128545','&#128547','&#128533','&#128522','&#128516'];

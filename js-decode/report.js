@@ -1,6 +1,8 @@
 const castleHaveSound=["183","424","1092"];
     const castleException=["1550"];
+    var RedCastle=["1549","1548","1547","1546","1545"];
     var items=items2=[];flag=0;
+    var logo="./public/img/brands/logo.png";
      $(document).ready(function () 
     { 
        if((Cookies.get("flag")??0)==0)
@@ -75,6 +77,12 @@ const castleHaveSound=["183","424","1092"];
                   flag=1;
                   for (let index = 0; index < response.data.data.length; index++) {
                       app=response.data.data[index];
+                      if(RedCastle.includes(app['AId']))
+                      {
+                      app['AId']=1;
+                      app['AName']="مجموعه کاخ ها";
+                      app['ALogo']="./public/img/64.png";
+                      }
                       if(items[app['AId']])
                       {
                         items[app['AId']]['cid'].push(app['CId']);
@@ -84,7 +92,7 @@ const castleHaveSound=["183","424","1092"];
                       else
                       {
                         items[app['AId']]={
-                          ALogo:app['ALogo'],
+                          ALogo:app['ALogo']??logo,
                           AName:app['AName'],
                           AId:app['AId'], cid:[app['CId']],
                           Full:0,Times:0,
@@ -249,6 +257,7 @@ const castleHaveSound=["183","424","1092"];
                         viewContent.innerHTML+=elem;                   
                    
                   });
+                  window.scrollTo(0,0);
        }
        function MainDivShow()
        {
@@ -390,7 +399,7 @@ const castleHaveSound=["183","424","1092"];
                           {
                           items2.push(
                             {
-                             ALogo: itm['ALogo'],
+                             ALogo: itm['ALogo']??logo,
                               AName:itm['AName'],
                               Step:app['Step'],
                               CName:app['CName'],
@@ -444,7 +453,7 @@ const castleHaveSound=["183","424","1092"];
                           {
                           items2.push(
                             {
-                             ALogo: itm['ALogo'],
+                             ALogo: itm['ALogo']??logo,
                               AName:itm['AName'],
                               Step:app['Step'],
                               CName:app['CName'],

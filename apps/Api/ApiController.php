@@ -147,11 +147,16 @@ class ApiController
             curl_setopt($curl, CURLOPT_POSTFIELDS, array("data"=>($query))); 
             $result = json_decode(curl_exec($curl));
 
+            $query="select min(Date) as minDate from paymentTbl as P where (select top 1 Phone from UserTbl where UserId=id)='" .$request->Phone .
+            "'  and P.Active=1 and Access=1 ";
+            curl_setopt($curl, CURLOPT_POSTFIELDS, array("data"=>($query))); 
+            $minBuyDate = json_decode(curl_exec($curl));
+
             $query="select P.Id,BelongsId,AppName from ProductTbl as P where P.Type=1 order by P.BelongsId";
             curl_setopt($curl, CURLOPT_POSTFIELDS, array("data"=>($query))); 
             $MasterApp = json_decode(curl_exec($curl));
             curl_close($curl);
-            $res=['status'=>$result->status,'All'=>$AllApps->data,'MyApps'=>$result->data,'MasterApp'=>$MasterApp->data,'message'=>$result->message];
+            $res=['status'=>$result->status,'All'=>$AllApps->data,'MyApps'=>$result->data,'MasterApp'=>$MasterApp->data,'message'=>$result->message,'minBuyDate'=>$minBuyDate->data[0]->minDate];
            
             return json_encode($res);
         }
@@ -201,6 +206,34 @@ class ApiController
         $query="select * from (SELECT UserId, SUM(CAST(Times as float)) AS times_sum, DENSE_RANK() OVER (ORDER BY SUM(CAST(Times as float)) DESC ) AS rank
         FROM ViewTbl
         where Times is not null
+        and Type='PWA'  and AId is not null and TotalTime <> '0'
+        GROUP BY UserId) as ranks where UserId=$userId";
+       
+                
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_POST, 1);
+        curl_setopt($curl,CURLOPT_HTTPHEADER,['api_token:'.$this->api_token]);
+        
+        curl_setopt($curl, CURLOPT_POSTFIELDS, array("data"=>($query)));
+        curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($curl, CURLOPT_USERPWD, "username:password");
+        curl_setopt($curl, CURLOPT_URL, "http://85.208.255.101/API/selectApi_jwt.php");
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+        $res = (curl_exec($curl));
+        return ($res);
+        
+    }
+    public function getMyRankinApps($userId,$AppId){       
+
+        $RedCastle=[1549,1548,1547,1546,1545,1];
+        if(in_array($AppId,$RedCastle))
+        $AppId="and AId in (".implode(',',$RedCastle).") ";        
+        else 
+        $AppId="and AId=$AppId ";
+        $query="select * from (SELECT UserId, SUM(CAST(Times as float)) AS times_sum, DENSE_RANK() OVER (ORDER BY SUM(CAST(Times as float)) DESC ) AS rank
+        FROM ViewTbl
+        where Times is not null $AppId
         and Type='PWA'  and AId is not null and TotalTime <> '0'
         GROUP BY UserId) as ranks where UserId=$userId";
        

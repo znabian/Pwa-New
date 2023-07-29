@@ -1,4 +1,4 @@
-var ENUM="NewPWA:1.3";
+var ENUM="NewPWA:1.4";
 document.addEventListener("keypress", function(event) {
   if (event.key === "Enter") 
      login();

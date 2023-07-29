@@ -21,6 +21,9 @@ const RedCastle=["1549","1548","1547","1546","1545"];
       Cookies.remove("chosenCatData");
       Cookies.remove("chosenCatName");
       Cookies.remove("tabs");
+      Cookies.remove("field");
+      Cookies.remove("Castle_show");
+
       console.log(Cookies.get("id"), "userId");
       if (app_flag && localStorage.getItem("app_list"))
        {
@@ -146,9 +149,9 @@ const RedCastle=["1549","1548","1547","1546","1545"];
         "warning"
       );
     }
-    function goToCastle(id, open) {
+    function goToCastle(id, open) {      
       Cookies.remove("field");Cookies.remove("tabs");Cookies.remove("chosenCatData");
-      Cookies.remove("RealityShowAllow");Cookies.remove("RealityShow");
+      Cookies.remove("RealityShowAllow");Cookies.remove("RealityShow");Cookies.remove("Castle_show");
       
       if (Cookies.get("perm", 0) == 4) {
         open = 1;
@@ -251,6 +254,9 @@ const RedCastle=["1549","1548","1547","1546","1545"];
             app_All=response.data.All;
             app_All=app_All.concat(a);
             MyApps = response.data.MyApps;
+            var minBuyDate = response.data.minBuyDate;
+            if(new Date(minBuyDate)>=Date("2023-07-23"))
+            Cookies.set('AllowBefore',1,2592000);
             /*apps.filter(function(obj,index) {
                 if(obj['Id']==1543)
                 apps.splice(index, 1);
