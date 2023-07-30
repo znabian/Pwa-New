@@ -3,12 +3,17 @@ const castleHaveSound=["183","424","1092"];
     var RedCastle=["1549","1548","1547","1546","1545"];
     var items=items2=[];flag=0;
     var logo="./public/img/brands/logo.png";
+    var img="./public/img/products/reportcard.png?v=124b1";
+    var totalRnk=[];
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
      $(document).ready(function () 
     { 
        if((Cookies.get("flag")??0)==0)
             window.location.assign("Login");
+          else
+          if(urlParams.get('app'))
+          seenVideos();
           else
           myrank() ;
           backbtn.addEventListener("click", goBack);
@@ -113,6 +118,12 @@ const castleHaveSound=["183","424","1092"];
                     });
                    btn1.disabled=false;
                    btn2.disabled=false;
+                   var res=in_array(items,'AId',urlParams.get("app")??-1);
+                   if(res['Result'])
+                   {
+                    detailesShow(res['Index']);
+                   }
+                   else
                   myActivity();
                 }
                 else
@@ -128,10 +139,15 @@ const castleHaveSound=["183","424","1092"];
             
       
        }
-       function myrank() 
+       function myrank(app=0,name=null) 
        {
+        rank.innerHTML='-';
+        rank2.innerHTML='-';
         if(urlParams.get('app'))
             data={uid:Cookies.get('id'),aid:urlParams.get('app')};
+        else
+            if(app)
+                data={uid:Cookies.get('id'),aid:app};
             else
             data={data:Cookies.get('id')}
           axios({
@@ -146,11 +162,16 @@ const castleHaveSound=["183","424","1092"];
 
                 if(response.data.status=='200')
                 {
+                  if(app)
+                  name="توی "+name+" ";
+                  else
+                  name="";
                   rank.innerHTML=response.data.data[0]['rank'];
-                  rank.parentNode.title="رتبه "+rank.innerText+" امی ";
+                  rank.parentNode.title=name+"رتبه "+rank.innerText+" امی ";
                   rank2.innerHTML=formatTime(response.data.data[0]['times_sum']);
-                  rank2.parentNode.title=formatTime2(response.data.data[0]['times_sum']).replace(' آموزش از این دوره دیدی'," آموزش دیدی ");
-                  
+                  rank2.parentNode.title=name+formatTime2(response.data.data[0]['times_sum']).replace(' آموزش از این دوره دیدی'," آموزش دیدی ");
+                  if(!app)
+                  totalRnk=[response.data.data[0]['rank'],response.data.data[0]['times_sum']];
                 }
                 else
                 {
@@ -166,7 +187,27 @@ const castleHaveSound=["183","424","1092"];
              seenVideos();
        }
       function myActivity()
-      {
+      {        
+        window.scrollTo(0,0);
+        castle_Image.src=img;
+        castle_Title.innerHTML="کارنامه";
+
+        if(totalRnk.length)
+        {
+        rank.innerHTML=totalRnk[0];
+        rank.parentNode.title="رتبه "+rank.innerText+" امی ";
+        rank2.innerHTML=formatTime(totalRnk[1]);
+        rank2.parentNode.title=formatTime2(totalRnk[1]).replace(' آموزش از این دوره دیدی'," آموزش دیدی ");               
+        } 
+        else
+        {
+          rank.innerHTML='?';
+        rank.parentNode.title="";
+        rank2.innerHTML='?';
+        rank2.parentNode.title="";
+        }
+        
+                
         myvideo.classList.remove('in');
         backbtn.removeEventListener("click", myActivity);
         backbtn.removeEventListener("click", MainDivShow);
@@ -208,8 +249,15 @@ const castleHaveSound=["183","424","1092"];
         myvideo.classList.remove('in');
         backbtn.removeEventListener("click", MainDivShow);
         backbtn.removeEventListener("click", goBack);
-        backbtn.addEventListener("click", myActivity);
 
+        if(!urlParams.get('app'))
+        backbtn.addEventListener("click", myActivity);
+        else
+        backbtn.addEventListener("click", goBack);
+
+        castle_Image.src=items[id]['ALogo'];
+        castle_Title.innerHTML=items[id]['AName'];
+        myrank(items[id]['AId'],items[id]['AName']);
         viewContent.innerHTML='';
         myvideo.classList.add('in');
         items[id]['cid'].forEach(function(itm)
@@ -276,6 +324,8 @@ const castleHaveSound=["183","424","1092"];
        }
        function MainDivShow()
        {
+        castle_Image.src=img;
+        castle_Title.innerHTML="کارنامه";
         var elements = document.querySelectorAll('.in');
         //viewContent.classList.remove('slide');
         for (var i = 0; i < elements.length; i++) {

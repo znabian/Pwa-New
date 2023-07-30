@@ -50,9 +50,9 @@
         ورود به رئالیتی شو
       </span>
   </div>
-    <div class="col" style="background: #ffffff;width: 85%;margin: 0 auto;padding: 10px;box-shadow: 0px 0px 6px rgba(45,45,45,0.13);border-radius: 15px;padding-top: 20px;">
+    <div class="col" style="background: #ffffff;width: 85%;margin: 0 auto;padding: 10px;box-shadow: 0px 0px 6px rgba(45,45,45,0.13);border-radius: 15px;/*padding-top: 20px;*/">
       <div class="d-flex" style="border-radius: 16px;">
-      <img id="castle_Image" style="height:25%;width:25%;margin: auto auto;border-radius: 11px;" >
+      <img id="castle_Image" class="col-3" style="/*height:25%;width:25%;margin: auto auto;*/margin:auto;margin-left: 5px;border-radius: 11px;"  >
         <div style="text-align: center;margin: auto auto;">
           <h4 id="castle_Title" class="text-end" style="font-family: 'Peyda ExtBd';padding-top: 0;font-size: 16px;margin-bottom: 0px;"></h4>
           <small id="castle_Description" class="d-flex justify-content-start" style="font-family: 'Peyda ExtLt';font-size: 12px;"></small>

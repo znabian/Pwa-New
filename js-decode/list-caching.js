@@ -60,8 +60,7 @@ var last_item_is_full=-1;
                 }
                 else
                 {
-                  Cookies.remove("chosenCatData");
-                if(0) //(Cookies.get("chosenCatData")) 
+                if (Cookies.get("chosenCatData")) 
                 {
                   field=Cookies.get('field')??field;
                   if(castleHaveSub.includes(Cookies.get("Castle_show")))

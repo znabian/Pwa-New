@@ -265,9 +265,9 @@
       <img style="width: 20px;height: 20px;" width="20" height="20" src="./public/img/brands/logo.png?h=e92598d96c7d0f6733acc9635d1a2bbe"></div>
   </nav><!-- End: Navbar Centered Links -->
   <header class="bg-primary-gradient">
-    <div class="col" style="background: #ffffff;width: 85%;margin: 0 auto;padding: 10px;box-shadow: 0px 0px 6px rgba(45,45,45,0.13);border-radius: 15px;padding-top: 20px;">
+    <div class="col" style="background: #ffffff;width: 85%;margin: 0 auto;padding: 10px;box-shadow: 0px 0px 6px rgba(45,45,45,0.13);border-radius: 15px;">
       <div class="d-flex" style="border-radius: 16px;">
-      <img id="castle_Image" src="./public/img/products/reportcard.jpg" style="height:25%;width:25%;margin: auto auto;border-radius: 11px;" >
+      <img id="castle_Image" src="./public/img/products/reportcard.png?v=124b1" class="col-3" style="/*height:25%;width:25%;margin: auto auto;*/margin:auto;margin-left: 5px;border-radius: 11px;" >
         <div style="text-align: center;margin: auto auto;">
           <h4 id="castle_Title" class="text-end" style="font-family: 'Peyda ExtBd';padding-top: 0;font-size: 16px;margin-bottom: 0px;">کارنامه</h4>
           <div id="castle_Description" class="FA-numbers" >
@@ -435,7 +435,7 @@
 <script src="https://unpkg.com/jalali-moment/dist/jalali-moment.browser.js"></script>
 <script src="./public/js/spop.min.js"></script>
 <!-- <script src="./public/js/report.js?h=9a9b5"></script> -->
- <script src="./js-decode/report.js?h=9a9b60"></script> 
+ <script src="./js-decode/report.js?h=9a9b62"></script> 
  
   <script>
   const emoji=['&#128566','&#128545','&#128547','&#128533','&#128522','&#128516'];
