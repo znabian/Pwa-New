@@ -113,8 +113,10 @@ h1 {
     <div id="app" class="m-auto mt-5 text-center">
     <img src="./public/img/sad404.svg" alt="404" style="max-height: 17rem;">
     <div>
-        <h2>صفحه مورد نظر یافت نشد!</h2>
-      <p class="bg-danger btn mt-4 rounded text-white" onclick="location.assign('Login')">بازگشت به صفحه اصلی</p>     
+        <h2>با عرض پوزش!</h2>
+      <p class="" >اختلال پیش آمده سراسری می باشد در حال رفع آن هستیم
+        <br>
+    پیشاپیش از شکیبایی شما متشکریم</p>     
     </div>
 
     </div>

@@ -3,6 +3,7 @@ error_reporting(0);
 $request = $_SERVER['REQUEST_URI'];
 try {
     $request=parse_url(strtolower(str_replace('/PWA-new','',$request)))['path'];
+    //require __DIR__ . '/sorry.php';
     switch ($request) {
         case '/' :
             require __DIR__ . '/pages/Login.php';
