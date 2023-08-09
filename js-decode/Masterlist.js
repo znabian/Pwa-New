@@ -11,7 +11,7 @@ var last_item_is_full=-1;
         const RedCastle=["1549","1548","1547","1546","1545"];
         const castleHaveSound=["183","424","1092"];
         const castleWithoutTab=["1550","1544"];
-        const castleOneSub=["376","714","215"];
+        const castleOneSub=["376"];
         spop.defaults = {
           style     : 'info',
           position  : 'bottom-center',
@@ -83,7 +83,7 @@ var last_item_is_full=-1;
                   getBooks(Cookies.get('chosenCatData'));
                 }
                 else 
-                  if(castleHaveSub.includes(Cookies.get("Castle_show")) || castleOneSub.includes(Cookies.get("Castle_show")))
+                  if(castleHaveSub.includes(Cookies.get("Castle_show")))
                    SubItemsList();
                   else
                     getMeta();            
@@ -264,7 +264,7 @@ var last_item_is_full=-1;
             }
             else  if(castleHaveSub.includes(Cookies.get("Castle_show")))
             {
-              elem='<div onclick="Castle_SubItems('+response.data.data[i]["Id"]+')" class="border bg-white mb-2 d-flex justify-content-between" style="border-radius: 16px;padding-right: 4px;padding-left: 4px;padding-top: 10px;padding-bottom: 10px;width: 90%;margin: auto;"><div class="text-center d-flex float-end" style="background: #ffffff;border-radius: 9px;padding-right: 6px;padding-left: 6px;margin: auto 10px;height: 30px;"><button class="btn btn-primary btn-sm d-block me-1 rounded-circle" type="button" style="background: #fd3838;border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto auto;width: 25px;height: 25px;box-shadow: 0px 0px;padding: 0 0 0 0;"><i class="fa fa-arrow-left p-1 text-white" style="font-size: 7pt;"></i></button><h4 style="font-family: \'Peyda Med\';font-size: 10px;margin: auto;padding-right: 10px;padding-left: 10px;">';
+              elem='<div onclick="Zaban_SubItems('+response.data.data[i]["Id"]+')" class="border bg-white mb-2 d-flex justify-content-between" style="border-radius: 16px;padding-right: 4px;padding-left: 4px;padding-top: 10px;padding-bottom: 10px;width: 90%;margin: auto;"><div class="text-center d-flex float-end" style="background: #ffffff;border-radius: 9px;padding-right: 6px;padding-left: 6px;margin: auto 10px;height: 30px;"><button class="btn btn-primary btn-sm d-block me-1 rounded-circle" type="button" style="background: #fd3838;border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto auto;width: 25px;height: 25px;box-shadow: 0px 0px;padding: 0 0 0 0;"><i class="fa fa-arrow-left p-1 text-white" style="font-size: 7pt;"></i></button><h4 style="font-family: \'Peyda Med\';font-size: 10px;margin: auto;padding-right: 10px;padding-left: 10px;">';
               //elem+=response.data.data[i]["Description"]??'';
               elem+='</h4></div><div class="row" style="margin: auto 0px;"><div class=" d-flex"><div style="/*text-align: center;*//*float: right;*/margin-right: 10px;"><h6 style="font-family: \'Peyda Med\';padding-top: 0;margin-bottom: 0px;text-align: right;">'+response.data.data[i]["Name"]+'</h6><small class="text-end d-block justify-content-start" style="font-family: \'Peyda ExtLt\';text-align: right;">';
               elem+=((response.data.data[i]["Description"]??'')!=response.data.data[i]["Name"])?response.data.data[i]["Description"]??'':'';
@@ -451,7 +451,7 @@ var last_item_is_full=-1;
       else
       SubItemsList();
     }
-    function Castle_SubItems(itemid)
+    function Zaban_SubItems(itemid)
     {
       Swal.fire({
           title:"  کمی صبر کن",//(Cookies.get('name')??'')+"  کمی صبر کن"
@@ -840,7 +840,7 @@ var last_item_is_full=-1;
             }
             else  if(castleHaveSub.includes(Cookies.get("Castle_show")))
             {
-              elem='<div onclick="Castle_SubItems('+myitem["id"]+')" class="border bg-white mb-2 d-flex justify-content-between" style="border-radius: 16px;padding-right: 4px;padding-left: 4px;padding-top: 10px;padding-bottom: 10px;width: 90%;margin: auto;"><div class="text-center d-flex float-end" style="background: #ffffff;border-radius: 9px;padding-right: 6px;padding-left: 6px;margin: auto 10px;height: 30px;"><button class="btn btn-primary btn-sm d-block me-1 rounded-circle" type="button" style="background: #fd3838;border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto auto;width: 25px;height: 25px;box-shadow: 0px 0px;padding: 0 0 0 0;"><i class="fa fa-arrow-left p-1 text-white" style="font-size: 7pt;"></i></button><h4 style="font-family: \'Peyda Med\';font-size: 10px;margin: auto;padding-right: 10px;padding-left: 10px;">';
+              elem='<div onclick="Zaban_SubItems('+myitem["id"]+')" class="border bg-white mb-2 d-flex justify-content-between" style="border-radius: 16px;padding-right: 4px;padding-left: 4px;padding-top: 10px;padding-bottom: 10px;width: 90%;margin: auto;"><div class="text-center d-flex float-end" style="background: #ffffff;border-radius: 9px;padding-right: 6px;padding-left: 6px;margin: auto 10px;height: 30px;"><button class="btn btn-primary btn-sm d-block me-1 rounded-circle" type="button" style="background: #fd3838;border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto auto;width: 25px;height: 25px;box-shadow: 0px 0px;padding: 0 0 0 0;"><i class="fa fa-arrow-left p-1 text-white" style="font-size: 7pt;"></i></button><h4 style="font-family: \'Peyda Med\';font-size: 10px;margin: auto;padding-right: 10px;padding-left: 10px;">';
               //elem+=myitem["author"]??'';
               elem+='</h4></div><div class="row" style="margin: auto 0px;"><div class=" d-flex"><div style="/*text-align: center;*//*float: right;*/margin-right: 10px;"><h6 style="font-family: \'Peyda Med\';padding-top: 0;margin-bottom: 0px;text-align: right;">'+myitem["name"]+'</h6><small class="text-end d-block justify-content-start" style="font-family: \'Peyda ExtLt\';text-align: right;">';
               elem+=((myitem["author"]??'')!=myitem["name"])?myitem["author"]??'':'';
@@ -946,7 +946,7 @@ var last_item_is_full=-1;
         if(before_Full)
         {
           MyMaster=JSON.parse(localStorage.getItem("MyMaster"))??[];
-          if(!MyMaster.includes('32') && !MyMaster.includes('31') )//!MyMaster.includes('32')
+          if(!MyMaster.includes('32'))
           {
             appid =Cookies.get('Castle_show');
             userid = Cookies.get("id");

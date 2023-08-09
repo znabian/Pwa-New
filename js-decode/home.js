@@ -8,6 +8,7 @@ var sub={
   35:["64","215", "714", "544","1441","1510"],//سرخ مدرن
   27:[],//سرخ فمیلی
 };
+var lock=["1441"];
 const RedCastle=["1549","1548","1547","1546","1545"];
    var app_flag= Cookies.get("app_flag") == 1 ? true : false;
    var buttonClicked= false;
@@ -152,52 +153,64 @@ const RedCastle=["1549","1548","1547","1546","1545"];
     function goToCastle(id, open) {      
       Cookies.remove("field");Cookies.remove("tabs");Cookies.remove("chosenCatData");
       Cookies.remove("RealityShowAllow");Cookies.remove("RealityShow");Cookies.remove("Castle_show");
-      
-      if (Cookies.get("perm", 0) == 4) {
-        open = 1;
-      }
-      if(open>0)
-      {        
-        _castles=Cookies.get("Castles")??[];
-        find=false;
-        if(_castles.length>0)
-        {
-          _castles=JSON.parse(_castles);
-        _castles.forEach(function(item,index){
-          if(item==id)
-          find=true;
-        });
-        }
-        if(!find)
-        {
-          if(_castles.length>=3)
-          _castles.shift();
-        _castles.push(id);
-        Cookies.set("Castles", JSON.stringify(_castles), 2592000);
-        }
-        var tpy=[{'Id':id,Type:1}];
-        apps.forEach(function(item,index){
-          if(item['Id']==id)
-          tpy=[{'Id':id,Type:item['Type'],Link:item['Link']??0}];
-        });
-        if(tpy[0]['Type']=='link')
-        {
-          window.open(tpy[0]['Link'],'_blank');
-          location.reload();
-        }
-        else
-        {
-          Cookies.set("Castle_show",id,2592000);
-          window.location.assign("Castle");
-        }
-      }
-      else 
+      if(lock.includes(id))
+      {
         Swal.fire({
-		title:(Cookies.get('name')??''),
-		text:" نمی تونی  این کاخ رو ببینی", 
-		confirmButtonText: 'باشه',
-		icon: "warning"
-		});
+          title:(Cookies.get('name')??''),
+          text:" نمی تونی این کاخ رو ببینی چون هنوز فعال نشده", 
+          confirmButtonText: 'باشه',
+          icon: "warning"
+          });
+      }
+      else
+      {
+          if (Cookies.get("perm", 0) == 4) {
+          open = 1;
+        }
+        if(open>0)
+        {        
+          _castles=Cookies.get("Castles")??[];
+          find=false;
+          if(_castles.length>0)
+          {
+            _castles=JSON.parse(_castles);
+          _castles.forEach(function(item,index){
+            if(item==id)
+            find=true;
+          });
+          }
+          if(!find)
+          {
+            if(_castles.length>=3)
+            _castles.shift();
+          _castles.push(id);
+          Cookies.set("Castles", JSON.stringify(_castles), 2592000);
+          }
+          var tpy=[{'Id':id,Type:1}];
+          apps.forEach(function(item,index){
+            if(item['Id']==id)
+            tpy=[{'Id':id,Type:item['Type'],Link:item['Link']??0}];
+          });
+          if(tpy[0]['Type']=='link')
+          {
+            window.open(tpy[0]['Link'],'_blank');
+            location.reload();
+          }
+          else
+          {
+            Cookies.set("Castle_show",id,2592000);
+            window.location.assign("Castle");
+          }
+        }
+        else 
+          Swal.fire({
+            title:(Cookies.get('name')??''),
+            text:" نمی تونی  این کاخ رو ببینی", 
+            confirmButtonText: 'باشه',
+            icon: "warning"
+            });
+      }
+      
       
     }
     function refereshData()
