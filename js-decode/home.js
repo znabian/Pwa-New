@@ -7,6 +7,7 @@ var sub={
   34:["banovan","183","424"],//کاخ خانواده  
   35:["64","215", "714", "544","1441","1510"],//سرخ مدرن
   27:[],//سرخ فمیلی
+  //36:[],//فرست کلاس
 };
 var lock=["1441"];
 const RedCastle=["1549","1548","1547","1546","1545"];
@@ -301,6 +302,8 @@ const RedCastle=["1549","1548","1547","1546","1545"];
               redAdd=0;
               MyMaster.forEach(function(master)
               {
+                if(sub[master])
+                {
                 app_All.filter(function(obj,index) {
                   obj['Allow']=1;
                   if(sub[master].includes(obj['Id']) && !in_array(apps,'Id',obj['Id'])['Result'])
@@ -327,6 +330,7 @@ const RedCastle=["1549","1548","1547","1546","1545"];
                     }
                   }
                 });
+              }
               });
               app_All.filter(function(obj,index) {
                 find=in_array(MyApps,'Id',obj['Id']);
@@ -412,7 +416,7 @@ const RedCastle=["1549","1548","1547","1546","1545"];
         .catch((error) => {
         Swal.fire({
           title:(Cookies.get('name')??'')+" شرمنده",
-          text:" نشد که بشه", 
+          html:" نشد که بشه <br>"+error, 
           confirmButtonText: 'باشه',
           icon: "error"
           });
