@@ -117,15 +117,15 @@ var undefRtry=0;
         sid=(RedCastle.includes(Cookies.get("Castle_show")))?1:Cookies.get("Castle_show");
         if(oneSub)
         {
-          dataSQL="select *,isnull((select top 1 FullCount from ViewTbl where CId=a.AppId and AId="+sid+" and Type='PWA' and UserId="+Cookies.get("id")+"),0) as FullCount from(select max(Id) as AppId,Sort,Parent as Tab from AppTbl as b where b.Parent in ("+arrayColumn(tabs,'Id').join(',') +") group by Sort,Parent  )  as a order by Sort";
+          dataSQL="select *,isnull((select top 1 FullCount from ViewTbl where CId=a.AppId and AId="+sid+" and Type='PWA' and UserId="+Cookies.get("id")+"),0) as FullCount from(select max(Id) as AppId,Sort,Parent as Tab from AppTbl as b where b.Parent in ("+arrayColumn(tabs,'Id').join(',') +") and Active=1 group by Sort,Parent  )  as a order by Sort";
 
         }
         else if(castleHaveSub.includes(Cookies.get("Castle_show")))            
         //dataSQL="select *,(select top 1 FullCount from ViewTbl where CId=ChallTbl.Id and AId=" + sid+ " and Type='PWA' and UserId="+Cookies.get('id')+") as FullCount  from ChallTbl where AppId in ((select Id from AppTbl where Parent in(" +arrayColumn(tabs,'Id').join(',') + ") and Active=1 order by Sort,Id))  and CourseId="+sid+" and Type in (6,8) and Active=1 order by Id Desc";
         //dataSQL="select *,isnull((select top 1 FullCount from ViewTbl where CId=a.MaxId and AId="+sid+" and Type='PWA' and UserId="+Cookies.get('id')+"),0) as FullCount from(select max(Id) as MaxId,AppId from ChallTbl where AppId in((SELECT max(Id) as MaxId from AppTbl where Parent in ("+arrayColumn(tabs,'Id').join(',') +")and Active=1 GROUP BY Parent))and CourseId=" + sid+ " and Type in (6,8) and Active=1   GROUP BY AppId ) as a";
-        dataSQL="select *,isnull((select top 1 FullCount from ViewTbl where CId=a.MaxId and AId="+sid+" and Type='PWA' and UserId="+Cookies.get('id')+"),0) as FullCount from(select max(Id) as MaxId,AppId,((SELECT Parent as Id from AppTbl as aa where aa.Id=ChallTbl.AppId and aa.Active=1 )) as Tab from ChallTbl where AppId in((SELECT Id from AppTbl where Parent in ("+arrayColumn(tabs,'Id').join(',') +")and Active=1 ))and CourseId=" + sid+ " and Type in (6,8) and Active=1   GROUP BY AppId ) as a";
+        dataSQL="select *,isnull((select top 1 FullCount from ViewTbl where CId=a.MaxId and AId="+sid+" and Type='PWA' and UserId="+Cookies.get('id')+"),0) as FullCount from(select max(Id) as MaxId,AppId,((SELECT Parent as Id from AppTbl as aa where aa.Id=ChallTbl.AppId and aa.Active=1 )) as Tab from ChallTbl where AppId in((SELECT Id from AppTbl where Parent in ("+arrayColumn(tabs,'Id').join(',') +") and Active=1 ))and CourseId=" + sid+ " and Type in (6,8) and Active=1   GROUP BY AppId ) as a";
         else
-        dataSQL="select *,isnull((select top 1 FullCount from ViewTbl where CId=a.AppId and AId="+sid+" and Type='PWA' and UserId="+Cookies.get('id')+"),0) as FullCount from(select max(Id) as AppId,Sort,Meta as Tab from AppTbl where Meta in (N'"+tabs.join("',N'") +"') and Parent="+sid+" and  Sort>=0  group by Sort,Meta )  as a order by Sort";
+        dataSQL="select *,isnull((select top 1 FullCount from ViewTbl where CId=a.AppId and AId="+sid+" and Type='PWA' and UserId="+Cookies.get('id')+"),0) as FullCount from(select max(Id) as AppId,Sort,Meta as Tab from AppTbl where Meta in (N'"+tabs.join("',N'") +"') and Parent="+sid+" and Active=1 and Sort>=0  group by Sort,Meta )  as a order by Sort";
        // dataSQL="select *,isnull((select top 1 FullCount from ViewTbl where CId=a.MaxId and AId="+sid+" and Type='PWA' and UserId="+Cookies.get('id')+"),0) as FullCount from(SELECT max(Id) as MaxId,Sort from AppTbl where Meta in (N'"+tabs.join("',N'") +"') and Parent="+sid+" and  Sort>=0  group by Sort,Meta )  as a order by Sort";
   
         Cookies.set('req_data',JSON.stringify({
@@ -211,7 +211,7 @@ var undefRtry=0;
       else
       fu=",(select top 1 FullCount from ViewTbl where CId=AppTbl.Id and AId=" + sid+ " and Type='PWA' and UserId="+Cookies.get('id')+") as FullCount ";
       if(field=="Meta")
-      dataSQL= "select *"+fu+" from AppTbl where Parent=" + sid+ " and Meta=N'" + data + "' order by Sort,Id";
+      dataSQL= "select *"+fu+" from AppTbl where Parent=" + sid+ " and Meta=N'" + data + "' and Active=1 order by Sort,Id";
       else
       dataSQL= "select *"+fu+" from AppTbl where " + field+ "=" + data + " and Active=1 order by Sort,Id";
       /*var bodyFormData = new FormData();
@@ -242,7 +242,7 @@ var undefRtry=0;
           session_lesson.innerHTML=data;
           else
           session_lesson.innerHTML=tabs[id]['Name'];
-            if(response.data.data[0])
+            if(response.data.data[0]['Id'])
             {
               undefRtry=0;
                 for (var i = 0; i < response.data.data.length; i++)
@@ -262,7 +262,7 @@ var undefRtry=0;
                   elem='<div onclick="Roshd_showData('+response.data.data[i]["Id"]+')" class="border bg-white mb-2 d-flex justify-content-between" style="border-radius: 16px;padding-right: 4px;padding-left: 4px;padding-top: 10px;padding-bottom: 10px;width: 90%;margin: auto;"><div class="text-center d-flex float-end" style="background: #ffffff;border-radius: 9px;padding-right: 6px;padding-left: 6px;margin: auto 10px;height: 30px;"><button class="btn btn-primary btn-sm d-block me-1 rounded-circle" type="button" style="background: #fd3838;border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto auto;width: 25px;height: 25px;box-shadow: 0px 0px;padding: 0 0 0 0;"><i class="fa fa-arrow-left p-1 text-white" style="font-size: 7pt;"></i></button><h4 style="font-family: \'Peyda Med\';font-size: 10px;margin: auto;padding-right: 10px;padding-left: 10px;">';
                     //elem+=response.data.data[i]["Description"]??'';
                     elem+='</h4></div><div class="row" style="margin: auto 0px;"><div class=" d-flex"><div style="/*text-align: center;*//*float: right;*/margin-right: 10px;"><h6 style="font-family: \'Peyda Med\';padding-top: 0;margin-bottom: 0px;text-align: right;">'+response.data.data[i]["Name"]+'</h6><small class="text-end d-block justify-content-start" style="font-family: \'Peyda ExtLt\';text-align: right;">';
-                    elem+=((response.data.data[i]["Description"]??'')!=response.data.data[i]["Name"])?response.data.data[i]["Description"]??'':'';
+                    //elem+=((response.data.data[i]["Description"]??'')!=response.data.data[i]["Name"])?response.data.data[i]["Description"]??'':'';
                     //elem+=response.data.data[i]["Description"]??'';
                     //elem+=app['Name'];              
                     elem+='</small></div><button class="btn btn-sm me-1 rounded-circle" type="button" style=";border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto 0px;width: 30px;height: 30px;padding: 0 0 0 0;box-shadow: 0px 0px;"><img style="width: 20px;height: 20px;" width="20" height="20" src="'+logo+'"></button></div> </div></div>';
@@ -272,7 +272,7 @@ var undefRtry=0;
                     elem='<div onclick="Castle_SubItems('+response.data.data[i]["Id"]+')" class="border bg-white mb-2 d-flex justify-content-between" style="border-radius: 16px;padding-right: 4px;padding-left: 4px;padding-top: 10px;padding-bottom: 10px;width: 90%;margin: auto;"><div class="text-center d-flex float-end" style="background: #ffffff;border-radius: 9px;padding-right: 6px;padding-left: 6px;margin: auto 10px;height: 30px;"><button class="btn btn-primary btn-sm d-block me-1 rounded-circle" type="button" style="background: #fd3838;border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto auto;width: 25px;height: 25px;box-shadow: 0px 0px;padding: 0 0 0 0;"><i class="fa fa-arrow-left p-1 text-white" style="font-size: 7pt;"></i></button><h4 style="font-family: \'Peyda Med\';font-size: 10px;margin: auto;padding-right: 10px;padding-left: 10px;">';
                     //elem+=response.data.data[i]["Description"]??'';
                     elem+='</h4></div><div class="row" style="margin: auto 0px;"><div class=" d-flex"><div style="/*text-align: center;*//*float: right;*/margin-right: 10px;"><h6 style="font-family: \'Peyda Med\';padding-top: 0;margin-bottom: 0px;text-align: right;">'+response.data.data[i]["Name"]+'</h6><small class="text-end d-block justify-content-start" style="font-family: \'Peyda ExtLt\';text-align: right;">';
-                    elem+=((response.data.data[i]["Description"]??'')!=response.data.data[i]["Name"])?response.data.data[i]["Description"]??'':'';
+                    //elem+=((response.data.data[i]["Description"]??'')!=response.data.data[i]["Name"])?response.data.data[i]["Description"]??'':'';
                     //elem+=response.data.data[i]["Description"]??'';
                     //elem+=app['Name'];              
                     elem+='</small></div><button class="btn btn-sm me-1 rounded-circle" type="button" style=";border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto 0px;width: 30px;height: 30px;padding: 0 0 0 0;box-shadow: 0px 0px;"><img style="width: 20px;height: 20px;" width="20" height="20" src="'+logo+'"></button></div> </div></div>';
@@ -406,7 +406,7 @@ var undefRtry=0;
         Cookies.set('req_data',JSON.stringify({
           'url':"http://85.208.255.101/API/selectApi_jwt.php",
           'applist':true,
-          'data':"select Meta from AppTbl where Parent=" + sid+" and  Sort>=0  group by Sort,Meta order by Sort" //+ " and Meta=N'" + data + "' order by Id"
+          'data':"select Meta from AppTbl where Parent=" + sid+" and  Sort>=0 and Active=1 group by Sort,Meta order by Sort" //+ " and Meta=N'" + data + "' order by Id"
         }));
         axios({
           method: "POST",
@@ -475,116 +475,123 @@ var undefRtry=0;
     }
     function Castle_SubItems(itemid)
     {
-      Swal.fire({
-          title:"  کمی صبر کن",//(Cookies.get('name')??'')+"  کمی صبر کن"
-          html:'<i class="fa fa-spinner fa-pulse" style="font-size: 12pt;"></i>',
-          icon:'info',
-          allowOutsideClick:false,
-          showConfirmButton:false,
-        });
-        sid=(RedCastle.includes(Cookies.get("Castle_show")))?1:Cookies.get("Castle_show");
+      if (typeof itemid === 'undefined') {
+        location.reload();
+      }
+      else
+      {
+          Swal.fire({
+            title:"  کمی صبر کن",//(Cookies.get('name')??'')+"  کمی صبر کن"
+            html:'<i class="fa fa-spinner fa-pulse" style="font-size: 12pt;"></i>',
+            icon:'info',
+            allowOutsideClick:false,
+            showConfirmButton:false,
+          });
+          sid=(RedCastle.includes(Cookies.get("Castle_show")))?1:Cookies.get("Castle_show");
 
-      dataSQL= "select *,(select top 1 FullCount from ViewTbl where CId=ChallTbl.Id and AId=" + sid+ " and Type='PWA' and UserId="+Cookies.get('id')+") as FullCount  from ChallTbl where AppId=" + itemid + " and CourseId="+sid+" and Type in (6,8) and Active=1 order by Id";
-      /*var bodyFormData = new FormData();
-      bodyFormData.append("url", "http://85.208.255.101/API/selectApi_jwt.php");
-      bodyFormData.append("applist", true);
-      bodyFormData.append("data", JSON.stringify({
-        data:dataSQL
-      }));*/
-      Cookies.set('req_data',JSON.stringify({
-          'url':"http://85.208.255.101/API/selectApi_jwt.php",
-          'applist':true,
-          'data':dataSQL
-        }));
-      axios({
-        method: "POST",
-        url: "api/data",
-        //data: bodyFormData,
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        }
-      }).then(function (response) {
-        tabcontent.innerHTML="";
+        dataSQL= "select *,(select top 1 FullCount from ViewTbl where CId=ChallTbl.Id and AId=" + sid+ " and Type='PWA' and UserId="+Cookies.get('id')+") as FullCount  from ChallTbl where AppId=" + itemid + " and CourseId="+sid+" and Type in (6,8) and Active=1 order by Id";
+        /*var bodyFormData = new FormData();
+        bodyFormData.append("url", "http://85.208.255.101/API/selectApi_jwt.php");
+        bodyFormData.append("applist", true);
+        bodyFormData.append("data", JSON.stringify({
+          data:dataSQL
+        }));*/
+        Cookies.set('req_data',JSON.stringify({
+            'url':"http://85.208.255.101/API/selectApi_jwt.php",
+            'applist':true,
+            'data':dataSQL
+          }));
+        axios({
+          method: "POST",
+          url: "api/data",
+          //data: bodyFormData,
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+          }
+        }).then(function (response) {
+          tabcontent.innerHTML="";
 
-        if (response.data.status == "200") 
-        {
-          count_lesson.innerHTML="تعداد "+response.data.data.length+" قسمت";
-        session_lesson.innerHTML="<span onclick='showItems()'><i  class='pull-left fa fa-arrow-left'></i>"+items[itemid]['name']+"</span>";
-       
-        items["subitem"]=[];        
-          for (var i = 0; i < response.data.data.length; i++)
+          if (response.data.status == "200") 
           {
-            items["subitem"][response.data.data[i]["Id"]]={
-                        id:response.data.data[i]["Id"],
-                        name:response.data.data[i]["Name"],
-                        description: 'یک پزشک همراه',
-                        logo:response.data.data[i]["Logo"],
-                        type:response.data.data[i]["Type"]??0,
-                        link:response.data.data[i]["Link"]??0,
-                        full:response.data.data[i]["FullCount"]??0,
-                    };
-              if(i>0)
-              allow=parseInt(response.data.data[i-1]["FullCount"]??0);
-              else
-              {
-                const keys = Object.keys(items);
-                if(itemid!= keys[0])
-                {
-                  if(keys.indexOf(itemid.toString())>0)
-                  last_item_is_full=allowSeen[tabs[category]['Id']][keys[keys.indexOf(itemid.toString())-1]]??last_item_is_full;
-                  else
-                  last_item_is_full=last_item_is_full;
-                }
+            count_lesson.innerHTML="تعداد "+response.data.data.length+" قسمت";
+          session_lesson.innerHTML="<span onclick='showItems()'><i  class='pull-left fa fa-arrow-left'></i>"+items[itemid]['name']+"</span>";
+        
+          items["subitem"]=[];        
+            for (var i = 0; i < response.data.data.length; i++)
+            {
+              items["subitem"][response.data.data[i]["Id"]]={
+                          id:response.data.data[i]["Id"],
+                          name:response.data.data[i]["Name"],
+                          description: 'یک پزشک همراه',
+                          logo:response.data.data[i]["Logo"],
+                          type:response.data.data[i]["Type"]??0,
+                          link:response.data.data[i]["Link"]??0,
+                          full:response.data.data[i]["FullCount"]??0,
+                      };
+                if(i>0)
+                allow=parseInt(response.data.data[i-1]["FullCount"]??0);
                 else
                 {
-                  if(category)//not first tab
+                  const keys = Object.keys(items);
+                  if(itemid!= keys[0])
                   {
-                    last_item_is_full=allowSeen[tabs[category-1]['Id']][allowSeen[tabs[category-1]['Id']].length-1]??last_item_is_full;
-                  
+                    if(keys.indexOf(itemid.toString())>0)
+                    last_item_is_full=allowSeen[tabs[category]['Id']][keys[keys.indexOf(itemid.toString())-1]]??last_item_is_full;
+                    else
+                    last_item_is_full=last_item_is_full;
                   }
                   else
-                  last_item_is_full=1
+                  {
+                    if(category)//not first tab
+                    {
+                      last_item_is_full=allowSeen[tabs[category-1]['Id']][allowSeen[tabs[category-1]['Id']].length-1]??last_item_is_full;
+                    
+                    }
+                    else
+                    last_item_is_full=1
+                  }
+
+                  last_item_is_full=(last_item_is_full>=0)?last_item_is_full:1;
+                  allow=last_item_is_full;
                 }
-
-                last_item_is_full=(last_item_is_full>=0)?last_item_is_full:1;
-                allow=last_item_is_full;
+                elem='<div id="div_'+response.data.data[i]["Id"]+'" onclick="showVideo_VR('+response.data.data[i]["Id"]+',1,'+response.data.data[i]["Type"]+',1,'+allow+')" class="border bg-white mb-2 d-flex justify-content-between" style="border-radius: 16px;padding-right: 4px;padding-left: 4px;padding-top: 10px;padding-bottom: 10px;width: 90%;margin: auto;"><div class="text-center d-flex float-end" style="background: #ffffff;border-radius: 9px;padding-right: 6px;padding-left: 6px;margin: auto 10px;height: 30px;"><button class="btn btn-primary btn-sm d-block me-1 rounded-circle" type="button" style="background: #fd3838;border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto auto;width: 25px;height: 25px;box-shadow: 0px 0px;padding: 0 0 0 0;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-play-fill d-block" style="color: var(--bs-btn-color);margin: auto auto;font-size: 9.96px;"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"></path></svg></button><h4 style="font-family: \'Peyda Med\';font-size: 10px;margin: auto;padding-right: 10px;padding-left: 10px;">';
+                //elem+=response.data.data[i]["Description"]??'';
+                elem+='اجرا</h4></div><div class="row" style="margin: auto 0px;"><div class=" d-flex"><div style="/*text-align: center;*//*float: right;*/margin-right: 10px;"><h6 style="font-family: \'Peyda Med\';padding-top: 0;margin-bottom: 0px;text-align: right;">'+response.data.data[i]["Name"]+'</h6><small class="text-end d-block justify-content-start" style="font-family: \'Peyda ExtLt\';text-align: right;">';
+                elem+=((response.data.data[i]["Description"]??'')!=response.data.data[i]["Name"])?response.data.data[i]["Description"]??'':'';
+                if(parseInt(response.data.data[i]["FullCount"]??0)>=1)
+                elem+="<i class='fa fa-check text-success'></i>";
+                //elem+=app['Name'];              
+                elem+='</small></div><button class="btn btn-sm me-1 rounded-circle" type="button" style=";border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto 0px;width: 30px;height: 30px;padding: 0 0 0 0;box-shadow: 0px 0px;"><img style="width: 20px;height: 20px;" width="20" height="20" src="'+logo+'"></button></div> </div></div>';
+              tabcontent.innerHTML+=elem;
+              if(i==(response.data.data.length-1))
+              {
+                last_item_is_full=parseInt(response.data.data[i]["FullCount"]??0);
               }
-              elem='<div id="div_'+response.data.data[i]["Id"]+'" onclick="showVideo_VR('+response.data.data[i]["Id"]+',1,'+response.data.data[i]["Type"]+',1,'+allow+')" class="border bg-white mb-2 d-flex justify-content-between" style="border-radius: 16px;padding-right: 4px;padding-left: 4px;padding-top: 10px;padding-bottom: 10px;width: 90%;margin: auto;"><div class="text-center d-flex float-end" style="background: #ffffff;border-radius: 9px;padding-right: 6px;padding-left: 6px;margin: auto 10px;height: 30px;"><button class="btn btn-primary btn-sm d-block me-1 rounded-circle" type="button" style="background: #fd3838;border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto auto;width: 25px;height: 25px;box-shadow: 0px 0px;padding: 0 0 0 0;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-play-fill d-block" style="color: var(--bs-btn-color);margin: auto auto;font-size: 9.96px;"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"></path></svg></button><h4 style="font-family: \'Peyda Med\';font-size: 10px;margin: auto;padding-right: 10px;padding-left: 10px;">';
-              //elem+=response.data.data[i]["Description"]??'';
-              elem+='اجرا</h4></div><div class="row" style="margin: auto 0px;"><div class=" d-flex"><div style="/*text-align: center;*//*float: right;*/margin-right: 10px;"><h6 style="font-family: \'Peyda Med\';padding-top: 0;margin-bottom: 0px;text-align: right;">'+response.data.data[i]["Name"]+'</h6><small class="text-end d-block justify-content-start" style="font-family: \'Peyda ExtLt\';text-align: right;">';
-              elem+=((response.data.data[i]["Description"]??'')!=response.data.data[i]["Name"])?response.data.data[i]["Description"]??'':'';
-              if(parseInt(response.data.data[i]["FullCount"]??0)>=1)
-              elem+="<i class='fa fa-check text-success'></i>";
-              //elem+=app['Name'];              
-              elem+='</small></div><button class="btn btn-sm me-1 rounded-circle" type="button" style=";border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto 0px;width: 30px;height: 30px;padding: 0 0 0 0;box-shadow: 0px 0px;"><img style="width: 20px;height: 20px;" width="20" height="20" src="'+logo+'"></button></div> </div></div>';
-            tabcontent.innerHTML+=elem;
-            if(i==(response.data.data.length-1))
-            {
-              last_item_is_full=parseInt(response.data.data[i]["FullCount"]??0);
             }
-          }
-         Swal.close();
-        } 
-        else {
           Swal.close();
-         Swal.fire({
-          title:(Cookies.get('name')??'')+" شرمنده",
-          text:response.data.message,  
-          confirmButtonText: 'باشه',
-          icon: "error"
-          });
-        }
-      })["catch"](function (error) {
-        console.log(error);
-        Swal.close();
-         Swal.fire({
-          title:(Cookies.get('name')??'')+" شرمنده",
-          html:"نشد که بشه<p><small>خطا: "+error+"</small></p>",
-          confirmButtonText: 'باشه',
-          icon: "error"
-          });
+          } 
+          else {
+            Swal.close();
+          Swal.fire({
+            title:(Cookies.get('name')??'')+" شرمنده",
+            text:response.data.message,  
+            confirmButtonText: 'باشه',
+            icon: "error"
+            });
+          }
+        })["catch"](function (error) {
+          console.log(error);
+          Swal.close();
+          Swal.fire({
+            title:(Cookies.get('name')??'')+" شرمنده",
+            html:"نشد که بشه<p><small>خطا: "+error+"</small></p>",
+            confirmButtonText: 'باشه',
+            icon: "error"
+            });
 
-      });
+        });
+      }
+      
     }
     function SubItemsList()
     {  
@@ -600,7 +607,7 @@ var undefRtry=0;
       {
         tabs = [];
       sid=(RedCastle.includes(Cookies.get("Castle_show")))?1:Cookies.get("Castle_show");
-        data="select Name,Id from AppTbl where Parent=" + sid+ " order by Sort,Id";
+        data="select Name,Id from AppTbl where Parent=" + sid+ " and Active=1 order by Sort,Id";
          
       /*var bodyFormData = new FormData();
       bodyFormData.append("url", "http://85.208.255.101/API/selectApi_jwt.php");
@@ -865,7 +872,7 @@ var undefRtry=0;
               elem='<div onclick="Castle_SubItems('+myitem["id"]+')" class="border bg-white mb-2 d-flex justify-content-between" style="border-radius: 16px;padding-right: 4px;padding-left: 4px;padding-top: 10px;padding-bottom: 10px;width: 90%;margin: auto;"><div class="text-center d-flex float-end" style="background: #ffffff;border-radius: 9px;padding-right: 6px;padding-left: 6px;margin: auto 10px;height: 30px;"><button class="btn btn-primary btn-sm d-block me-1 rounded-circle" type="button" style="background: #fd3838;border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto auto;width: 25px;height: 25px;box-shadow: 0px 0px;padding: 0 0 0 0;"><i class="fa fa-arrow-left p-1 text-white" style="font-size: 7pt;"></i></button><h4 style="font-family: \'Peyda Med\';font-size: 10px;margin: auto;padding-right: 10px;padding-left: 10px;">';
               //elem+=myitem["author"]??'';
               elem+='</h4></div><div class="row" style="margin: auto 0px;"><div class=" d-flex"><div style="/*text-align: center;*//*float: right;*/margin-right: 10px;"><h6 style="font-family: \'Peyda Med\';padding-top: 0;margin-bottom: 0px;text-align: right;">'+myitem["name"]+'</h6><small class="text-end d-block justify-content-start" style="font-family: \'Peyda ExtLt\';text-align: right;">';
-              elem+=((myitem["author"]??'')!=myitem["name"])?myitem["author"]??'':'';
+              //elem+=((myitem["author"]??'')!=myitem["name"])?myitem["author"]??'':'';
               //elem+=myitem["author"]??'';
               //elem+=app['Name'];              
               elem+='</small></div><button class="btn btn-sm me-1 rounded-circle" type="button" style=";border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto 0px;width: 30px;height: 30px;padding: 0 0 0 0;box-shadow: 0px 0px;"><img style="width: 20px;height: 20px;" width="20" height="20" src="'+logo+'"></button></div> </div></div>';
@@ -891,158 +898,172 @@ var undefRtry=0;
     }
     function showVideo(id,sub=0,Rokh=0,before_Full=0)
     {
-      if((Cookies.get('AllowBefore')??0)==0)
-      before_Full=1
-      document.getElementById('tabcontent').querySelectorAll('.border-secondary').forEach(element => 
-        {
-          element.classList.remove('border-secondary');
-        });
-        
-        document.getElementById('div_'+id).classList.add('border-secondary');
-      if(Rokh)
-      {
-        appid =Rokh;
-        userid = Cookies.get("id");
-        androidid = Cookies.get("androidId");
-          window.location.href = "http://85.208.255.101:8012/Web/player/rokhplayer.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid 
+      if (typeof id === 'undefined') {
+        location.reload();
       }
       else
       {
-        if(before_Full)
-        {
-              if(castleHaveSound.includes(Cookies.get("Castle_show")))
-                {
-                  name=(sub)?items["subitem"]['sub'][id]['name']:items[id]['name'];
-                  Swal.fire({
-                    title:" مشاهده \n' "+name+" '",
-                    text:"می خوای این قسمت  چطوری باشه؟",
-                    showDenyButton: true,
-                    showCancelButton: false,
-                    confirmButtonText: 'فیلم',
-                    denyButtonText: "صوت",
-                  }).then((result) => {
-                    if (result.isConfirmed) {
-                      appid =Cookies.get('Castle_show');
-                      userid = Cookies.get("id");
-                      androidid = Cookies.get("androidId");
-                      window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid 
-                      
-                    } else if (result.isDenied) {
-                      format = 'mp3';
-                      appid =Cookies.get('Castle_show');
-                      userid = Cookies.get("id");
-                      androidid = Cookies.get("androidId");
-                      window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&format=" + format; 
-                      
-                    }
-                  });
-                }
-                else
-                {
-                  appid =Cookies.get('Castle_show');
-                      userid = Cookies.get("id");
-                      androidid = Cookies.get("androidId");
-                      window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid 
-                }
-        }
-        else
-        Swal.fire({
-          title:(Cookies.get('name')??'')+" شرمنده",
-          text:" آموزش قبلیش رو ندیدی. اول اونو ببین", 
-          confirmButtonText: 'باشه',
-          icon: "error"
+        if((Cookies.get('AllowBefore')??0)==0)
+        before_Full=1
+        document.getElementById('tabcontent').querySelectorAll('.border-secondary').forEach(element => 
+          {
+            element.classList.remove('border-secondary');
           });
           
+          document.getElementById('div_'+id).classList.add('border-secondary');
+        if(Rokh)
+        {
+          appid =Rokh;
+          userid = Cookies.get("id");
+          androidid = Cookies.get("androidId");
+            window.location.href = "http://85.208.255.101:8012/Web/player/rokhplayer.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid 
+        }
+        else
+        {
+          if(before_Full)
+          {
+                if(castleHaveSound.includes(Cookies.get("Castle_show")))
+                  {
+                    name=(sub)?items["subitem"]['sub'][id]['name']:items[id]['name'];
+                    Swal.fire({
+                      title:" مشاهده \n' "+name+" '",
+                      text:"می خوای این قسمت  چطوری باشه؟",
+                      showDenyButton: true,
+                      showCancelButton: false,
+                      confirmButtonText: 'فیلم',
+                      denyButtonText: "صوت",
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        appid =Cookies.get('Castle_show');
+                        userid = Cookies.get("id");
+                        androidid = Cookies.get("androidId");
+                        window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid 
+                        
+                      } else if (result.isDenied) {
+                        format = 'mp3';
+                        appid =Cookies.get('Castle_show');
+                        userid = Cookies.get("id");
+                        androidid = Cookies.get("androidId");
+                        window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&format=" + format; 
+                        
+                      }
+                    });
+                  }
+                  else
+                  {
+                    appid =Cookies.get('Castle_show');
+                        userid = Cookies.get("id");
+                        androidid = Cookies.get("androidId");
+                        window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid 
+                  }
+          }
+          else
+          Swal.fire({
+            title:(Cookies.get('name')??'')+" شرمنده",
+            text:" آموزش قبلیش رو ندیدی. اول اونو ببین", 
+            confirmButtonText: 'باشه',
+            icon: "error"
+            });
+            
+        }
+
       }
     } 
     function showVideo_VR(id,sub=0,type,ask=1,before_Full=0)
     {
-      if((Cookies.get('AllowBefore')??0)==0)
-      before_Full=1
-      document.getElementById('tabcontent').querySelectorAll('.border-secondary').forEach(element => 
-        {
-          element.classList.remove('border-secondary');
-        });
-        
-        document.getElementById('div_'+id).classList.add('border-secondary');
-        if(before_Full)
-        {
-          MyMaster=JSON.parse(localStorage.getItem("MyMaster"))??[];
-          if(!MyMaster.includes('32') && !MyMaster.includes('31') )//!MyMaster.includes('32')
+      if (typeof id === 'undefined') {
+        location.reload();
+      }
+      else
+      {
+        if((Cookies.get('AllowBefore')??0)==0)
+        before_Full=1
+        document.getElementById('tabcontent').querySelectorAll('.border-secondary').forEach(element => 
           {
-            appid =Cookies.get('Castle_show');
-            userid = Cookies.get("id");
-            androidid = Cookies.get("androidId");
-            window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&vr=0" ; 
-            
+            element.classList.remove('border-secondary');
+          });
+          
+          document.getElementById('div_'+id).classList.add('border-secondary');
+          if(before_Full)
+          {
+            MyMaster=JSON.parse(localStorage.getItem("MyMaster"))??[];
+            if(!MyMaster.includes('32') && !MyMaster.includes('31') )//!MyMaster.includes('32')
+            {
+              appid =Cookies.get('Castle_show');
+              userid = Cookies.get("id");
+              androidid = Cookies.get("androidId");
+              window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&vr=0" ; 
+              
+            }
+            else
+            {
+              if(type!="6")
+              {
+                  appid =Cookies.get('Castle_show');
+                    userid = Cookies.get("id");
+                    androidid = Cookies.get("androidId");
+                    window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&vr=0" ; 
+              }
+              else      
+              {
+                  if(sub)
+                  {
+                    if(items["subitem"]['sub'])
+                    name=items["subitem"]['sub'][id]['name']
+                    else if(items["subitem"])
+                    name=items["subitem"][id]['name']
+                    else
+                    name=items[id]['name'];
+                  }
+                    else
+                    name=items[id]['name'];
+                  if(ask)
+                  {
+                      Swal.fire({
+                      title:" مشاهده \n' "+name+" '",
+                      text:"می خوای این قسمت رو چطوری ببینی؟",
+                      showDenyButton: true,
+                      showCancelButton: false,
+                      confirmButtonText: 'معمولی',
+                      denyButtonText: "واقعیت مجازی (VR)",
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        appid =Cookies.get('Castle_show');
+                        userid = Cookies.get("id");
+                        androidid = Cookies.get("androidId");
+                        window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&vr=0" ; 
+                        
+                      } else if (result.isDenied) {
+                        appid =Cookies.get('Castle_show');
+                        userid = Cookies.get("id");
+                        androidid = Cookies.get("androidId");
+                        window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&vr=1" ; 
+                        
+                      }
+                  });
+                  }
+                  else
+                  {
+                    appid =Cookies.get('Castle_show');
+                    userid = Cookies.get("id");
+                    androidid = Cookies.get("androidId");
+                    window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&vr=1" ; 
+                  }
+                
+                
+              }
+
+            }
           }
           else
-          {
-            if(type!="6")
-            {
-                appid =Cookies.get('Castle_show');
-                  userid = Cookies.get("id");
-                  androidid = Cookies.get("androidId");
-                  window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&vr=0" ; 
-            }
-            else      
-            {
-                if(sub)
-                {
-                  if(items["subitem"]['sub'])
-                  name=items["subitem"]['sub'][id]['name']
-                  else if(items["subitem"])
-                  name=items["subitem"][id]['name']
-                  else
-                  name=items[id]['name'];
-                }
-                  else
-                  name=items[id]['name'];
-                if(ask)
-                {
-                    Swal.fire({
-                    title:" مشاهده \n' "+name+" '",
-                    text:"می خوای این قسمت رو چطوری ببینی؟",
-                    showDenyButton: true,
-                    showCancelButton: false,
-                    confirmButtonText: 'معمولی',
-                    denyButtonText: "واقعیت مجازی (VR)",
-                  }).then((result) => {
-                    if (result.isConfirmed) {
-                      appid =Cookies.get('Castle_show');
-                      userid = Cookies.get("id");
-                      androidid = Cookies.get("androidId");
-                      window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&vr=0" ; 
-                      
-                    } else if (result.isDenied) {
-                      appid =Cookies.get('Castle_show');
-                      userid = Cookies.get("id");
-                      androidid = Cookies.get("androidId");
-                      window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&vr=1" ; 
-                      
-                    }
-                });
-                }
-                else
-                {
-                  appid =Cookies.get('Castle_show');
-                  userid = Cookies.get("id");
-                  androidid = Cookies.get("androidId");
-                  window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&vr=1" ; 
-                }
-              
-              
-            }
+          Swal.fire({
+            title:(Cookies.get('name')??'')+" شرمنده",
+            text:" آموزش قبلیش رو ندیدی. اول اونو ببین", 
+            confirmButtonText: 'باشه',
+            icon: "error"
+            });
 
-          }
-        }
-        else
-        Swal.fire({
-          title:(Cookies.get('name')??'')+" شرمنده",
-          text:" آموزش قبلیش رو ندیدی. اول اونو ببین", 
-          confirmButtonText: 'باشه',
-          icon: "error"
-          });
+      }
       
     } 
     function showWithoutTab(Rokh=0)
@@ -1082,8 +1103,11 @@ var undefRtry=0;
         tabcontent.innerHTML="";
 
         if (response.data.status == "200") {
-          count_lesson.innerHTML="تعداد "+response.data.data.length+" قسمت";
-          for (var i = 0; i < response.data.data.length; i++) {
+          if(response.data.data[0]['Id'])
+            {
+              undefRtry=0;
+              count_lesson.innerHTML="تعداد "+response.data.data.length+" قسمت";
+            for (var i = 0; i < response.data.data.length; i++) {
             items[response.data.data[i]["Id"]]={
               id: response.data.data[i]["Id"],
               name: response.data.data[i]["Name"],
@@ -1107,9 +1131,25 @@ var undefRtry=0;
               elem+='</small></div><button class="btn btn-sm me-1 rounded-circle" type="button" style=";border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto 0px;width: 30px;height: 30px;padding: 0 0 0 0;box-shadow: 0px 0px;"><img style="width: 20px;height: 20px;" width="20" height="20" src="'+logo+'"></button></div> </div></div>';
             
             tabcontent.innerHTML+=elem;
-        }
+             }
 
-         Swal.close();
+            Swal.close();
+          }
+         else
+            {
+              if(undefRtry>2)
+              Swal.fire({
+                title:(Cookies.get('name')??'')+" شرمنده",
+                html:"نشد که بشه<p><small>خطا: data undefinded:"+response.data.data[0]+"</small></p>", 
+                confirmButtonText: 'باشه',
+                icon: "error"
+                });
+              else
+              {
+                undefRtry++;
+                showWithoutTab(Rokh);
+              }
+            }
         } else {
           Swal.close();
          Swal.fire({

@@ -101,7 +101,7 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="./public/js/spop.min.js"></script>
 <!-- <script src="./public/js/list.js?h=9a9b13"></script> -->
-<script src="./js-decode/list.js?h=9a9c8"></script>
+<script src="./js-decode/list.js?h=9a9c10"></script>
   <script>
         
   </script>

@@ -1,6 +1,6 @@
 const castleHaveSound=["183","424","1092"];
     const castleException=["1550"];
-    var RedCastle=["1549","1548","1547","1546","1545"];
+    var RedCastle=["1549","1548","1547","1546","1545","1"];
     var items=items2=[];flag=0;
     var logo="./public/img/brands/logo.png";
     var img="./public/img/products/reportcard.png?v=124b1";
