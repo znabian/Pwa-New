@@ -147,8 +147,10 @@ class ApiController
             curl_setopt($curl, CURLOPT_POSTFIELDS, array("data"=>($query))); 
             $result = json_decode(curl_exec($curl));
 
-            $query="select min(Date) as minDate from paymentTbl as P where (select top 1 Phone from UserTbl where UserId=id)='" .$request->Phone .
-            "'  and P.Active=1 and Access=1 ";
+            /*$query="select min(Date) as minDate from paymentTbl as P where (select top 1 Phone from UserTbl where UserId=id)='" .$request->Phone .
+            "'  and P.Active=1 and Access=1 ";*/
+            $query="select min(Date) as minDate,(select top 1 isnull(Pm,-1) as Pm2 from UserTbl where UserId=id) as Pm from paymentTbl as P where (select top 1 Phone from UserTbl where UserId=id)='" .$request->Phone .
+            "'  and P.Active=1 and Access=1 group by UserId order by minDate ";
             curl_setopt($curl, CURLOPT_POSTFIELDS, array("data"=>($query))); 
             $minBuyDate = json_decode(curl_exec($curl));
 
@@ -156,7 +158,7 @@ class ApiController
             curl_setopt($curl, CURLOPT_POSTFIELDS, array("data"=>($query))); 
             $MasterApp = json_decode(curl_exec($curl));
             curl_close($curl);
-            $res=['status'=>$result->status,'All'=>$AllApps->data,'MyApps'=>$result->data,'MasterApp'=>$MasterApp->data,'message'=>$result->message,'minBuyDate'=>$minBuyDate->data[0]->minDate];
+            $res=['status'=>$result->status,'All'=>$AllApps->data,'MyApps'=>$result->data,'MasterApp'=>$MasterApp->data,'message'=>$result->message,'minBuyDate'=>$minBuyDate->data[0]->minDate,'pm'=>$minBuyDate->data[0]->Pm];
            
             return json_encode($res);
         }

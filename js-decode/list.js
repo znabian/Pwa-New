@@ -146,11 +146,16 @@ var undefRtry=0;
           {
             for (var i = 0; i < res.data.data.length; i++)
             {
-              aid=res.data.data[i]['AppId'];
-             // allowSeen[res.data.data[i]['AppId']]=res.data.data[i]["FullCount"];
-              if(!allowSeen[res.data.data[i]['Tab']])
-                allowSeen[res.data.data[i]['Tab']]=[]
-              allowSeen[res.data.data[i]['Tab']][aid]=parseInt(res.data.data[i]["FullCount"]??0);
+              try {
+                aid=res.data.data[i]['AppId'];
+              // allowSeen[res.data.data[i]['AppId']]=res.data.data[i]["FullCount"];
+                if(!allowSeen[res.data.data[i]['Tab']])
+                  allowSeen[res.data.data[i]['Tab']]=[]
+                allowSeen[res.data.data[i]['Tab']][aid]=parseInt(res.data.data[i]["FullCount"]??0);
+              } catch (error) {
+                console.log(error);
+              }
+              
             }
               
               //allowSeen[i]=res.data.data[i]["FullCount"];
@@ -159,12 +164,10 @@ var undefRtry=0;
           } 
           else
           {
-            for (var i = 0; i < tabs.length; i++)
-              allowSeen[i]=0;
+            allowSeen=[];
           }        
           }).catch(function (error){
-            for (var i = 0; i <tabs.length; i++)
-              allowSeen[i]=0;
+              allowSeen=[];
             
           });
       }
@@ -321,9 +324,17 @@ var undefRtry=0;
                       if(category)//not first tab
                       {
                         if(field=="Meta")
-                        last_item_is_full=allowSeen[tabs[category-1]][allowSeen[tabs[category-1]].length-1]??last_item_is_full;
+                        {
+                          if(allowSeen.length>0)
+                          {last_item_is_full=allowSeen[tabs[category-1]][allowSeen[tabs[category-1]].length-1]??last_item_is_full;}
+                          else
+                          last_item_is_full=0;//last_item_is_full;
+                        }
                         else
-                        last_item_is_full=allowSeen[tabs[category-1]['Id']][allowSeen[tabs[category-1]['Id']].length-1]??last_item_is_full;
+                          if(allowSeen.length>0)
+                          {last_item_is_full=allowSeen[tabs[category-1]['Id']][allowSeen[tabs[category-1]['Id']].length-1]??last_item_is_full;}
+                          else
+                          last_item_is_full=0;//last_item_is_full;
                       
                       }
                       else
@@ -353,7 +364,7 @@ var undefRtry=0;
               if(undefRtry>2)
               Swal.fire({
                 title:(Cookies.get('name')??'')+" شرمنده",
-                html:"نشد که بشه<p><small>خطا: data undefinded:"+response.data.data[0]+"</small></p>", 
+                html:"نشد که بشه<p><small>خطا:func getBooks, data undefinded:"+response.data.data[0]+"</small></p>", 
                 confirmButtonText: 'باشه',
                 icon: "error"
                 });
@@ -368,7 +379,7 @@ var undefRtry=0;
           Swal.close();
          Swal.fire({
           title:(Cookies.get('name')??'')+" شرمنده",
-          text:response.data.message, 
+          text:'func getBooks: '.response.data.message, 
           confirmButtonText: 'باشه',
           icon: "error"
           });
@@ -379,7 +390,7 @@ var undefRtry=0;
         Swal.close();
          Swal.fire({
           title:(Cookies.get('name')??'')+" شرمنده",
-          html:"نشد که بشه<p><small>خطا: "+error+"</small></p>",
+          html:"نشد که بشه<p><small>خطا: func getBooks, "+error+"</small></p>",
           confirmButtonText: 'باشه',
           icon: "error"
           });
@@ -427,7 +438,7 @@ var undefRtry=0;
           Swal.close();
           Swal.fire({
           title:(Cookies.get('name')??'')+" شرمنده",
-          text:response.data.message, 
+          text:'func getMeta: '.response.data.message, 
           confirmButtonText: 'باشه',
           icon: "error"
           });
@@ -438,7 +449,7 @@ var undefRtry=0;
           Swal.close();
           Swal.fire({
           title:(Cookies.get('name')??'')+" شرمنده",
-          html:"نشد که بشه<p><small>خطا: "+error+"</small></p>",
+          html:"نشد که بشه<p><small>خطا: func getMeta, "+error+"</small></p>",
           confirmButtonText: 'باشه',
           icon: "error"
           });
@@ -536,7 +547,14 @@ var undefRtry=0;
                   if(itemid!= keys[0])
                   {
                     if(keys.indexOf(itemid.toString())>0)
-                    last_item_is_full=allowSeen[tabs[category]['Id']][keys[keys.indexOf(itemid.toString())-1]]??last_item_is_full;
+                     {
+                      if(allowSeen.length>0)
+                      {
+                        last_item_is_full=allowSeen[tabs[category]['Id']][keys[keys.indexOf(itemid.toString())-1]]??last_item_is_full;
+                      }
+                     else 
+                      last_item_is_full=0;//last_item_is_full;
+                     }
                     else
                     last_item_is_full=last_item_is_full;
                   }
@@ -544,7 +562,14 @@ var undefRtry=0;
                   {
                     if(category)//not first tab
                     {
+                      if(allowSeen.length>0)
+                      {
                       last_item_is_full=allowSeen[tabs[category-1]['Id']][allowSeen[tabs[category-1]['Id']].length-1]??last_item_is_full;
+                      }
+                      else
+                      {
+                        last_item_is_full=0;//last_item_is_full;
+                      }
                     
                     }
                     else
@@ -574,7 +599,7 @@ var undefRtry=0;
             Swal.close();
           Swal.fire({
             title:(Cookies.get('name')??'')+" شرمنده",
-            text:response.data.message,  
+            text:'func CastleSubItems: '.response.data.message,  
             confirmButtonText: 'باشه',
             icon: "error"
             });
@@ -584,7 +609,7 @@ var undefRtry=0;
           Swal.close();
           Swal.fire({
             title:(Cookies.get('name')??'')+" شرمنده",
-            html:"نشد که بشه<p><small>خطا: "+error+"</small></p>",
+            html:"نشد که بشه<p><small>خطا: func CastleSubItems, "+error+"</small></p>",
             confirmButtonText: 'باشه',
             icon: "error"
             });
@@ -655,7 +680,7 @@ var undefRtry=0;
           Swal.close();
          Swal.fire({
           title:(Cookies.get('name')??'')+" شرمنده",
-          text:response.data.message, 
+          text:'func SubItemsList: '.response.data.message, 
           confirmButtonText: 'باشه',
           icon: "error"
           });
@@ -665,7 +690,7 @@ var undefRtry=0;
         Swal.close();
          Swal.fire({
           title:(Cookies.get('name')??'')+" شرمنده",
-          html:"نشد که بشه<p><small>خطا: "+error+"</small></p>",
+          html:"نشد که بشه<p><small>خطا: func SubItemsList, "+error+"</small></p>",
           confirmButtonText: 'باشه',
           icon: "error"
           });
@@ -752,7 +777,7 @@ var undefRtry=0;
           Swal.close();
          Swal.fire({
           title:(Cookies.get('name')??'')+" شرمنده",
-          text:response.data.message, 
+          text:'func RoshdShowData: '.response.data.message, 
           confirmButtonText: 'باشه',
           icon: "error"
           });
@@ -763,7 +788,7 @@ var undefRtry=0;
         Swal.close();
          Swal.fire({
           title:(Cookies.get('name')??'')+" شرمنده",
-          html:"نشد که بشه<p><small>خطا: "+error+"</small></p>",
+          html:"نشد که بشه<p><small>خطا: func RoshdShowData, "+error+"</small></p>",
           confirmButtonText: 'باشه',
           icon: "error"
           });
@@ -831,7 +856,7 @@ var undefRtry=0;
           Swal.close();
          Swal.fire({
           title:(Cookies.get('name')??'')+" شرمنده",
-          text:response.data.message, 
+          text:'func RoshdShowExpert: '.response.data.message, 
           confirmButtonText: 'باشه',
           icon: "error"
           });
@@ -842,7 +867,7 @@ var undefRtry=0;
         Swal.close();
          Swal.fire({
           title:(Cookies.get('name')??'')+" شرمنده",
-          html:"نشد که بشه<p><small>خطا: "+error+"</small></p>",
+          html:"نشد که بشه<p><small>خطا: func RoshdShowExpert, "+error+"</small></p>",
           confirmButtonText: 'باشه',
           icon: "error"
           });
@@ -1140,7 +1165,7 @@ var undefRtry=0;
               if(undefRtry>2)
               Swal.fire({
                 title:(Cookies.get('name')??'')+" شرمنده",
-                html:"نشد که بشه<p><small>خطا: data undefinded:"+response.data.data[0]+"</small></p>", 
+                html:"نشد که بشه<p><small>خطا: data undefinded:func ShowWithoutTab, "+response.data.data[0]+"</small></p>", 
                 confirmButtonText: 'باشه',
                 icon: "error"
                 });
@@ -1154,7 +1179,7 @@ var undefRtry=0;
           Swal.close();
          Swal.fire({
           title:(Cookies.get('name')??'')+" شرمنده",
-          text:response.data.message, 
+          text:'func ShowWithoutTab: '.response.data.message, 
           confirmButtonText: 'باشه',
           icon: "error"
           });
@@ -1165,7 +1190,7 @@ var undefRtry=0;
         Swal.close();
          Swal.fire({
           title:(Cookies.get('name')??'')+" شرمنده",
-          text:response.data.message, 
+          html:"نشد که بشه<p><small>خطا: data undefinded:func ShowWithoutTab, "+error+"</small></p>", 
           confirmButtonText: 'باشه',
           icon: "error"
           });

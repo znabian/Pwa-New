@@ -268,9 +268,13 @@ const RedCastle=["1549","1548","1547","1546","1545"];
             app_All=response.data.All;
             app_All=app_All.concat(a);
             MyApps = response.data.MyApps;
-            var minBuyDate = response.data.minBuyDate;
-            if(new Date(minBuyDate)>=Date("2023-07-23"))
-            Cookies.set('AllowBefore',1,2592000);
+            var minBuyDate = [response.data.minBuyDate,response.data.pm];
+            if(new Date(minBuyDate[0])>=Date("2023-07-23") && minBuyDate[1]<0)
+             Cookies.set('AllowBefore',1,2592000);
+            else if(minBuyDate[1]==1)
+              Cookies.set('AllowBefore',1,2592000);
+            else
+              Cookies.set('AllowBefore',0,2592000);
             /*apps.filter(function(obj,index) {
                 if(obj['Id']==1543)
                 apps.splice(index, 1);
