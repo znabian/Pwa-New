@@ -363,8 +363,8 @@ var undefRtry=0;
             {
               if(undefRtry>2)
               Swal.fire({
-                title:(Cookies.get('name')??'')+" شرمنده",
-                html:"نشد که بشه<p><small>خطا:func getBooks, data undefinded:"+response.data.data[0]+"</small></p>", 
+                title:(Cookies.get('name')??'')+" متاسفم",
+                html:"یه مشکل  پیش اومده<p><small> <br> func getBooks, data undefinded:"+response.data.data[0]+"</small></p>", 
                 confirmButtonText: 'باشه',
                 icon: "error"
                 });
@@ -378,7 +378,7 @@ var undefRtry=0;
         } else {
           Swal.close();
          Swal.fire({
-          title:(Cookies.get('name')??'')+" شرمنده",
+          title:(Cookies.get('name')??'')+" متاسفم",
           text:'func getBooks: '.response.data.message, 
           confirmButtonText: 'باشه',
           icon: "error"
@@ -389,8 +389,8 @@ var undefRtry=0;
         console.log(error);
         Swal.close();
          Swal.fire({
-          title:(Cookies.get('name')??'')+" شرمنده",
-          html:"نشد که بشه<p><small>خطا: func getBooks, "+error+"</small></p>",
+          title:(Cookies.get('name')??'')+" متاسفم",
+          html:"یه مشکل  پیش اومده<p><small> <br> func getBooks, "+error.stack+"</small></p>",
           confirmButtonText: 'باشه',
           icon: "error"
           });
@@ -437,7 +437,7 @@ var undefRtry=0;
           } else {
           Swal.close();
           Swal.fire({
-          title:(Cookies.get('name')??'')+" شرمنده",
+          title:(Cookies.get('name')??'')+" متاسفم",
           text:'func getMeta: '.response.data.message, 
           confirmButtonText: 'باشه',
           icon: "error"
@@ -448,8 +448,8 @@ var undefRtry=0;
           console.log(error);
           Swal.close();
           Swal.fire({
-          title:(Cookies.get('name')??'')+" شرمنده",
-          html:"نشد که بشه<p><small>خطا: func getMeta, "+error+"</small></p>",
+          title:(Cookies.get('name')??'')+" متاسفم",
+          html:"یه مشکل  پیش اومده<p><small> <br>  func getMeta, "+error.stack+"</small></p>",
           confirmButtonText: 'باشه',
           icon: "error"
           });
@@ -598,7 +598,7 @@ var undefRtry=0;
           else {
             Swal.close();
           Swal.fire({
-            title:(Cookies.get('name')??'')+" شرمنده",
+            title:(Cookies.get('name')??'')+" متاسفم",
             text:'func CastleSubItems: '.response.data.message,  
             confirmButtonText: 'باشه',
             icon: "error"
@@ -608,8 +608,8 @@ var undefRtry=0;
           console.log(error);
           Swal.close();
           Swal.fire({
-            title:(Cookies.get('name')??'')+" شرمنده",
-            html:"نشد که بشه<p><small>خطا: func CastleSubItems, "+error+"</small></p>",
+            title:(Cookies.get('name')??'')+" متاسفم",
+            html:"یه مشکل  پیش اومده<p><small> <br>  func CastleSubItems, "+error.stack+"</small></p>",
             confirmButtonText: 'باشه',
             icon: "error"
             });
@@ -679,7 +679,7 @@ var undefRtry=0;
         } else {
           Swal.close();
          Swal.fire({
-          title:(Cookies.get('name')??'')+" شرمنده",
+          title:(Cookies.get('name')??'')+" متاسفم",
           text:'func SubItemsList: '.response.data.message, 
           confirmButtonText: 'باشه',
           icon: "error"
@@ -689,8 +689,8 @@ var undefRtry=0;
         console.log(error);
         Swal.close();
          Swal.fire({
-          title:(Cookies.get('name')??'')+" شرمنده",
-          html:"نشد که بشه<p><small>خطا: func SubItemsList, "+error+"</small></p>",
+          title:(Cookies.get('name')??'')+" متاسفم",
+          html:"یه مشکل  پیش اومده<p><small> <br>  func SubItemsList, "+error.stack+"</small></p>",
           confirmButtonText: 'باشه',
           icon: "error"
           });
@@ -776,7 +776,7 @@ var undefRtry=0;
         } else {
           Swal.close();
          Swal.fire({
-          title:(Cookies.get('name')??'')+" شرمنده",
+          title:(Cookies.get('name')??'')+" متاسفم",
           text:'func RoshdShowData: '.response.data.message, 
           confirmButtonText: 'باشه',
           icon: "error"
@@ -787,8 +787,8 @@ var undefRtry=0;
         console.log(error);
         Swal.close();
          Swal.fire({
-          title:(Cookies.get('name')??'')+" شرمنده",
-          html:"نشد که بشه<p><small>خطا: func RoshdShowData, "+error+"</small></p>",
+          title:(Cookies.get('name')??'')+" متاسفم",
+          html:"یه مشکل  پیش اومده<p><small> <br>  func RoshdShowData, "+error.stack+"</small></p>",
           confirmButtonText: 'باشه',
           icon: "error"
           });
@@ -855,7 +855,7 @@ var undefRtry=0;
         } else {
           Swal.close();
          Swal.fire({
-          title:(Cookies.get('name')??'')+" شرمنده",
+          title:(Cookies.get('name')??'')+" متاسفم",
           text:'func RoshdShowExpert: '.response.data.message, 
           confirmButtonText: 'باشه',
           icon: "error"
@@ -866,8 +866,8 @@ var undefRtry=0;
         console.log(error);
         Swal.close();
          Swal.fire({
-          title:(Cookies.get('name')??'')+" شرمنده",
-          html:"نشد که بشه<p><small>خطا: func RoshdShowExpert, "+error+"</small></p>",
+          title:(Cookies.get('name')??'')+" متاسفم",
+          html:"یه مشکل  پیش اومده<p><small> <br>  func RoshdShowExpert, "+error.stack+"</small></p>",
           confirmButtonText: 'باشه',
           icon: "error"
           });
@@ -984,7 +984,7 @@ var undefRtry=0;
           }
           else
           Swal.fire({
-            title:(Cookies.get('name')??'')+" شرمنده",
+            title:(Cookies.get('name')??'')+" متاسفم",
             text:" آموزش قبلیش رو ندیدی. اول اونو ببین", 
             confirmButtonText: 'باشه',
             icon: "error"
@@ -1082,7 +1082,7 @@ var undefRtry=0;
           }
           else
           Swal.fire({
-            title:(Cookies.get('name')??'')+" شرمنده",
+            title:(Cookies.get('name')??'')+" متاسفم",
             text:" آموزش قبلیش رو ندیدی. اول اونو ببین", 
             confirmButtonText: 'باشه',
             icon: "error"
@@ -1164,8 +1164,8 @@ var undefRtry=0;
             {
               if(undefRtry>2)
               Swal.fire({
-                title:(Cookies.get('name')??'')+" شرمنده",
-                html:"نشد که بشه<p><small>خطا: data undefinded:func ShowWithoutTab, "+response.data.data[0]+"</small></p>", 
+                title:(Cookies.get('name')??'')+" متاسفم",
+                html:"یه مشکل  پیش اومده<p><small> <br>  data undefinded:func ShowWithoutTab, "+response.data.data[0]+"</small></p>", 
                 confirmButtonText: 'باشه',
                 icon: "error"
                 });
@@ -1178,7 +1178,7 @@ var undefRtry=0;
         } else {
           Swal.close();
          Swal.fire({
-          title:(Cookies.get('name')??'')+" شرمنده",
+          title:(Cookies.get('name')??'')+" متاسفم",
           text:'func ShowWithoutTab: '.response.data.message, 
           confirmButtonText: 'باشه',
           icon: "error"
@@ -1189,8 +1189,8 @@ var undefRtry=0;
         console.log(error);
         Swal.close();
          Swal.fire({
-          title:(Cookies.get('name')??'')+" شرمنده",
-          html:"نشد که بشه<p><small>خطا: data undefinded:func ShowWithoutTab, "+error+"</small></p>", 
+          title:(Cookies.get('name')??'')+" متاسفم",
+          html:"یه مشکل  پیش اومده<p><small> <br>  data undefinded:func ShowWithoutTab, "+error.stack+"</small></p>", 
           confirmButtonText: 'باشه',
           icon: "error"
           });

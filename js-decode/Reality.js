@@ -47,7 +47,7 @@ var items=[];
         }
         else
         Swal.fire({
-          title:(Cookies.get('name')??'')+" شرمنده",
+          title:(Cookies.get('name')??'')+" متاسفم",
           text:" آموزش قبلیش رو ندیدی. اول اونو ببین", 
           confirmButtonText: 'باشه',
           icon: "error"
@@ -99,8 +99,8 @@ var items=[];
         } else {
           Swal.close();
          Swal.fire({
-          title:(Cookies.get('name')??'')+" شرمنده",
-          text:" نشد که بشه", 
+          title:(Cookies.get('name')??'')+" متاسفم",
+          html:"یه مشکل  پیش اومده<p><small> <br>  "+response.data.message+"</small></p>", 
           confirmButtonText: 'باشه',
           icon: "error"
           });
@@ -110,8 +110,8 @@ var items=[];
         console.log(error);
         Swal.close();
          Swal.fire({
-          title:(Cookies.get('name')??'')+" شرمنده",
-          text:" نشد که بشه", 
+          title:(Cookies.get('name')??'')+" متاسفم",
+          html:"یه مشکل  پیش اومده<p><small> <br> "+error.stack+"</small></p>",
           confirmButtonText: 'باشه',
           icon: "error"
           });

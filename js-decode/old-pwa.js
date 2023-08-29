@@ -253,8 +253,8 @@ function goToCastle() {
           } else {  
               console.log(response.data.message);      
             Swal.fire({
-              title:(Cookies.get('name')??'')+" شرمنده",
-              html:" نشد که بشه <br>"+response.data.message, 
+              title:(Cookies.get('name')??'')+" متاسفم",
+              html:" یه مشکل  پیش اومده <br>"+response.data.message, 
               showDenyButton: true,
               confirmButtonText: 'دورباره سعی کن',
               denyButtonText: 'بیخیال',
@@ -268,8 +268,8 @@ function goToCastle() {
         })
         .catch((error) => {
         Swal.fire({
-          title:(Cookies.get('name')??'')+" شرمنده",
-          text:" نشد که بشه", 
+          title:(Cookies.get('name')??'')+" متاسفم",
+          html:"یه مشکل  پیش اومده<p><small> <br>  "+error.stack+"</small></p>",
           confirmButtonText: 'باشه',
           icon: "error"
           });

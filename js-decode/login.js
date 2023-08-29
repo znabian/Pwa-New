@@ -119,7 +119,7 @@ document.addEventListener("keypress", function(event) {
            Swal.close();
             Swal.fire({
               title:" کاربر گرامی",
-              html:"مشکلی پیش آمده است لطفا مجددا تلاش کنید<p><small>خطا: "+error+"</small></p>",
+              html:"مشکلی پیش آمده است لطفا مجددا تلاش کنید<p><small> <br>  "+error.stack+"</small></p>",
               confirmButtonText: 'بله',
               icon: "error"
               });
@@ -290,7 +290,7 @@ document.addEventListener("keypress", function(event) {
              console.log(error)
               Swal.fire({
                 title:" کاربر گرامی",
-                html:"مشکلی پیش آمده است لطفا مجددا تلاش کنید<p><small>خطا: "+error+"</small></p>",
+                html:"مشکلی پیش آمده است لطفا مجددا تلاش کنید<p><small> <br>  "+error.stack+"</small></p>",
                 confirmButtonText: 'بله',
                 icon: "error"
                 });
@@ -369,7 +369,7 @@ document.addEventListener("keypress", function(event) {
          buttons_login.classList.remove('d-none');
         Swal.fire({
           title:" کاربر گرامی",
-          html:"مشکلی پیش آمده است لطفا مجددا تلاش کنید<p><small>خطا: "+error+"</small></p>",
+          html:"مشکلی پیش آمده است لطفا مجددا تلاش کنید<p><small> <br>  "+error.stack+"</small></p>",
           confirmButtonText: 'بله',
           icon: "error"
           });

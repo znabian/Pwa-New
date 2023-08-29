@@ -67,8 +67,8 @@ var ArchiveList=[];var NearList=[];
           Live.classList.add('d-none');
           console.log(error);
           Swal.fire({
-          title:(Cookies.get('name')??'')+" شرمنده",
-          text:" نشد که بشه", 
+          title:(Cookies.get('name')??'')+" متاسفم",
+          html:"یه مشکل  پیش اومده<p><small> <br> func getLives, "+error.stack+"</small></p>",
           confirmButtonText: 'باشه',
           icon: "error"
           });
@@ -137,8 +137,8 @@ var ArchiveList=[];var NearList=[];
           })["catch"](function (error) {
             console.log(error);
             Swal.fire({
-            title:(Cookies.get('name')??'')+" شرمنده",
-            text:" نشد که بشه", 
+            title:(Cookies.get('name')??'')+" متاسفم",
+            html:"یه مشکل  پیش اومده<p><small> <br> func getArchives, "+error.stack+"</small></p>",
             confirmButtonText: 'باشه',
             icon: "error"
             });
@@ -207,8 +207,8 @@ var ArchiveList=[];var NearList=[];
           Near.innerHTML='';
           console.log(error);
           Swal.fire({
-            title:(Cookies.get('name')??'')+" شرمنده",
-            text:" نشد که بشه", 
+            title:(Cookies.get('name')??'')+" متاسفم",
+            html:"یه مشکل  پیش اومده<p><small> <br> func getNears, "+error.stack+"</small></p>",
             confirmButtonText: 'باشه',
             icon: "error"
             });

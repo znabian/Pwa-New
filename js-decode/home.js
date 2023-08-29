@@ -30,7 +30,13 @@ const RedCastle=["1549","1548","1547","1546","1545"];
       if (app_flag && localStorage.getItem("app_list"))
        {
         apps = JSON.parse(localStorage.getItem("app_list"));
-        if(in_array(apps,'Id',RedCastle[0])['Result'])
+        if(typeof Cookies.get('AllowBefore')== 'undefined')
+        {
+          localStorage.removeItem("app_list");
+          apps=[];
+          refereshData();
+        }
+        else if(in_array(apps,'Id',RedCastle[0])['Result'])
         {
           localStorage.removeItem("app_list");
           apps=[];
@@ -404,8 +410,8 @@ const RedCastle=["1549","1548","1547","1546","1545"];
               console.log(response.data.message);    
                 btnrefersh.classList.remove('d-none');    
             Swal.fire({
-              title:(Cookies.get('name')??'')+" شرمنده",
-              html:" نشد که بشه <br>"+response.data.message, 
+              title:(Cookies.get('name')??'')+" متاسفم",
+              html:" یه مشکل  پیش اومده <br> func getApp, "+response.data.message, 
               showDenyButton: true,
               confirmButtonText: 'دورباره سعی کن',
               denyButtonText: 'بیخیال',
@@ -419,8 +425,8 @@ const RedCastle=["1549","1548","1547","1546","1545"];
         })
         .catch((error) => {
         Swal.fire({
-          title:(Cookies.get('name')??'')+" شرمنده",
-          html:" نشد که بشه <br>"+error, 
+          title:(Cookies.get('name')??'')+" متاسفم",
+          html:" یه مشکل  پیش اومده <br> func getApp, "+error.stack, 
           confirmButtonText: 'باشه',
           icon: "error"
           });
