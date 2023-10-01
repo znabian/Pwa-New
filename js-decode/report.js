@@ -552,7 +552,66 @@ const castleHaveSound=["183","424","1092"];
         function goToCastle(id) {
           Cookies.remove("field");Cookies.remove("tabs");Cookies.remove("chosenCatData");
           Cookies.remove("RealityShowAllow");Cookies.remove("RealityShow");
-               
+          if(["banovan",183,424].includes(id))
+          {
+            Swal.fire({
+              title: (Cookies.get('name')??'')+' این کاخ قفله! ',
+              input: 'password',
+              inputAttributes: {
+                autocapitalize: 'off',
+                name:'castle'
+              },
+              inputLabel:'رمزش رو وارد کن',
+              showCancelButton: true,
+              confirmButtonText: 'بزن بریم',
+              cancelButtonText: 'بیخیال',
+              cancelButtonColor: '#dc3545',
+              showLoaderOnConfirm: true,
+              preConfirm: (login) => {
+                 return login;
+              },
+              allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+              if (result.isConfirmed) {
+                if(result.value==Cookies.get('phone').substring(7))
+                {
+                  _castles=Cookies.get("Castles")??[];
+                  find=false;
+                  if(_castles.length>0)
+                  {
+                    _castles=JSON.parse(_castles);
+                  _castles.forEach(function(item,index){
+                    if(item==id)
+                    find=true;
+                  });
+                  }
+                  if(!find)
+                  {
+                    if(_castles.length>=3)
+                    _castles.shift();
+                  _castles.push(id);
+                  Cookies.set("Castles", JSON.stringify(_castles), 2592000);
+                  }
+                  
+                    Cookies.set("Castle_show",id,2592000);
+                    window.location.assign("Castle");
+              
+              }
+              else
+              {
+                
+                  Swal.fire({
+                    title:(Cookies.get('name')??''),
+                    text:" رمز اشتباهه نمی تونی  این کاخ رو ببینی", 
+                    confirmButtonText: 'باشه',
+                    icon: "warning"
+                    });
+              }
+            }
+            })
+          }
+          else
+          {    
             _castles=Cookies.get("Castles")??[];
             find=false;
             if(_castles.length>0)
@@ -573,6 +632,7 @@ const castleHaveSound=["183","424","1092"];
             
               Cookies.set("Castle_show",id,2592000);
               window.location.assign("Castle");
+          }
           
         }
        const in_array = (array,column ,search) => {

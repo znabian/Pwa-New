@@ -10,6 +10,7 @@ var sub={
   //36:[],//فرست کلاس
 };
 var lock=["1441"];
+var pass=sub[34];
 const RedCastle=["1549","1548","1547","1546","1545"];
    var app_flag= Cookies.get("app_flag") == 1 ? true : false;
    var buttonClicked= false;
@@ -30,7 +31,7 @@ const RedCastle=["1549","1548","1547","1546","1545"];
       if (app_flag && localStorage.getItem("app_list"))
        {
         apps = JSON.parse(localStorage.getItem("app_list"));
-        if(typeof Cookies.get('AllowBefore')== 'undefined')
+        if(typeof Cookies.get('AllowBefore')== 'undefined' || (typeof JSON.parse(localStorage.getItem('app_list'))[0].Sort== 'undefined'))
         {
           localStorage.removeItem("app_list");
           apps=[];
@@ -169,6 +170,85 @@ const RedCastle=["1549","1548","1547","1546","1545"];
           icon: "warning"
           });
       }
+      else if(pass.includes(id))
+      {
+        Swal.fire({
+          title: (Cookies.get('name')??'')+' این کاخ قفله! ',
+          input: 'password',
+          inputAttributes: {
+            autocapitalize: 'off',
+            name:'castle'
+          },
+          inputLabel:'رمزش رو وارد کن',
+          showCancelButton: true,
+          confirmButtonText: 'بزن بریم',
+          cancelButtonText: 'بیخیال',
+          cancelButtonColor: '#dc3545',
+          showLoaderOnConfirm: true,
+          preConfirm: (login) => {
+             return login;
+          },
+          allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+          if (result.isConfirmed) {
+            if(result.value==Cookies.get('phone').substring(7))
+            {
+              Swal.fire({
+                title:"  کمی صبر کن",//(Cookies.get('name')??'')+"  کمی صبر کن"
+                html:'<i class="fa fa-spinner fa-pulse" style="font-size: 12pt;"></i>',
+                icon:'info',
+                allowOutsideClick:false,
+                showConfirmButton:false,
+              });
+            if (Cookies.get("perm", 0) == 4) 
+              open = 1;
+            
+            if(open>0)
+            {        
+              _castles=Cookies.get("Castles")??[];
+              find=false;
+              if(_castles.length>0)
+              {
+                _castles=JSON.parse(_castles);
+              _castles.forEach(function(item,index){
+                if(item==id)
+                find=true;
+              });
+              }
+              if(!find)
+              {
+                if(_castles.length>=3)
+                _castles.shift();
+              _castles.push(id);
+              Cookies.set("Castles", JSON.stringify(_castles), 2592000);
+              }
+              
+                Cookies.set("Castle_show",id,2592000);
+                Swal.close();
+                window.location.assign("Castle");
+            }
+            else 
+              Swal.fire({
+                title:(Cookies.get('name')??''),
+                text:" نمی تونی  این کاخ رو ببینی", 
+                confirmButtonText: 'باشه',
+                icon: "warning"
+                });
+          
+          }
+          else
+          {
+            
+              Swal.fire({
+                title:(Cookies.get('name')??''),
+                text:" رمز اشتباهه نمی تونی  این کاخ رو ببینی", 
+                confirmButtonText: 'باشه',
+                icon: "warning"
+                });
+          }
+        }
+        })
+      }
       else
       {
           if (Cookies.get("perm", 0) == 4) {
@@ -261,12 +341,12 @@ const RedCastle=["1549","1548","1547","1546","1545"];
           
                 
                 {Active : "1", Allow: "1",Logo:"https://dl.erfankhoshnazar.com/downloads/icon/jibsorkh.png",
-                  Description : "", Id:"jibsorkh",
+                  Description : "", Id:"jibsorkh",Sort:12.5,
                   Name:  " جیب سرخ", Parent: "0",Perm : "-1",
                   Price :"300000", Type : "link",Link:"https://erfankhoshnazar.com/product_jibe_sorkh/"},
                  
                   {Active : "1", Allow: "1",Logo:"https://dl.erfankhoshnazar.com/downloads/icon/shahrsorkh.png",
-                    Description : "", Id:"sharsorkh",
+                    Description : "", Id:"sharsorkh",Sort:12.75,
                     Name:  " شهر سرخ", Parent: "0",Perm : "-1",
                     Price :"300000", Type : "link",Link:"https://sorkhcity.com/"}
           ];
@@ -386,16 +466,16 @@ const RedCastle=["1549","1548","1547","1546","1545"];
               });
               if(redAdd)
               {
-              apps.push({'Id':1,Name:"مجموعه کاخ ها",Allow:1,Logo:'./public/img/64.png',Description:'مالی،تربیتی،اجتماعی،عاطفی و رسانه'});
+              apps.push({'Id':1,Name:"مجموعه کاخ ها",Sort:-1,Allow:1,Logo:'./public/img/64.png',Description:'مالی،تربیتی،اجتماعی،عاطفی و رسانه'});
 
               }
               var rs={Active : "1", Allow: "1",Logo:"https://dl.erfankhoshnazar.com/downloads/icon/1550.png",
-              Description : "رئالیتی شو", Id:"1550",
+              Description : "رئالیتی شو", Id:"1550",Sort:5,
               Name:  " رفیق شفیق", Parent: "0",Perm : "-1",
               };
               if(!in_array(apps,'Id',1550)['Result'])
               apps.push(rs);
-              
+              apps.sort((a, b) => a.Sort - b.Sort);
             Cookies.set("app_flag", 1, 2592000);
             //Cookies.set("app_list", JSON.stringify(apps), 2592000);
             localStorage.setItem("app_list", JSON.stringify(apps));
@@ -455,7 +535,7 @@ const RedCastle=["1549","1548","1547","1546","1545"];
           {
             if(!red)
             {
-            elem='<div class="col-md-11" style="margin: 0 auto;padding-right: 0px;padding-left: 0px;margin-top: 10px;" onclick="goToCastle(1,1)"><div style="background: #fff;border-radius: 16px;box-shadow: 2px 4px 10px rgba(0,0,0,0.09);display: flex;height: 67px;padding-right: 4px;padding-left: 4px;"><img style="height: 45px;width: 45px;margin: auto 10px;border-radius: 11px;" src="./public/img/64.png"><div style="text-align: center;margin: auto auto;"><h6 style="font-family: \'Peyda Med\';margin-bottom: 0px;padding-top: 8px;text-align: end;padding-right: 12px;">مجموعه کاخ ها</h6><div class="collection justify-content-start" style="">';
+            elem='<div class="col-md-11" style="margin: 0 auto;padding-right: 0px;padding-left: 0px;margin-top: 10px;" onclick="goToCastle(1,1)"><div style="background: #fff;border-radius: 16px;box-shadow: 2px 4px 10px rgba(0,0,0,0.09);display: flex;height: 67px;padding-right: 4px;padding-left: 4px;"><img style="height: 45px;width: 45px;margin: auto 10px;border-radius: 11px;" src="./public/img/64.png"><div style="text-align: center;margin: auto auto;"><h6 style="font-family: \'Peyda Med\';margin-bottom: 0px;padding-top: 8px;text-align: center;">مجموعه کاخ ها</h6><div class="collection justify-content-start" style="">';
             elem+='<span>مالی<i class="fa fa-circle-o" style="font-size: 7pt; margin-left: 2px;"></i> </span>';
             elem+='<span>تربیتی<i class="fa fa-circle-o" style="font-size: 7pt; margin-left: 2px;"></i> </span>';
             elem+='<span>اجتماعی<i class="fa fa-circle-o" style="font-size: 7pt; margin-left: 2px;"></i> </span>';
