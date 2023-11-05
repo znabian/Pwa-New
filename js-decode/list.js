@@ -51,7 +51,7 @@ var undefRtry=0;
                 else
                 real_show.classList.remove('d-none');
                 
-                if(Cookies.get("Castle_show")=="banovan")
+                if(Cookies.get("Castle_show")=="1651")
                 {
                   showWithoutTab(2279);
                 }
@@ -1106,7 +1106,7 @@ var undefRtry=0;
       if(Rokh)
       {
       url="http://85.208.255.101/RokhAPI/selectApi_jwt.php";
-        sid=Rokh;//banovan:2279
+        sid=Rokh;//1651:2279
         fu="";
       }
       else

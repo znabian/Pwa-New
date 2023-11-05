@@ -552,7 +552,7 @@ const castleHaveSound=["183","424","1092"];
         function goToCastle(id) {
           Cookies.remove("field");Cookies.remove("tabs");Cookies.remove("chosenCatData");
           Cookies.remove("RealityShowAllow");Cookies.remove("RealityShow");
-          if(["banovan",183,424].includes(id))
+          if(["1651",183,424].includes(id))
           {
             Swal.fire({
               title: (Cookies.get('name')??'')+' این کاخ قفله! ',
