@@ -129,7 +129,31 @@ const RedCastle=["1549","1548","1547","1546","1545"];
       }
     }    
     btnrefersh.classList.remove('d-none');
-    
+
+                          if ((!localStorage.getItem('PWA_popupShown') || localStorage.getItem('PWA_popupShown')<2) && localStorage.getItem('app_list'))
+                            {
+                                var targetDate = new Date(2024, 0, 30,19,30);
+                                var currentDate = new Date();
+
+                                if (currentDate <= targetDate) 
+                                {
+                                    Swal.fire({
+                                        imageUrl: "./public/img/bootcamp.jpg",
+                                        imageHeight: '100%',
+                                        background: '#020b4c',
+                                        padding:0,
+                                        imageAlt: "notif",
+                                        showCloseButton: true,
+                                        showConfirmButton: false,
+                                        focusCancel:false,
+                                        focusDeny:false,
+                                        focusConfirm:false,
+                                        allowOutsideClick:false,
+                                        });
+                                        document.querySelector('.swal2-image').addEventListener('click', function() {location.href='https://erfankhoshnazar.com/boot-camp/';});
+                                    localStorage.setItem('PWA_popupShown', parseInt(localStorage.getItem('PWA_popupShown')??0)+1);
+                                }
+                            }
   });
  function exitFromAccount() {
         Swal.fire({

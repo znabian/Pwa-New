@@ -121,7 +121,7 @@
        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- <script src="./public/js/home.js?h=9a9b12"></script> -->
-      <script src="./js-decode/home.js?h=9a9b29"></script>
+      <script src="./js-decode/home.js?h=9a9b32"></script>
 <script>
   
   </script>
