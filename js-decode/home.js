@@ -13,7 +13,7 @@ var sub={
   41:["1652"],//pro
   42:["1651"],//بانوان
 };
-var lock=["1441"];
+var lock=[];//"1441"
 var pass=sub[34];
 const RedCastle=["1549","1548","1547","1546","1545"];
    var app_flag= Cookies.get("app_flag") == 1 ? true : false;

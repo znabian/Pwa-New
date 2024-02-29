@@ -11,7 +11,7 @@ var undefRtry=0;
         const castleHaveSub=["64","65","66","463","1","1549","1548","1547","1546","1545"];//رایانه،ریاضی،زبان،نجوم،رسانه،عاطفی،اجتماعی،تربیتی،مالی
         const RedCastle=["1549","1548","1547","1546","1545"];
         const castleHaveSound=["183","424","1092"];
-        const castleWithoutTab=["1550","1544"];
+        const castleWithoutTab=["1550","1544","1441"];
         const castleOneSub=["376","714","215"];
         spop.defaults = {
           style     : 'info',
