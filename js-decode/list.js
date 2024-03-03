@@ -11,7 +11,7 @@ var undefRtry=0;
         const castleHaveSub=["64","65","66","463","1","1549","1548","1547","1546","1545"];//رایانه،ریاضی،زبان،نجوم،رسانه،عاطفی،اجتماعی،تربیتی،مالی
         const RedCastle=["1549","1548","1547","1546","1545"];
         const castleHaveSound=["183","424","1092"];
-        const castleWithoutTab=["1550","1544","1441"];
+        const castleWithoutTab=["1550","1441"];
         const castleOneSub=["376","714","215"];
         spop.defaults = {
           style     : 'info',
@@ -53,7 +53,8 @@ var undefRtry=0;
                 
                 if(Cookies.get("Castle_show")=="1651")
                 {
-                  showWithoutTab(2279);
+                  //showWithoutTab(2279);
+                  getMeta(2279);
                 }
                 else if(castleWithoutTab.includes(Cookies.get("Castle_show")))
                 {
@@ -112,7 +113,7 @@ var undefRtry=0;
       oneSub=0;
       if(castleOneSub.includes(Cookies.get("Castle_show")))
       oneSub=1;
-      if(!['1563','424'].includes(Cookies.get("Castle_show")))
+      if(!['1563','424','1651'].includes(Cookies.get("Castle_show")))
       {
         sid=(RedCastle.includes(Cookies.get("Castle_show")))?1:Cookies.get("Castle_show");
         if(oneSub)
@@ -175,7 +176,7 @@ var undefRtry=0;
       for (var i = 0; i < tabs.length; i++)
         allowSeen[i]=1;
      }
-    function getBooks(data,id=-1)
+    function getBooks(data,id=-1,Rokh=0)
      {
       if(id<0)
       tabs.forEach(function(item,index)
@@ -209,7 +210,15 @@ var undefRtry=0;
         
       items = [];
       sid=(RedCastle.includes(Cookies.get("Castle_show")))?1:Cookies.get("Castle_show");
-      if(castleHaveSub.includes(Cookies.get("Castle_show")) || ['1563','424'].includes(Cookies.get("Castle_show")))
+      if(Rokh)
+      {
+       url="http://85.208.255.101/RokhAPI/selectApi_jwt.php";
+        sid=Rokh;//1651:2279
+      }
+      else
+      url="http://85.208.255.101/API/selectApi_jwt.php"
+    
+      if(castleHaveSub.includes(Cookies.get("Castle_show")) || ['1563','424','1651'].includes(Cookies.get("Castle_show")))
       fu='';
       else
       fu=",(select top 1 FullCount from ViewTbl where CId=AppTbl.Id and AId=" + sid+ " and Type='PWA' and UserId="+Cookies.get('id')+") as FullCount ";
@@ -224,7 +233,7 @@ var undefRtry=0;
         data:dataSQL
       }));*/
       Cookies.set('req_data',JSON.stringify({
-          'url':"http://85.208.255.101/API/selectApi_jwt.php",
+          'url':url,
           'applist':true,
           'data':dataSQL
         }));
@@ -305,6 +314,19 @@ var undefRtry=0;
                       
                     
                   }
+                  else  if(Cookies.get("Castle_show")==1651)//kakh Banovan
+                  {   
+                      elem='<div id="div_'+response.data.data[i]["Id"]+'" onclick="showVideo('+response.data.data[i]["Id"]+',0,'+Rokh+',1)" class="border bg-white mb-2  d-flex justify-content-between" style="border-radius: 16px;padding-right: 4px;padding-left: 4px;padding-top: 10px;padding-bottom: 10px;width: 90%;margin: auto;"><div class="text-center d-flex float-end" style="background: #ffffff;border-radius: 9px;padding-right: 6px;padding-left: 6px;margin: auto 10px;height: 30px;"><button class="btn btn-primary btn-sm d-block me-1 rounded-circle" type="button" style="background: #fd3838;border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto auto;width: 25px;height: 25px;box-shadow: 0px 0px;padding: 0 0 0 0;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-play-fill d-block" style="color: var(--bs-btn-color);margin: auto auto;font-size: 9.96px;"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"></path></svg></button><h4 style="font-family: \'Peyda Med\';font-size: 10px;margin: auto;padding-right: 10px;padding-left: 10px;">';
+                      //elem+=response.data.data[i]["Description"]??'';
+                      elem+='</h4></div><div class="row" style="margin: auto 0px;"><div class=" d-flex"><div style="/*text-align: center;*//*float: right;*/margin-right: 10px;"><h6 style="font-family: \'Peyda Med\';padding-top: 0;margin-bottom: 0px;text-align: right;">'+response.data.data[i]["Name"]+'</h6><small class="text-end d-block justify-content-start" style="font-family: \'Peyda ExtLt\';text-align: right;">';
+                      elem+=((response.data.data[i]["Description"]??'')!=response.data.data[i]["Name"])?response.data.data[i]["Description"]??'':'';
+                      if(parseInt(response.data.data[i]["FullCount"]??0)>=1)
+                      elem+="<i class='fa fa-check text-success'></i>";
+                      //elem+=response.data.data[i]["Description"]??'';
+                      //elem+=app['Name'];              
+                      elem+='</small></div><button class="btn btn-sm me-1 rounded-circle" type="button" style=";border-color: var(--bs-card-bg);color: var(--bs-card-bg);margin: auto 0px;width: 30px;height: 30px;padding: 0 0 0 0;box-shadow: 0px 0px;"><img style="width: 20px;height: 20px;" width="20" height="20" src="'+logo+'"></button></div> </div></div>';
+                    
+                  }
                   else  
                   {
                   /* if(id!=0)
@@ -371,7 +393,7 @@ var undefRtry=0;
               else
               {
                 undefRtry++;
-                getBooks(data,id);
+                getBooks(data,id,Rokh);
               }
             }
 
@@ -397,7 +419,7 @@ var undefRtry=0;
 
       });
      }
-    function getMeta()
+    function getMeta(Rokh=0)
      {
       Swal.fire({
           title:"  کمی صبر کن",//(Cookies.get('name')??'')+"  کمی صبر کن"
@@ -414,8 +436,17 @@ var undefRtry=0;
         bodyFormData.append("data", JSON.stringify({
           data: "select Meta from AppTbl where Parent=" + sid+" and  Sort>=0  group by Sort,Meta order by Sort" //+ " and Meta=N'" + data + "' order by Id"
         }));*/
+
+        if(Rokh)
+        {
+         url="http://85.208.255.101/RokhAPI/selectApi_jwt.php";
+          sid=Rokh;//1651:2279
+        }
+        else
+        url="http://85.208.255.101/API/selectApi_jwt.php"
+      
         Cookies.set('req_data',JSON.stringify({
-          'url':"http://85.208.255.101/API/selectApi_jwt.php",
+          'url':url,
           'applist':true,
           'data':"select Meta from AppTbl where Parent=" + sid+" and  Sort>=0 and Active=1 group by Sort,Meta order by Sort" //+ " and Meta=N'" + data + "' order by Id"
         }));
@@ -431,7 +462,7 @@ var undefRtry=0;
           if (response.data.status == "200") {          
             tabs=myarray_unique(arrayColumn(response.data.data, 'Meta'));
             Cookies.set('tabs',JSON.stringify(tabs));
-            showTabs();
+            showTabs(Rokh);
 
           Swal.close();
           } else {
@@ -458,7 +489,7 @@ var undefRtry=0;
             
       
     }
-    function showTabs()
+    function showTabs(Rokh=0)
     {
       tablist.innerHTML='';      
       if(tabs.length>1 && tabs[0]!=null && field=="Meta")
@@ -466,7 +497,7 @@ var undefRtry=0;
         myarray_Sort(tabs);
       tabs.forEach(function(item,index)
       {
-          elem='<div id="tab_'+index+'" class="text-center" onclick="getBooks(\''+item+'\','+index+')" style="background: #ffffff;border-radius: 9px;box-shadow: 2px 4px 10px rgba(0,0,0,0.09);margin: 5px;padding: 5px;display: inline-block;float: none;"><h4 style="font-family: \'Peyda Med\';font-size: 14px;margin: auto auto;padding: 5px;">';
+          elem='<div id="tab_'+index+'" class="text-center" onclick="getBooks(\''+item+'\','+index+','+Rokh+')" style="background: #ffffff;border-radius: 9px;box-shadow: 2px 4px 10px rgba(0,0,0,0.09);margin: 5px;padding: 5px;display: inline-block;float: none;"><h4 style="font-family: \'Peyda Med\';font-size: 14px;margin: auto auto;padding: 5px;">';
           elem+=item;
           elem+='</h4></div>';
           tablist.innerHTML+=elem;
@@ -479,10 +510,10 @@ var undefRtry=0;
       } */
       getAllowNextTabShow();
       if((Cookies.get('chosenCatData')??0)==0)
-      getBooks(tabs[0],0);
+      getBooks(tabs[0],0,Rokh);
       }
       else
-      SubItemsList();
+      SubItemsList(Rokh);
     }
     function Castle_SubItems(itemid)
     {
@@ -618,7 +649,7 @@ var undefRtry=0;
       }
       
     }
-    function SubItemsList()
+    function SubItemsList(Rokh=0)
     {  
       if(!Swal.close()) 
       Swal.fire({
@@ -632,6 +663,14 @@ var undefRtry=0;
       {
         tabs = [];
       sid=(RedCastle.includes(Cookies.get("Castle_show")))?1:Cookies.get("Castle_show");
+       if(Rokh)
+        {
+         url="http://85.208.255.101/RokhAPI/selectApi_jwt.php";
+          sid=Rokh;//1651:2279
+        }
+        else
+        url="http://85.208.255.101/API/selectApi_jwt.php"
+
         data="select Name,Id from AppTbl where Parent=" + sid+ " and Active=1 order by Sort,Id";
          
       /*var bodyFormData = new FormData();
@@ -642,7 +681,7 @@ var undefRtry=0;
         data: data
       }));*/
       Cookies.set('req_data',JSON.stringify({
-          'url':"http://85.208.255.101/API/selectApi_jwt.php",
+          'url':url,
           'applist':true,
           'data':data
         }));
@@ -658,7 +697,7 @@ var undefRtry=0;
             tablist.innerHTML='';  
           for (var i = 0; i < response.data.data.length; i++) {
             tabs[i]={Id:response.data.data[i]["Id"],Name:response.data.data[i]["Name"]};    
-            elem='<div id="tab_'+i+'" class="text-center" onclick="getBooks(\''+response.data.data[i]["Id"]+'\','+i+')" style="background: #ffffff;border-radius: 9px;box-shadow: 2px 4px 10px rgba(0,0,0,0.09);margin: 5px;padding: 5px;display: inline-block;float: none;"><h4 style="font-family: \'Peyda Med\';font-size: 14px;margin: auto auto;padding: 5px;">';
+            elem='<div id="tab_'+i+'" class="text-center" onclick="getBooks(\''+response.data.data[i]["Id"]+'\','+i+','+Rokh+')" style="background: #ffffff;border-radius: 9px;box-shadow: 2px 4px 10px rgba(0,0,0,0.09);margin: 5px;padding: 5px;display: inline-block;float: none;"><h4 style="font-family: \'Peyda Med\';font-size: 14px;margin: auto auto;padding: 5px;">';
           elem+=response.data.data[i]["Name"];
           elem+='</h4></div>';
           tablist.innerHTML+=elem;
@@ -668,7 +707,7 @@ var undefRtry=0;
          Swal.close();         
          field='Parent';
           if((Cookies.get('chosenCatData')??0)==0)
-          getBooks(tabs[0]["Id"],0);
+          getBooks(tabs[0]["Id"],0,Rokh);
 
           /*if(allowSeen.length==0)
           {
@@ -703,7 +742,7 @@ var undefRtry=0;
         tabs=JSON.parse(Cookies.get('tabs'));
         tabs.forEach(function(item,index)
         {
-          elem='<div id="tab_'+index+'" class="text-center" onclick="getBooks(\''+item["Id"]+'\','+index+')" style="background: #ffffff;border-radius: 9px;box-shadow: 2px 4px 10px rgba(0,0,0,0.09);margin: 5px;padding: 5px;display: inline-block;float: none;"><h4 style="font-family: \'Peyda Med\';font-size: 14px;margin: auto auto;padding: 5px;">';
+          elem='<div id="tab_'+index+'" class="text-center" onclick="getBooks(\''+item["Id"]+'\','+index+','+Rokh+')" style="background: #ffffff;border-radius: 9px;box-shadow: 2px 4px 10px rgba(0,0,0,0.09);margin: 5px;padding: 5px;display: inline-block;float: none;"><h4 style="font-family: \'Peyda Med\';font-size: 14px;margin: auto auto;padding: 5px;">';
             elem+=item["Name"];
             elem+='</h4></div>';
             tablist.innerHTML+=elem;
