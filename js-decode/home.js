@@ -15,7 +15,7 @@ var sub={
   46:["1682"],//کار در خانه
   47:["1683"],//لینکداین
 };
-var lock=["1682","1683"];//"1441"
+var lock=[];//"1441","1683","1682"
 var pass=sub[34];
 const RedCastle=["1549","1548","1547","1546","1545"];
    var app_flag= Cookies.get("app_flag") == 1 ? true : false;
