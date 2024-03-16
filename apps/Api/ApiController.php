@@ -14,13 +14,16 @@ class ApiController
     }
     public function getkey()
     {
+        // $url='http://85.208.255.101/API/login.php';
+        $url='http://185.116.161.39/API/login.php';
+
         if($this->api_token)
         return $this->api_token;
         else
         {
             $data=['username'=>$this->username,'password'=>$this->password];
             $curl = curl_init();
-            curl_setopt($curl, CURLOPT_URL, "http://85.208.255.101/api/login.php");
+            curl_setopt($curl, CURLOPT_URL, $url);
             curl_setopt($curl, CURLOPT_POST, 1);
             curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
@@ -41,6 +44,10 @@ class ApiController
         setcookie('req_data', '', -1, '/'); 
         //$this->getkey();
         //$js = json_decode($request->data);
+        
+        #$url=$request->url;
+        $url=str_replace('85.208.255.101','185.116.161.39',$request->url);
+        
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl,CURLOPT_HTTPHEADER,['api_token:'.$this->api_token]);
@@ -53,7 +60,7 @@ class ApiController
         }
         curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_setopt($curl, CURLOPT_USERPWD, "username:password");
-        curl_setopt($curl, CURLOPT_URL, $request->url);
+        curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
         $result = curl_exec($curl);
@@ -105,6 +112,9 @@ class ApiController
     }
     public function addLogApi($phone,$body,$date,$status)
     {
+        // $url='http://85.208.255.101:8012/RedCastlePanel/public/api/addLogSMS';
+        $url='http://185.116.161.39:8012/RedCastlePanel/public/api/addLogSMS';
+
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_POST, 1);
             curl_setopt($curl, CURLOPT_POSTFIELDS, [
@@ -117,7 +127,7 @@ class ApiController
         
         curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_setopt($curl, CURLOPT_USERPWD, "username:password");
-        curl_setopt($curl, CURLOPT_URL, "http://85.208.255.101:8012/RedCastlePanel/public/api/addLogSMS");
+        curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
         $result = curl_exec($curl);
@@ -126,6 +136,9 @@ class ApiController
     public function getApps(object $request){
         $request=(object)json_decode($_COOKIE['req_data'],1);
         setcookie('req_data', '', -1, '/'); 
+        
+       // $url='http://85.208.255.101/API/selectApi_jwt.php';
+        $url='http://185.116.161.39/API/selectApi_jwt.php';
 
         $query="select * from AppTbl where Active=1 and Parent=0 order by Sort,Id";
        
@@ -136,7 +149,7 @@ class ApiController
         curl_setopt($curl, CURLOPT_POSTFIELDS, array("data"=>($query)));
         curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_setopt($curl, CURLOPT_USERPWD, "username:password");
-        curl_setopt($curl, CURLOPT_URL, "http://85.208.255.101/API/selectApi_jwt.php");
+        curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
         $AllApps = json_decode(curl_exec($curl));
@@ -187,7 +200,8 @@ class ApiController
         (select top 1 Logo from AppTbl as c where c.Id=AId) as ALogo
         from ViewTbl where UserId=$userId and Type='PWA' and AId is not null and TotalTime <> '0' and TotalTime is not null  ";*/
        
-        
+        // $url='http://85.208.255.101/API/selectApi_jwt.php';
+        $url='http://185.116.161.39/API/selectApi_jwt.php';
         
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_POST, 1);
@@ -196,7 +210,7 @@ class ApiController
         curl_setopt($curl, CURLOPT_POSTFIELDS, array("data"=>($query)));
         curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_setopt($curl, CURLOPT_USERPWD, "username:password");
-        curl_setopt($curl, CURLOPT_URL, "http://85.208.255.101/API/selectApi_jwt.php");
+        curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
         $res = (curl_exec($curl));
@@ -211,7 +225,9 @@ class ApiController
         and Type='PWA'  and AId is not null and TotalTime <> '0'
         GROUP BY UserId) as ranks where UserId=$userId";
        
-                
+        // $url='http://85.208.255.101/API/selectApi_jwt.php';
+        $url='http://185.116.161.39/API/selectApi_jwt.php';
+
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl,CURLOPT_HTTPHEADER,['api_token:'.$this->api_token]);
@@ -219,7 +235,7 @@ class ApiController
         curl_setopt($curl, CURLOPT_POSTFIELDS, array("data"=>($query)));
         curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_setopt($curl, CURLOPT_USERPWD, "username:password");
-        curl_setopt($curl, CURLOPT_URL, "http://85.208.255.101/API/selectApi_jwt.php");
+        curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
         $res = (curl_exec($curl));
@@ -239,7 +255,9 @@ class ApiController
         and Type='PWA'  and AId is not null and TotalTime <> '0'
         GROUP BY UserId) as ranks where UserId=$userId";
        
-                
+        // $url='http://85.208.255.101/API/selectApi_jwt.php';
+        $url='http://185.116.161.39/API/selectApi_jwt.php';
+
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl,CURLOPT_HTTPHEADER,['api_token:'.$this->api_token]);
@@ -247,7 +265,7 @@ class ApiController
         curl_setopt($curl, CURLOPT_POSTFIELDS, array("data"=>($query)));
         curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_setopt($curl, CURLOPT_USERPWD, "username:password");
-        curl_setopt($curl, CURLOPT_URL, "http://85.208.255.101/API/selectApi_jwt.php");
+        curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
         $res = (curl_exec($curl));
@@ -258,6 +276,9 @@ class ApiController
 
         $query="select * from ViewTbl where UserId=$ID and Type='PWA' and AId is not null ";
        
+        // $url='http://85.208.255.101/API/selectApi_jwt.php';
+        $url='http://185.116.161.39/API/selectApi_jwt.php';
+
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl,CURLOPT_HTTPHEADER,['api_token:'.$this->api_token]);
@@ -265,7 +286,7 @@ class ApiController
         curl_setopt($curl, CURLOPT_POSTFIELDS, array("data"=>($query)));
         curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_setopt($curl, CURLOPT_USERPWD, "username:password");
-        curl_setopt($curl, CURLOPT_URL, "http://85.208.255.101/API/selectApi_jwt.php");
+        curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
         $res = json_decode(curl_exec($curl));
