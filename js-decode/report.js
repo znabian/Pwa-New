@@ -352,8 +352,12 @@ const castleHaveSound=["183","424","1092"];
                 format=find['Item'][CId]['url'][0];
                 userid = Cookies.get("id");
                 androidid = Cookies.get("androidId");
-               // window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + CId + "&userid=" + userid + "&androidid=" + androidid + "&format=" + format; 
-                window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + CId + "&userid=" + userid + "&androidid=" + androidid + "&format=" + format; 
+                lang = (Cookies.get("googtrans")??'').replace('/fa/','');
+                if(lang)
+                lang='&lang='+lang;
+                else
+                lang='';
+                window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + CId + "&userid=" + userid + "&androidid=" + androidid + "&format=" + format+lang; 
               }
               else
               {
@@ -361,8 +365,12 @@ const castleHaveSound=["183","424","1092"];
                 vr=find['Item'][CId]['url'][1];
                 userid = Cookies.get("id");
                 androidid = Cookies.get("androidId");
-              //  window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + CId + "&userid=" + userid + "&androidid=" + androidid + "&format=" + format+ "&vr="+vr ; 
-              window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + CId + "&userid=" + userid + "&androidid=" + androidid + "&format=" + format+ "&vr="+vr ; 
+                lang = (Cookies.get("googtrans")??'').replace('/fa/','');
+                if(lang)
+                lang='&lang='+lang;
+                else
+                lang='';
+              window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + CId + "&userid=" + userid + "&androidid=" + androidid + "&format=" + format+ "&vr="+vr +lang; 
               }
         }
         function showVideo_VR_1(CId,appid,type,ask=1)
@@ -382,15 +390,23 @@ const castleHaveSound=["183","424","1092"];
                   if (result.isConfirmed) {
                     userid = Cookies.get("id");
                     androidid = Cookies.get("androidId");
-                  //  window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + CId + "&userid=" + userid + "&androidid=" + androidid 
-                  window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + CId + "&userid=" + userid + "&androidid=" + androidid 
+                    lang = (Cookies.get("googtrans")??'').replace('/fa/','');
+                    if(lang)
+                    lang='&lang='+lang;
+                    else
+                    lang='';
+                  window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + CId + "&userid=" + userid + "&androidid=" + androidid+lang 
                     
                   } else if (result.isDenied) {
                     format = 'mp3';
                     userid = Cookies.get("id");
                     androidid = Cookies.get("androidId");
-                  //  window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + CId + "&userid=" + userid + "&androidid=" + androidid + "&format=" + format; 
-                  window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + CId + "&userid=" + userid + "&androidid=" + androidid + "&format=" + format; 
+                    lang = (Cookies.get("googtrans")??'').replace('/fa/','');
+                    if(lang)
+                    lang='&lang='+lang;
+                    else
+                    lang='';
+                  window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + CId + "&userid=" + userid + "&androidid=" + androidid + "&format=" + format+lang; 
                     
                   }
                 });
@@ -399,8 +415,12 @@ const castleHaveSound=["183","424","1092"];
               {
                     userid = Cookies.get("id");
                     androidid = Cookies.get("androidId");
-                  //  window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + CId + "&userid=" + userid + "&androidid=" + androidid                     
-                   window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + CId + "&userid=" + userid + "&androidid=" + androidid                     
+                    lang = (Cookies.get("googtrans")??'').replace('/fa/','');
+                    if(lang)
+                    lang='&lang='+lang;
+                    else
+                    lang='';                  
+                   window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + CId + "&userid=" + userid + "&androidid=" + androidid  +lang                   
               }
               else
               {         
@@ -408,8 +428,12 @@ const castleHaveSound=["183","424","1092"];
                   {
                         userid = Cookies.get("id");
                         androidid = Cookies.get("androidId");
-                      //  window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + CId + "&userid=" + userid + "&androidid=" + androidid + "&vr=0" ; 
-                      window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + CId + "&userid=" + userid + "&androidid=" + androidid + "&vr=0" ; 
+                        lang = (Cookies.get("googtrans")??'').replace('/fa/','');
+                        if(lang)
+                        lang='&lang='+lang;
+                        else
+                        lang='';
+                      window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + CId + "&userid=" + userid + "&androidid=" + androidid + "&vr=0" +lang; 
                   }
                   else      
                   {
@@ -426,14 +450,22 @@ const castleHaveSound=["183","424","1092"];
                         if (result.isConfirmed) {
                           userid = Cookies.get("id");
                           androidid = Cookies.get("androidId");
-                         // window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + CId + "&userid=" + userid + "&androidid=" + androidid + "&vr=0" ; 
-                          window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + CId + "&userid=" + userid + "&androidid=" + androidid + "&vr=0" ; 
+                          lang = (Cookies.get("googtrans")??'').replace('/fa/','');
+                          if(lang)
+                          lang='&lang='+lang;
+                          else
+                          lang='';
+                          window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + CId + "&userid=" + userid + "&androidid=" + androidid + "&vr=0" +lang; 
                           
                         } else if (result.isDenied) {
                           userid = Cookies.get("id");
                           androidid = Cookies.get("androidId");
-                         // window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + CId + "&userid=" + userid + "&androidid=" + androidid + "&vr=1" ; 
-                          window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + CId + "&userid=" + userid + "&androidid=" + androidid + "&vr=1" ; 
+                         lang = (Cookies.get("googtrans")??'').replace('/fa/','');
+                         if(lang)
+                         lang='&lang='+lang;
+                         else
+                         lang='';
+                          window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + CId + "&userid=" + userid + "&androidid=" + androidid + "&vr=1" +lang; 
                           
                         }
                     });
@@ -442,8 +474,12 @@ const castleHaveSound=["183","424","1092"];
                     {
                       userid = Cookies.get("id");
                       androidid = Cookies.get("androidId");
-                     // window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + CId + "&userid=" + userid + "&androidid=" + androidid + "&vr=1" ; 
-                      window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + CId + "&userid=" + userid + "&androidid=" + androidid + "&vr=1" ; 
+                      lang = (Cookies.get("googtrans")??'').replace('/fa/','');
+                      if(lang)
+                      lang='&lang='+lang;
+                      else
+                      lang='';
+                      window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + CId + "&userid=" + userid + "&androidid=" + androidid + "&vr=1" +lang; 
                     }
                   }
             

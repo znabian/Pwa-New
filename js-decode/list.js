@@ -980,8 +980,13 @@ var undefRtry=0;
           appid =Rokh;
           userid = Cookies.get("id");
           androidid = Cookies.get("androidId");
-          window.location.href = "http://185.116.161.39:8012/Web/player/rokhplayer.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid 
-           // window.location.href = "http://85.208.255.101:8012/Web/player/rokhplayer.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid 
+          lang = (Cookies.get("googtrans")??'').replace('/fa/','');
+          if(lang)
+          lang='&lang='+lang;
+          else
+          lang='';
+          window.location.href = "http://185.116.161.39:8012/Web/player/rokhplayer.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid+lang 
+           
         }
         else
         {
@@ -1002,16 +1007,24 @@ var undefRtry=0;
                         appid =Cookies.get('Castle_show');
                         userid = Cookies.get("id");
                         androidid = Cookies.get("androidId");
-                       // window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid 
-                      window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid 
+                        lang = (Cookies.get("googtrans")??'').replace('/fa/','');
+                        if(lang)
+                        lang='&lang='+lang;
+                        else
+                        lang='';
+                      window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid +lang
                         
                       } else if (result.isDenied) {
                         format = 'mp3';
                         appid =Cookies.get('Castle_show');
                         userid = Cookies.get("id");
                         androidid = Cookies.get("androidId");
-                     //   window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&format=" + format; 
-                       window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&format=" + format; 
+                        lang = (Cookies.get("googtrans")??'').replace('/fa/','');
+                        if(lang)
+                        lang='&lang='+lang;
+                        else
+                        lang='';
+                       window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&format=" + format+lang; 
                         
                       }
                     });
@@ -1021,8 +1034,12 @@ var undefRtry=0;
                     appid =Cookies.get('Castle_show');
                         userid = Cookies.get("id");
                         androidid = Cookies.get("androidId");
-                      //  window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid 
-                      window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid 
+                        lang = (Cookies.get("googtrans")??'').replace('/fa/','');
+                        if(lang)
+                        lang='&lang='+lang;
+                        else
+                        lang='';
+                      window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid +lang
                   }
           }
           else
@@ -1060,8 +1077,13 @@ var undefRtry=0;
               appid =Cookies.get('Castle_show');
               userid = Cookies.get("id");
               androidid = Cookies.get("androidId");
-            //  window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&vr=0" ; 
-            window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&vr=0" ; 
+              lang = (Cookies.get("googtrans")??'').replace('/fa/','');
+              if(lang)
+              lang='&lang='+lang;
+              else
+              lang='';
+            
+            window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&vr=0"+lang ; 
               
             }
             else
@@ -1071,8 +1093,13 @@ var undefRtry=0;
                   appid =Cookies.get('Castle_show');
                     userid = Cookies.get("id");
                     androidid = Cookies.get("androidId");
-                 //   window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&vr=0" ; 
-                  window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&vr=0" ; 
+                    lang = (Cookies.get("googtrans")??'').replace('/fa/','');
+                    if(lang)
+                    lang='&lang='+lang;
+                    else
+                    lang='';
+                 
+                  window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&vr=0"+lang ; 
               }
               else      
               {
@@ -1101,15 +1128,23 @@ var undefRtry=0;
                         appid =Cookies.get('Castle_show');
                         userid = Cookies.get("id");
                         androidid = Cookies.get("androidId");
-                      //  window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&vr=0" ; 
-                      window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&vr=0" ; 
+                        lang = (Cookies.get("googtrans")??'').replace('/fa/','');
+                        if(lang)
+                        lang='&lang='+lang;
+                        else
+                        lang='';
+                      window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&vr=0"+lang ; 
                         
                       } else if (result.isDenied) {
                         appid =Cookies.get('Castle_show');
                         userid = Cookies.get("id");
                         androidid = Cookies.get("androidId");
-                      //  window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&vr=1" ; 
-                      window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&vr=1" ; 
+                        lang = (Cookies.get("googtrans")??'').replace('/fa/','');
+                        if(lang)
+                        lang='&lang='+lang;
+                        else
+                        lang='';
+                      window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&vr=1"+lang ; 
                         
                       }
                   });
@@ -1119,8 +1154,12 @@ var undefRtry=0;
                     appid =Cookies.get('Castle_show');
                     userid = Cookies.get("id");
                     androidid = Cookies.get("androidId");
-                   //  window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&vr=1" ; 
-               window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&vr=1" ; 
+                    lang = (Cookies.get("googtrans")??'').replace('/fa/','');
+                    if(lang)
+                    lang='&lang='+lang;
+                    else
+                    lang=''; 
+               window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid + "&vr=1"+lang ; 
                   }
                 
                 

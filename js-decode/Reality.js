@@ -43,8 +43,12 @@ var items=[];
             appid =1550;
                 userid = Cookies.get("id");
                 androidid = Cookies.get("androidId");
-               // window.location.href = "http://85.208.255.101:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid ;
-               window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid ;
+                lang = (Cookies.get("googtrans")??'').replace('/fa/','');
+                if(lang)
+                lang='&lang='+lang;
+                else
+                lang='';
+               window.location.href = "http://185.116.161.39:8012/Web/player/index2.php?appid=" + appid + "&id=" + id + "&userid=" + userid + "&androidid=" + androidid +lang;
         }
         else
         Swal.fire({

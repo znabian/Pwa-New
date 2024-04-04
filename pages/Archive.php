@@ -1,5 +1,5 @@
 ﻿<!doctype html>
-<html lang="en">
+<html lang="fa">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -162,6 +162,7 @@
     </style>
   </head>
   <body style="background: #FAF8FE;">
+<div id="google_translate_element"></div>
     <!-- Start: Navbar Centered Links -->
     <div class="container">
     <nav class="navbar navbar-light navbar-expand-md sticky-top navbar-shrink py-3" id="mainNav" style="text-align: right;border-style: none;background: rgb(250,248,254);">
@@ -247,5 +248,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script src="https://unpkg.com/jalali-moment/dist/jalali-moment.browser.js"></script>
     <script src="./js-decode/archive.js?h=9a9b15"></script>
+    <!-- <script src="./public/js/archive.js?h=5B001"></script> -->
+    
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'fa', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
   </body>
 </html>

@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
 
 <head>
   <meta charset="utf-8">
@@ -50,13 +50,14 @@
 </head>
 
 <body><!-- Start: Navbar Centered Links -->
+<div id="google_translate_element"></div>
   <nav class="navbar navbar-light navbar-expand-md sticky-top navbar-shrink py-3" id="mainNav" style="text-align: right;border-style: none;background: rgb(250,248,254);">
     <div class="container">
       <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1" style="border-style: none;width: 30px;height: 30px;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;color: rgb(0,0,0);background: #ffffff;font-size: 16px;border-radius: 10px;">
         <span class="visually-hidden">منو</span>
         <span class="navbar-toggler-icon" style="width: 20px;height: 20px;font-family: 'Peyda ExtLt';font-weight: bold;"></span>
       </button>
-      <span style="font-family: 'Peyda ExtBd';position: sticky;">سامانه رشد خوش نظر</span>
+      <span class="notranslate" style="font-family: 'Peyda ExtBd';position: sticky;">سامانه رشد خوش نظر</span>
       <img style="width: 20px;height: 20px;" width="20" height="20" src="./public/img/brands/logo.png?h=e92598d96c7d0f6733acc9635d1a2bbe">
         <div class="collapse navbar-collapse" id="navcol-1">
           <ul class="navbar-nav mx-auto" id="master_menu">
@@ -120,11 +121,20 @@
        <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <!-- <script src="./public/js/home.js?h=9a9b12"></script> -->
+    <!-- <script src="./public/js/home.js?h=5B001"></script> -->
       <script src="./js-decode/home.js?h=9a9b32"></script>
 <script>
   
   </script>
+
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'fa', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 
 </html>

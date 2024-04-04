@@ -1,4 +1,4 @@
-var ENUM="NewPWA:1.5";
+var ENUM="NewPWA:1.6";
 var myTimeout;
 document.addEventListener("keypress", function(event) {
   if (event.key === "Enter") 

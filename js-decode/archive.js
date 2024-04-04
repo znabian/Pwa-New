@@ -35,7 +35,7 @@ var ArchiveList=[];var NearList=[];
      {
           lives = [];
             Cookies.set('req_data',JSON.stringify({
-              'url':"http://85.208.255.101/API/selectApi_jwt.php",
+              'url':"http://185.116.161.39:8012/API/selectApi_jwt.php",
               'applist':true,
               'data':"select top 1 * from LiveTbl where cast(Date as date)='"+new Date().toISOString().split('T')[0]+"' and Active=1 and Now=1 order by Date" 
             }));
@@ -81,7 +81,7 @@ var ArchiveList=[];var NearList=[];
      {
       ArchiveList = [];
           Cookies.set('req_data',JSON.stringify({
-            'url':"http://85.208.255.101/API/selectApi_jwt.php",
+            'url':"http://185.116.161.39:8012/API/selectApi_jwt.php",
             'applist':true,
             'data':"select * from LiveTbl where Date <='"+new Date().toISOString().split('T')[0]+' '+new Date().toTimeString().split('G')[0]+"' and Active=1 and Now<1 order by Date" 
             //,'update':"update LiveTbl set Date='2023-06-16 15:30:00',Now=0 where Id=4"
@@ -152,7 +152,7 @@ var ArchiveList=[];var NearList=[];
       NearList = [];
       
         Cookies.set('req_data',JSON.stringify({
-          'url':"http://85.208.255.101/API/selectApi_jwt.php",
+          'url':"http://185.116.161.39:8012/API/selectApi_jwt.php",
           'applist':true,
           'data':"select * from LiveTbl where Date >='"+new Date().toISOString().split('T')[0]+' '+new Date().toTimeString().split('G')[0]+"' and Active=1 and Now<1 order by Date" 
         }));

@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
 
 <head>
        <meta charset="utf-8">
@@ -82,12 +82,13 @@
                 <span class="m-auto" style="font-family: 'Peyda ExtBd';position: sticky;">سامانه رشد خوش نظر</span><img style="width: 20px;height: 20px;" width="20" height="20" src="./public/img/brands/logo.png?h=e92598d96c7d0f6733acc9635d1a2bbe"></div>
        </nav><!-- End: Navbar Centered Links -->
        <div id="content" class="d-none">
+       <div id="google_translate_element"></div>
        <header class="bg-primary-gradient"><!-- Start: Hero Clean Reverse -->
               <div class="container pt-4 pt-xl-5">
                 <img id="loginPic" style="display: block;width: 90%;margin: 0 auto;border-radius: 26px;" src="./public/img/login.png?h=dbf6a87b0224a97e0d0f3a635fb9829d">
                      <div class="row pt-5 d-md-block" style="position: static;direction: rtl;">
                             <div class="col">
-                              <strong class="text-center d-flex justify-content-center" style="font-family: 'Peyda ExtBd';font-size: 17px;text-align: center;">عرفان خوش نظر</strong><strong class="text-center d-flex justify-content-center" style="font-family: 'Peyda SemBd';font-size: 16px;color: rgb(137,137,137);">سامانه رشد خوش نظر</strong></div>
+                              <strong class="notranslate text-center d-flex justify-content-center" style="font-family: 'Peyda ExtBd';font-size: 17px;text-align: center;">عرفان خوش نظر</strong><strong class="notranslate text-center d-flex justify-content-center" style="font-family: 'Peyda SemBd';font-size: 16px;color: rgb(137,137,137);">سامانه رشد خوش نظر</strong></div>
                             <div class="col-md-8 col-xl-6 text-center text-md-start mx-auto" style="margin-top: 10px;">
                                    <div class="input-group"></div>
                                    <div class="row" style="margin: 0 auto;">
@@ -150,10 +151,52 @@
        <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-        <!-- <script src="./public/js/login.js?h=9a9b15"></script> -->
+        <!-- <script src="./public/js/login.js?h=5B001"></script> -->
       <script src="./js-decode/login.js?h=9a9b17"></script>
       <!-- <script src="https://cdn.jsdelivr.net/npm/moment-jalaali@0.10.0/build/moment-jalaali.min.js"></script> -->
+  <script>
+     /*  const translationDictionary = {
+       'شروع کنید': 'مرحبا',
+       'فراموشی رمزعبور': 'أهلا بك',
+       'رمز عبور': 'أهلا بك',
+       // Add more translations as needed
+       };
+       function translate(text) {
+  return translationDictionary[text] || text;
+}
+       
+       // Translate placeholder text in input fields
+       const inputFields = document.querySelectorAll('input');
+       inputFields.forEach((input) => {
+       input.placeholder = translate(input.placeholder.replaceAll('\n','').trim());
+       });
+
+       // Translate button labels
+       const buttons = document.querySelectorAll('button');
+       buttons.forEach((button) => {
+       button.textContent = translate(button.textContent.replaceAll('\n','').trim());
+       });
+       // Translate button labels
+       const links = document.querySelectorAll('a');
+       links.forEach((link) => {
+       link.textContent = translate(link.textContent.replaceAll('\n','').trim());
+       });
+
+       // Translate error messages
+       const errorMessages = document.querySelectorAll('.error-message');
+       errorMessages.forEach((message) => {
+       message.textContent = translate(message.textContent.replaceAll('\n','').trim());
+       });*/
+  </script>
   
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'fa', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 
 </html>

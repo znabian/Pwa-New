@@ -1,4 +1,4 @@
-var ENUM="NewPWA:1.5";
+var ENUM="NewPWA:1.6";
 
 function login(phone,aid)
 {  

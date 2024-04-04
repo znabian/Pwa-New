@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
 
 <head>
   <meta charset="utf-8">
@@ -255,13 +255,14 @@
 </head>
 
 <body style="background: rgb(249,249,255);"><!-- Start: Navbar Centered Links -->
+<div id="google_translate_element"></div>
   <nav class="navbar navbar-light navbar-expand-md sticky-top navbar-shrink py-3" id="mainNav" style="text-align: right;border-style: none;background: rgb(250,248,254);">
     <div class="container">
       <svg id="backbtn" onclick="" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icon-tabler-arrow-back-up" style="background: #ffffff;width: 25px;height: 25px;padding: 5px;box-shadow: 2px 2px 10px rgba(45,45,45,0.08);border-radius: 10px;">
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M9 13l-4 -4l4 -4m-4 4h11a4 4 0 0 1 0 8h-1"></path>
       </svg>
-      <span style="font-family: 'Peyda ExtBd';position: sticky;">سامانه رشد خوش نظر</span>
+      <span class="notranslate" style="font-family: 'Peyda ExtBd';position: sticky;">سامانه رشد خوش نظر</span>
       <img style="width: 20px;height: 20px;" width="20" height="20" src="./public/img/brands/logo.png?h=e92598d96c7d0f6733acc9635d1a2bbe"></div>
   </nav><!-- End: Navbar Centered Links -->
   <header class="bg-primary-gradient">
@@ -434,7 +435,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script src="https://unpkg.com/jalali-moment/dist/jalali-moment.browser.js"></script>
 <script src="./public/js/spop.min.js"></script>
-<!-- <script src="./public/js/report.js?h=9a9b5"></script> -->
+<!-- <script src="./public/js/report.js?h=5B001"></script> -->
  <script src="./js-decode/report.js?h=9a9b62"></script> 
  
   <script>
@@ -484,6 +485,15 @@
                     });*/
     }
   </script>
+  
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'fa', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 </body>
 
 </html>
