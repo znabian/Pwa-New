@@ -47,17 +47,19 @@ class ApiController
         
         #$url=$request->url;
         $url=str_replace('85.208.255.101','185.116.161.39',$request->url);
-        
+		
+        $url=str_replace('selectApi_jwt','updateApi_jwt',$url);
+        if(strpos($url, 'RokhAPI') !== false)
+        $update='';
+        else
+        $update="UPDATE PaymentTbl SET Access = 0, Subscript = -1 WHERE  Subscript = 1 AND Active = 1 AND cast(EndSubScript as Date) < cast(GETDATE() as Date);";
+        $update.=$request->update;
+		
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl,CURLOPT_HTTPHEADER,['api_token:'.$this->api_token]);
-        if($request->update??0){
-            //$my  = json_decode($request->update);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, array("data"=>($request->data),"update"=>($request->update)));
-        }
-        else{
-            curl_setopt($curl, CURLOPT_POSTFIELDS, array("data"=>($request->data)));
-        }
+        curl_setopt($curl, CURLOPT_POSTFIELDS, array("data"=>($request->data),"update"=>($update)));
+       
         curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_setopt($curl, CURLOPT_USERPWD, "username:password");
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -138,15 +140,16 @@ class ApiController
         setcookie('req_data', '', -1, '/'); 
         
        // $url='http://85.208.255.101/API/selectApi_jwt.php';
-        $url='http://185.116.161.39/API/selectApi_jwt.php';
+        $url='http://185.116.161.39/API/updateApi_jwt.php';
 
         $query="select * from AppTbl where Active=1 and Parent=0 order by Sort,Id";
+        $update="UPDATE PaymentTbl SET Access = 0, Subscript = -1 WHERE Subscript = 1 AND Active = 1 AND cast(EndSubScript as Date) < cast(GETDATE() as Date);";
        
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl,CURLOPT_HTTPHEADER,['api_token:'.$this->api_token]);
         
-        curl_setopt($curl, CURLOPT_POSTFIELDS, array("data"=>($query)));
+        curl_setopt($curl, CURLOPT_POSTFIELDS, array("data"=>($query),"update"=>$update));
         curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_setopt($curl, CURLOPT_USERPWD, "username:password");
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -201,13 +204,14 @@ class ApiController
         from ViewTbl where UserId=$userId and Type='PWA' and AId is not null and TotalTime <> '0' and TotalTime is not null  ";*/
        
         // $url='http://85.208.255.101/API/selectApi_jwt.php';
-        $url='http://185.116.161.39/API/selectApi_jwt.php';
-        
+        $url='http://185.116.161.39/API/updateApi_jwt.php';
+        $update="UPDATE PaymentTbl SET Access = 0, Subscript = -1 WHERE Subscript = 1 AND Active = 1 AND cast(EndSubScript as Date) < cast(GETDATE() as Date);";
+       
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl,CURLOPT_HTTPHEADER,['api_token:'.$this->api_token]);
         
-        curl_setopt($curl, CURLOPT_POSTFIELDS, array("data"=>($query)));
+        curl_setopt($curl, CURLOPT_POSTFIELDS, array("data"=>($query),"update"=>$update));
         curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_setopt($curl, CURLOPT_USERPWD, "username:password");
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -226,13 +230,14 @@ class ApiController
         GROUP BY UserId) as ranks where UserId=$userId";
        
         // $url='http://85.208.255.101/API/selectApi_jwt.php';
-        $url='http://185.116.161.39/API/selectApi_jwt.php';
-
+        $url='http://185.116.161.39/API/updateApi_jwt.php';
+        $update="UPDATE PaymentTbl SET Access = 0, Subscript = -1 WHERE Subscript = 1 AND Active = 1 AND cast(EndSubScript as Date) < cast(GETDATE() as Date);";
+       
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl,CURLOPT_HTTPHEADER,['api_token:'.$this->api_token]);
         
-        curl_setopt($curl, CURLOPT_POSTFIELDS, array("data"=>($query)));
+        curl_setopt($curl, CURLOPT_POSTFIELDS, array("data"=>($query),"update"=>$update));
         curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_setopt($curl, CURLOPT_USERPWD, "username:password");
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -256,13 +261,14 @@ class ApiController
         GROUP BY UserId) as ranks where UserId=$userId";
        
         // $url='http://85.208.255.101/API/selectApi_jwt.php';
-        $url='http://185.116.161.39/API/selectApi_jwt.php';
-
+        $url='http://185.116.161.39/API/updateApi_jwt.php';
+        $update="UPDATE PaymentTbl SET Access = 0, Subscript = -1 WHERE Subscript = 1 AND Active = 1 AND cast(EndSubScript as Date) < cast(GETDATE() as Date);";
+       
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl,CURLOPT_HTTPHEADER,['api_token:'.$this->api_token]);
         
-        curl_setopt($curl, CURLOPT_POSTFIELDS, array("data"=>($query)));
+        curl_setopt($curl, CURLOPT_POSTFIELDS, array("data"=>($query),"update"=>$update));
         curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_setopt($curl, CURLOPT_USERPWD, "username:password");
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -277,13 +283,14 @@ class ApiController
         $query="select * from ViewTbl where UserId=$ID and Type='PWA' and AId is not null ";
        
         // $url='http://85.208.255.101/API/selectApi_jwt.php';
-        $url='http://185.116.161.39/API/selectApi_jwt.php';
-
+        $url='http://185.116.161.39/API/updateApi_jwt.php';
+        $update="UPDATE PaymentTbl SET Access = 0, Subscript = -1 WHERE Subscript = 1 AND Active = 1 AND cast(EndSubScript as Date) < cast(GETDATE() as Date);";
+       
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl,CURLOPT_HTTPHEADER,['api_token:'.$this->api_token]);
         
-        curl_setopt($curl, CURLOPT_POSTFIELDS, array("data"=>($query)));
+        curl_setopt($curl, CURLOPT_POSTFIELDS, array("data"=>($query),"update"=>$update));
         curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         curl_setopt($curl, CURLOPT_USERPWD, "username:password");
         curl_setopt($curl, CURLOPT_URL, $url);

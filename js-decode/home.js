@@ -14,9 +14,14 @@ var sub={
   42:["1651","64","1682","215","376"],//بانوان
   46:["1682"],//کار در خانه
   47:["1683"],//لینکداین
+  48:["1","64","65","66","183","215","376","463","714","1441","1451","1510","1544","1682","1683","jibsorkh","sharsorkh"],//اشتراک کاخ سرخ
+  49:["64","215","376","714","1092","1441","1451","1510","1544","1682","1683"],//اشتراک کاخ نوجوان
+
 };
 var lock=[];//"1441","1683","1682"
+var HidenApps=["1543","779","1718","1719"];//sorkh family,old micro sorkh,subscript sorkh,subscript nojavan
 var pass=sub[34];
+var is_subscript=["48","49"];
 const RedCastle=["1549","1548","1547","1546","1545"];
    var app_flag= Cookies.get("app_flag") == 1 ? true : false;
    var buttonClicked= false;
@@ -37,7 +42,13 @@ const RedCastle=["1549","1548","1547","1546","1545"];
       if (app_flag && localStorage.getItem("app_list"))
        {
         apps = JSON.parse(localStorage.getItem("app_list"));
-        if(typeof Cookies.get('AllowBefore')== 'undefined' || (typeof JSON.parse(localStorage.getItem('app_list'))[0].Sort== 'undefined'))
+        if(typeof Cookies.get('AllowBefore')== 'undefined' || (typeof JSON.parse(localStorage.getItem('app_list'))[0].Sort== 'undefined') || typeof Cookies.get('is_sorkhsubscript')== 'undefined' )
+        {
+          localStorage.removeItem("app_list");
+          apps=[];
+          refereshData();
+        }
+        else if(Cookies.get('is_sorkhsubscript')==1 && (Cookies.get('sorkhsubscript')??0)!=new Date().toISOString().slice(0, 10))
         {
           localStorage.removeItem("app_list");
           apps=[];
@@ -449,7 +460,12 @@ const RedCastle=["1549","1548","1547","1546","1545"];
                       apps.push(obj);
                     }
                   }
-                });
+                }); 
+                    if(is_subscript.includes(master))
+                    {
+                      Cookies.set('sorkhsubscript',new Date().toISOString().slice(0, 10),2592000);
+                      Cookies.set('is_sorkhsubscript',1,2592000);
+                    }
               }
               });
               app_All.filter(function(obj,index) {
@@ -479,11 +495,13 @@ const RedCastle=["1549","1548","1547","1546","1545"];
                         }
                       });
                     }
-                    else if(!["779","1543"].includes(obj['Id']))
-                        apps.push(obj);  
+                    else if(!HidenApps.includes(obj['Id']))
+                        apps.push(obj);
                   }                 
                 }
               });
+              if(typeof Cookies.get('is_sorkhsubscript')=='undefined')
+              Cookies.set('is_sorkhsubscript',0,2592000);
               apps.filter(function(obj,index)
                {
                 if(obj['Id']==1543)//sorkh family
