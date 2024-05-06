@@ -48,11 +48,12 @@ class ApiController
         #$url=$request->url;
         $url=str_replace('85.208.255.101','185.116.161.39',$request->url);
 		
-        $url=str_replace('selectApi_jwt','updateApi_jwt',$url);
-        if(strpos($url, 'RokhAPI') !== false)
         $update='';
-        else
+        if(strpos($url, 'RokhAPI') == false)
+		{
+        $url=str_replace('selectApi_jwt','updateApi_jwt',$url);
         $update="UPDATE PaymentTbl SET Access = 0, Subscript = -1 WHERE  Subscript = 1 AND Active = 1 AND cast(EndSubScript as Date) < cast(GETDATE() as Date);";
+		}
         $update.=$request->update;
 		
         $curl = curl_init();
