@@ -47,7 +47,8 @@ class ApiController
         
         #$url=$request->url;
         $url=str_replace('85.208.255.101','185.116.161.39',$request->url);
-		
+		if($_COOKIE['user_id']==155484 && $request->data == 'select Name,Id from AppTbl where Parent=64 and Active=1 order by Sort,Id')
+        $request->data="select Name,Id from AppTbl where Parent=64 and Name in (N'ورد',N'پاورپوینت',N'اکسل',N'اینترنت') and Active=1 order by Sort,Id";
         $update='';
         if(strpos($url, 'RokhAPI') == false)
 		{

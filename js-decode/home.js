@@ -521,7 +521,7 @@ const RedCastle=["1549","1548","1547","1546","1545"];
               Description : "رئالیتی شو", Id:"1550",Sort:5,
               Name:  " رفیق شفیق", Parent: "0",Perm : "-1",
               };
-              if(!in_array(apps,'Id',1550)['Result'])
+              if(!in_array(apps,'Id',1550)['Result'] && Cookies.get('user_id')!='155484')
               apps.push(rs);
               apps.sort((a, b) => a.Sort - b.Sort);
             Cookies.set("app_flag", 1, 2592000);
